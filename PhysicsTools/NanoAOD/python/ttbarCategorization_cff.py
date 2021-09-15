@@ -4,6 +4,8 @@ from Configuration.Eras.Modifier_run2_miniAOD_80XLegacy_cff import run2_miniAOD_
 import FWCore.ParameterSet.Config as cms
 from PhysicsTools.NanoAOD.common_cff import *
 
+from PhysicsTools.NanoAOD.jets_cff import genJetTable
+
 
 ##################### User floats producers, selectors ##########################
 
@@ -13,8 +15,6 @@ matchGenBHadron = matchGenBHadron.clone(
     jetFlavourInfos = cms.InputTag("slimmedGenJetsFlavourInfos"),
 )
 
-## Plugin for analysing C hadrons
-# MUST use the same particle collection as in selectedHadronsAndPartons
 from PhysicsTools.JetMCAlgos.GenHFHadronMatcher_cff import matchGenCHadron
 matchGenCHadron = matchGenCHadron.clone(
     genParticles = cms.InputTag("prunedGenParticles"),
@@ -43,4 +43,20 @@ ttbarCategoryTable = cms.EDProducer("GlobalVariablesTableProducer",
                                     )
 )
 
-ttbarCatMCProducers = cms.Sequence(matchGenBHadron + matchGenCHadron + categorizeGenTtbar)
+ttbarBHadronOriginTable = cms.EDProducer("SimpleCandidateFlatTableProducer",
+    src = genJetTable.src,
+    cut = genJetTable.cut,
+    name = genJetTable.name,
+    singleton = cms.bool(False),
+    extension = cms.bool(True),
+    externalVariables = cms.PSet(
+        nBHadFromT = ExtVar(cms.InputTag("categorizeGenTtbar:nBHadFromT"), int, doc="number of matched B hadrons with a top quark in their ancestry"),
+        nBHadFromTbar = ExtVar(cms.InputTag("categorizeGenTtbar:nBHadFromTbar"), int, doc="number of matched B hadrons with an anti-top quark in their ancestry"),
+        nBHadFromW = ExtVar(cms.InputTag("categorizeGenTtbar:nBHadFromW"), int, doc="number of matched B hadrons with a W boson in their ancestry"),
+        nBHadOther = ExtVar(cms.InputTag("categorizeGenTtbar:nBHadOther"), int, doc="number of matched B hadrons with no W boson or top quark in their ancestry"),
+        nCHadFromW = ExtVar(cms.InputTag("categorizeGenTtbar:nCHadFromW"), int, doc="number of matched prompt (no intermediate B) C hadrons with a W boson in their ancestry"),
+        nCHadOther = ExtVar(cms.InputTag("categorizeGenTtbar:nCHadOther"), int, doc="number of matched prompt (no intermediate B) C hadrons with no W boson or top quark in their ancestry"),
+    ),
+)
+
+ttbarCatMCProducers = cms.Sequence(matchGenBHadron + matchGenCHadron + categorizeGenTtbar + ttbarBHadronOriginTable)
