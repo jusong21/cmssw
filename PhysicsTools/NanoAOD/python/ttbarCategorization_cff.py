@@ -47,6 +47,7 @@ ttbarBHadronOriginTable = cms.EDProducer("SimpleCandidateFlatTableProducer",
     src = genJetTable.src,
     cut = genJetTable.cut,
     name = genJetTable.name,
+    variables = cms.PSet(),
     singleton = cms.bool(False),
     extension = cms.bool(True),
     externalVariables = cms.PSet(
