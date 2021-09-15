@@ -1,9 +1,13 @@
 #! /usr/bin/env python
 
 from CRABAPI.RawCommand import crabCommand
-import CRABClient.UserUtilities as crab
+try:
+    import CRABClient.UserUtilities as crab
+except ImportError as e:
+    print("Could not import CRAB API, have you run 'source /cvmfs/cms.cern.ch/common/crab-setup.sh'?")
+    raise e
 
-import json
+import yaml
 import copy
 import os
 import argparse
@@ -14,7 +18,7 @@ from Utilities.General.cmssw_das_client import get_data as myDASclient
 
 CMSSW_ROOT = os.path.join(os.environ['CMSSW_BASE'], 'src')
 NANO_ROOT = os.path.join(os.environ['CMSSW_BASE'], 'src', 'PhysicsTools', 'NanoAOD')
-PROD_TAG = "v6-1-2"
+PROD_TAG = "v9-1-1"
 
 def retry(nattempts, exception=None):
     """
@@ -53,10 +57,10 @@ def get_options():
     """
     parser = argparse.ArgumentParser(description='Generate crab config files for multiple datasets.')
 
-    parser.add_argument('-e', '--era', required=False, choices=['2016', '2017', '2018', '2018ABC', '2018D'], help='Choose specific era. If not specified, run on all eras')
-    parser.add_argument('-d', '--datasets', nargs='*', help='Json file(s) with dataset list')
-    parser.add_argument('-s', '--site', required=True, help='Site to which to write the output')
-    parser.add_argument('-o', '--output', default='./', help='Folder in which to write the config files')
+    parser.add_argument('-e', '--era', required=False, choices=['2016', '2016ULpreVFP', '2016ULpostVFP', '2017UL', '2018UL'], help='Choose specific era. If not specified, run on all eras')
+    parser.add_argument('-d', '--datasets', nargs='*', help='YAML file(s) with dataset list')
+    parser.add_argument('-s', '--site', required=True, help='Grid site to which to write the output (you NEED write permission on that site!)')
+    parser.add_argument('-o', '--output', default='./', help='Folder in which to write the crab config files')
 
     return parser.parse_args()
 
@@ -70,18 +74,20 @@ def create_default_config(is_mc):
     config.JobType.allowUndistributedCMSSW = True # for slc7
 
     config.JobType.pluginName = 'Analysis'
-    config.JobType.maxMemoryMB = 5000
+    config.JobType.maxMemoryMB = 3000
     config.JobType.numCores = 2
 
     config.Data.inputDBS = 'global'
     config.Data.publication = True
 
-    if is_mc:
-        config.Data.splitting = 'EventAwareLumiBased'
-        config.Data.unitsPerJob = 280000
-    else:
-        config.Data.splitting = 'LumiBased'
-        config.Data.unitsPerJob = 220
+    config.Data.splitting = 'FileBased'
+    config.Data.unitsPerJob = 1
+    # if is_mc:
+    #     config.Data.splitting = 'EventAwareLumiBased'
+    #     config.Data.unitsPerJob = 280000
+    # else:
+    #     config.Data.splitting = 'LumiBased'
+    #     config.Data.unitsPerJob = 220
 
     return config
 
@@ -102,18 +108,17 @@ def findPSet(pset):
     return os.path.abspath(c)
 
 
-def writeCrabConfig(pset, dataset, is_mc, metadata, era, crab_config, site, output):
+def writeCrabConfig(pset, dataset, is_mc, name, metadata, era, crab_config, site, output):
     c = copy.deepcopy(crab_config)
 
     c.JobType.psetName = pset
-
-    name = metadata.pop('name')
 
     c.General.requestName = "TopNanoAOD{}_{}__{}".format(PROD_TAG, name, era)
 
     c.Data.outputDatasetTag = "TopNanoAOD{}_{}".format(PROD_TAG, era)
     c.Data.inputDataset = dataset
-    c.Data.outLFNDirBase = '/store/user/{user}/topNanoAOD/{tag}/{era}/'.format(user=os.getenv('USER'), tag=PROD_TAG, era=era)
+    # include rucio in the path to make sure Rucio is aware of the output!
+    c.Data.outLFNDirBase = '/store/user/rucio/{user}/topNanoAOD/{tag}/{era}/'.format(user=os.getenv('USER'), tag=PROD_TAG, era=era)
     c.Site.storageSite = site
 
     # customize if asked
@@ -142,7 +147,7 @@ if __name__ == "__main__":
     datasets = {}
     for dataset in options.datasets:
         with open(dataset) as f:
-            datasets.update(json.load(f))
+            datasets.update(yaml.safe_load(f))
 
     crab_config_mc = create_default_config(True)
     crab_config_data = create_default_config(False)
@@ -151,7 +156,8 @@ if __name__ == "__main__":
         if options.era and era != options.era:
             continue
 
-        for dataset, metadata in era_datasets.items():
+        for name,metadata in era_datasets.items():
+            dataset = metadata.pop("das")
             print("Working on {}".format(dataset))
             if dataset.endswith("NANOAODSIM") or dataset.endswith("NANOAOD"):
                 print("Will convert from nano to mini!")
@@ -169,7 +175,8 @@ if __name__ == "__main__":
                 print("Dataset is data")
                 crab_config = crab_config_data
                 pset = findPSet("topNano_{}_{}_data_cfg.py".format(PROD_TAG, era))
+                # make sure from now on we keep the "actual" (letter) era for data:
+                era = dataset.split("/")[2].split("_")[0] # e.g. Run2016H-2016UL
 
-            year = "".join(i for i in era if i.isdigit()) # just keep the year from now on
-            writeCrabConfig(pset, dataset, is_mc, metadata, year, crab_config, options.site, options.output)
+            writeCrabConfig(pset, dataset, is_mc, name, metadata, era, crab_config, options.site, options.output)
             print("")
