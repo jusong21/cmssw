@@ -15,14 +15,14 @@ scram b -j 8
 
 ## Submitting crab jobs
 
-```
+```bash
 voms-proxy-init --rfc --voms cms --valid 96:00
 source /cvmfs/cms.cern.ch/common/crab-setup.sh # or .csh
 cd $CMSSW_BASE/src/PhysicsTools/NanoAOD/test
 ```
 
 You'll need to prepare a YAML file listing all the samples you want to process. An example is given in [test/topSamples.yml](./topSamples.yml). You can either use the name of the miniAOD dataset you want to process, or the name of the nanoAOD dataset you want to reproduce (the script will then automatically fetch the parent miniAOD dataset). Then, run:
-```
+```bash
 ./runTopNanoOnGrid.py -d YOURLIST.yml -o crab_tasks -s YOURSITE
 ```
 Replace `YOURSITE` by a T2/T3 site at which you have write permissions. This creates the crab config files in the `crab_tasks` folder, but doesnt submit any jobs. You can then `cd crab_tasks` and submit all or some of them using `crab submit PY_CFG`.
@@ -36,12 +36,12 @@ After the processing is complete, you can retrieve the output dataset name using
 You might need to adjust the job splitting options if jobs take too long to run (or run too quickly). Resubmitting using `crab resubmit --maxjobruntime` and `--siteblacklist` can also help.
 
 In case you accidentally published a dataset twice under the same publication name, one can invalidate specific files of the dataset:
-```
+```bash
 wget -O DBS3SetFileStatus.py https://twiki.cern.ch/twiki/pub/CMSPublic/Crab3DataHandling/DBS3SetFileStatus.py.txt
 python DBS3SetFileStatus.py --url=https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter --status=invalid --recursive=False  --files=<LFN>
 ```
 To invalidate a complete dataset, use this command:
-```
+```bash
 wget -O DBS3SetDatasetStatus.py https://twiki.cern.ch/twiki/pub/CMSPublic/Crab3DataHandling/DBS3SetDatasetStatus.py.txt
 python DBS3SetDatasetStatus.py --dataset=<datasetname> --url=https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter --status=INVALID --recursive=False
 ```
@@ -55,7 +55,7 @@ More information about publication [here](https://twiki.cern.ch/twiki/bin/view/C
     - Store full set of PS weights
     - Origin of B and C hadrons ghost-matched to genJets
     - Crab submission scripts: enable Rucio publication of outputs
-    - [Auto-generated documentation](https://swertz.web.cern.ch/swertz/TMG/TopNano/TopNanoV9-1-1/doc_topNanoV9-1-1.html)
+    - [Auto-generated documentation](https://swertz.web.cern.ch/TMG/TopNano/TopNanoV9/doc_topNanoV9-1-1_MC18UL.html)
     - [Full code changes w.r.t central nanoAOD](https://github.com/cms-top/cmssw/compare/CMSSW_10_6_27...topNanoV9-1-1_10_6_27)
 
 ### nanoAODv6
