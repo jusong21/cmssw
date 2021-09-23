@@ -61,6 +61,7 @@ def get_options():
     parser.add_argument('-d', '--datasets', nargs='*', help='YAML file(s) with dataset list')
     parser.add_argument('-s', '--site', required=True, help='Grid site to which to write the output (you NEED write permission on that site!)')
     parser.add_argument('-o', '--output', default='./', help='Folder in which to write the crab config files')
+    parser.add_argument('--rucio', action='store_true', help='Publish the output to Rucio INSTEAD of DBS. Requires a Rucio quota at the stageout site!')
 
     return parser.parse_args()
 
@@ -78,7 +79,6 @@ def create_default_config(is_mc):
     config.JobType.numCores = 2
 
     config.Data.inputDBS = 'global'
-    config.Data.publication = True
 
     config.Data.splitting = 'FileBased'
     config.Data.unitsPerJob = 1
@@ -108,17 +108,27 @@ def findPSet(pset):
     return os.path.abspath(c)
 
 
-def writeCrabConfig(pset, dataset, is_mc, name, metadata, era, crab_config, site, output):
+def writeCrabConfig(pset, dataset, is_mc, name, metadata, era, crab_config, site, output, use_rucio=False):
     c = copy.deepcopy(crab_config)
 
     c.JobType.psetName = pset
 
     c.General.requestName = "TopNanoAOD{}_{}__{}".format(PROD_TAG, name, era)
-
-    c.Data.outputDatasetTag = "TopNanoAOD{}_{}".format(PROD_TAG, era)
     c.Data.inputDataset = dataset
-    # include rucio in the path to make sure Rucio is aware of the output!
-    c.Data.outLFNDirBase = '/store/user/rucio/{user}/topNanoAOD/{tag}/{era}/'.format(user=os.getenv('USER'), tag=PROD_TAG, era=era)
+
+    if use_rucio:
+        # see https://twiki.cern.ch/twiki/bin/view/CMSPublic/RucioUserDocsData
+        prefix = '/store/user/rucio/'
+        # do not publish in DBS (for now)
+        c.Data.publication = False
+        # include dataset name in the tag
+        c.Data.outputDatasetTag = "{}_TopNanoAOD{}_{}".format(name, PROD_TAG, era)
+    else:
+        # publish in DBS
+        c.Data.publication = True
+        c.Data.outputDatasetTag = "TopNanoAOD{}_{}".format(PROD_TAG, era)
+        prefix = '/store/user/'
+    c.Data.outLFNDirBase = prefix + '{user}/topNanoAOD/{tag}/{era}/'.format(user=os.getenv('USER'), tag=PROD_TAG, era=era)
     c.Site.storageSite = site
 
     # customize if asked
@@ -178,5 +188,5 @@ if __name__ == "__main__":
                 # make sure from now on we keep the "actual" (letter) era for data:
                 era = dataset.split("/")[2].split("_")[0] # e.g. Run2016H-2016UL
 
-            writeCrabConfig(pset, dataset, is_mc, name, metadata, era, crab_config, options.site, options.output)
+            writeCrabConfig(pset, dataset, is_mc, name, metadata, era, crab_config, options.site, options.output, options.rucio)
             print("")

@@ -29,7 +29,9 @@ Replace `YOURSITE` by a T2/T3 site at which you have write permissions. This cre
 
 After the processing is complete, you can retrieve the output dataset name using `crab status TASK_DIR`, and add it to the repository holding all the topNanoAOD datasets: https://github.com/cms-top/topNanoAOD-datasets/
 
-**Important**: the Crab files included here are configured in such a way that the output datasets will be known to [Rucio](https://twiki.cern.ch/twiki/bin/view/CMS/Rucio), the new sample management tool, so that people are able to request copies of the topNanoAOD outputs to their local computing centre using Rucio.
+Publication of the results to [Rucio](https://twiki.cern.ch/twiki/bin/view/CMS/Rucio) instead of DBS is possible by adding the `--rucio` argument.
+This allows anyone to easily request local replicas of the files at their computing centres.
+**Important**: make sure you have requested a sufficiently large Rucio quota beforehand (see Rucio documentation)!
 
 ## Troubleshooting
 
@@ -54,7 +56,7 @@ More information about publication [here](https://twiki.cern.ch/twiki/bin/view/C
 - **v9-1-1**:
     - Store full set of PS weights
     - Origin of B and C hadrons ghost-matched to genJets
-    - Crab submission scripts: enable Rucio publication of outputs
+    - Crab submission scripts: support Rucio publication of outputs
     - [Auto-generated documentation](https://swertz.web.cern.ch/TMG/TopNano/TopNanoV9/doc_topNanoV9-1-1_MC18UL.html)
     - [Full code changes w.r.t central nanoAOD](https://github.com/cms-top/cmssw/compare/CMSSW_10_6_27...topNanoV9-1-1_10_6_27)
 
