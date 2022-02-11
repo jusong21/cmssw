@@ -5,6 +5,7 @@
  */
 
 #include "RPCCluster.h"
+#include "iRPCCluster.h"
 #include "RPCRecHitStandardAlgo.h"
 #include "DataFormats/MuonDetId/interface/RPCDetId.h"
 #include "Geometry/RPCGeometry/interface/RPCRoll.h"
@@ -61,7 +62,62 @@ bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
     timeErr = -1;
   }
 
+  //std::cout << "y=" << y << " x=" << centreOfCluster << " time=" << time <<  std::endl;
   return true;
+}
+
+bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,
+                                    iRPCInfo& info,
+                                    iRPCCluster& cluster,
+                                    LocalPoint& Point,
+                                    LocalError& error,
+                                    float& time, float& timeErr) const
+{
+    // Get Average Strip position
+    float fstrip = (roll.centreOfStrip(cluster.firstStrip())).x();
+    float lstrip = (roll.centreOfStrip(cluster.lastStrip())).x();
+    float centreOfCluster = (fstrip + lstrip)/2;
+    float stripLenY = roll.specificTopology().stripLength();
+    double y = stripLenY/2 - info.speed()*(cluster.deltaTime()/2);
+    //std::cout << "L:" << stripLenY/2 << " delta=" << cluster.deltaTime() << "y=" << y << std::endl;
+    Point = LocalPoint(centreOfCluster, y, 0);
+
+    if(!cluster.hasY()) {
+        error = LocalError(roll.localError((cluster.firstStrip()+cluster.lastStrip())/2.));
+    }
+    else {
+        // Use the default one for local x error
+        float ex2 = roll.localError((cluster.firstStrip()+cluster.lastStrip())/2.).xx();
+        // Maximum estimate of local y error, (distance to the boundary)/sqrt(3)
+        // which gives consistent error to the default one at y=0
+        float stripLen = roll.specificTopology().stripLength();
+        float maxDy = stripLen/2 - std::abs(cluster.y());
+
+        // Apply x-position correction for the endcap
+        if(roll.id().region() != 0) {
+            auto& topo = dynamic_cast<const TrapezoidalStripTopology&>(roll.topology());
+            double angle = topo.stripAngle((cluster.firstStrip()+cluster.lastStrip())/2.);
+            //std::cout << "angle: " << angle << std::endl;
+            double x = centreOfCluster - y*std::tan(angle);
+            Point = LocalPoint(x, y, 0);
+
+            // rescale x-error by the change of local pitch
+            double scale = topo.localPitch(Point)/topo.pitch();
+            ex2 *= scale*scale;
+        }
+        error = LocalError(ex2, 0, maxDy*maxDy/3.);
+    }
+
+    if(cluster.hasHighTime()) {
+        time = cluster.highTime();
+        timeErr = cluster.highTimeRMS();
+    }
+    else {
+        time = 0;
+        timeErr = -1;
+    }
+    //std::cout << "y=" << y << " x=" << centreOfCluster << " time=" << time <<  std::endl;
+    return true;
 }
 
 bool RPCRecHitStandardAlgo::compute(const RPCRoll& roll,

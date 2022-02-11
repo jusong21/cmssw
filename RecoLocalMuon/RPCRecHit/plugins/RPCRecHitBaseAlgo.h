@@ -5,7 +5,7 @@
  *  Abstract algorithmic class to compute Rec Hit
  *  form a RPC digi
  *
- *  \author M. Maggi -- INFN Bari
+ *  \author M. Maggi -- INFN Bari, Shchablo -- IPNL Lyon 
  */
 
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
@@ -17,8 +17,11 @@
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "RPCRollMask.h"
+/* iRPC */
+#include "iRPCInfo.h"					//iRPC moved from src to plugin
 
 class RPCCluster;
+class iRPCCluster;					//iRPC
 class RPCRoll;
 class RPCDetId;
 
@@ -51,7 +54,14 @@ public:
                        float& time,
                        float& timeErr) const = 0;
 
-  /// local recHit computation accounting for track direction and
+  virtual bool compute(const RPCRoll& roll,				//iRPC
+                       iRPCInfo& info,
+                       iRPCCluster& cl,
+                       LocalPoint& Point,
+                       LocalError& error,
+                       float& time, float& timeErr) const = 0;
+
+  /// local recHit computation accounting for track direction and	//FIXME Do we need such also for iRPC?
   /// absolute position
   virtual bool compute(const RPCRoll& roll,
                        const RPCCluster& cl,
@@ -61,5 +71,7 @@ public:
                        LocalError& error,
                        float& time,
                        float& timeErr) const = 0;
+ private:							//iRPC
+  iRPCInfo iRPCConfig;						//iRPC
 };
 #endif

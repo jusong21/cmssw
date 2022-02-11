@@ -59,7 +59,7 @@ std::unique_ptr<RPCRecHitCollection> CSCSegtoRPC::thePoints(const CSCSegmentColl
                      "segments in the event?"
                   << std::endl;
 
-      if (CSCSegmentsCounter[CSCId] == 1 && CSCId.station() != 4 && CSCId.ring() != 1 && allCSCSegments->size() >= 2) {
+      if (CSCSegmentsCounter[CSCId] == 1 && CSCId.station() != 4 && CSCId.ring() != 1 && allCSCSegments->size() >= 2) {	//FIXME allow this for RE31 and RE41
         if (debug)
           std::cout << "CSC \t \t yes" << std::endl;
         int cscEndCap = CSCId.endcap();

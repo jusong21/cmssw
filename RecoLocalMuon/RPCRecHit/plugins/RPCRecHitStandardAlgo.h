@@ -4,7 +4,7 @@
 /** \class RPCRecHitStandardAlgo
  *  Concrete implementation of RPCRecHitBaseAlgo.
  *
- *  \author M. Maggi -- INFN Bari
+ *  \author M. Maggi -- INFN Bari, Shchablo - IPNL (France)
  */
 
 #include "RPCRecHitBaseAlgo.h"
@@ -23,6 +23,14 @@ public:
   bool compute(const RPCRoll& roll,
                const RPCCluster& cluster,
                LocalPoint& point,
+               LocalError& error,
+               float& time,
+               float& timeErr) const override;
+
+  bool compute(const RPCRoll& roll,
+               iRPCInfo& info,
+               iRPCCluster& cluster,
+               LocalPoint& Point,
                LocalError& error,
                float& time,
                float& timeErr) const override;
