@@ -13,10 +13,10 @@ import FWCore.ParameterSet.Config as cms
 #    deadvecfile = cms.FileInPath('RecoLocalMuon/RPCRecHit/data/RPCDeadVec.dat')
 #)
 ##############################
-rpcRecHits = cms.EDProducer("RPCRecHitProducer",
+irpcRecHits = cms.EDProducer("RPCRecHitProducer",
                recAlgoConfig = cms.PSet(
                                  iRPCConfig = cms.PSet( # iRPC Algorithm
-                                   useAlgorithm = cms.bool(False), # useIRPCAlgorithm: if true - use iRPC Algorithm;
+                                   useAlgorithm = cms.bool(True), # useIRPCAlgorithm: if true - use iRPC Algorithm;
                                    returnOnlyAND = cms.bool(True), # returnOnlyAND: if true algorithm will return only associated clusters;
                                    returnOnlyHR = cms.bool(False), # returnOnlyHR: if true algorithm will return only HR cluster
                                    returnOnlyLR = cms.bool(False), # returnOnlyLR: if true algorithm will return only LR clusters;
@@ -39,4 +39,4 @@ rpcRecHits = cms.EDProducer("RPCRecHitProducer",
 ##############################
 #disabling DIGI2RAW,RAW2DIGI chain for Phase2
 from Configuration.Eras.Modifier_phase2_muon_cff import phase2_muon
-phase2_muon.toModify(rpcRecHits, rpcDigiLabel = 'simMuonRPCDigis')
+phase2_muon.toModify(irpcRecHits, rpcDigiLabel = 'simMuonRPCDigis')

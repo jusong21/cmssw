@@ -21,8 +21,13 @@ from CalibMuon.CSCCalibration.CSCIndexer_cfi import *
 #------------------------------------ RPC -----------------------------------------------
 # 1D RecHits
 from RecoLocalMuon.RPCRecHit.rpcRecHits_cfi import *
+from RecoLocalMuon.RPCRecHit.irpcRecHits_cfi import *
 
 #----------------------------------------------------------------------------------------
+# RPC sequence for the standard reconstruction + iRPC clusters	FIXME later if needed
+rpclocalrecoTask = cms.Task(rpcRecHits,irpcRecHits)
+rpclocalreco = cms.Sequence(rpclocalrecoTask)
+
 # DT sequence for the standard reconstruction chain 
 # The reconstruction of the 2D segments are not required for the 4D segments reconstruction, they are used
 # only for debuging purpose and for specific studies
@@ -35,11 +40,15 @@ dtlocalreco_with_2DSegments = cms.Sequence(dtlocalreco_with_2DSegmentsTask)
 # CSC sequence
 csclocalrecoTask = cms.Task(csc2DRecHits,cscSegments)
 csclocalreco = cms.Sequence(csclocalrecoTask)
-# DT, CSC and RPC together
-muonlocalreco_with_2DSegmentsTask = cms.Task(dtlocalreco_with_2DSegmentsTask,csclocalrecoTask,rpcRecHits)
+
+# DT, CSC and RPC together. Adding also irpcRecHits FIXME later if needed
+#muonlocalreco_with_2DSegmentsTask = cms.Task(dtlocalreco_with_2DSegmentsTask,csclocalrecoTask,rpcRecHits)
+muonlocalreco_with_2DSegmentsTask = cms.Task(dtlocalreco_with_2DSegmentsTask,csclocalrecoTask,rpclocalrecoTask)
 muonlocalreco_with_2DSegments = cms.Sequence(muonlocalreco_with_2DSegmentsTask)
-# DT, CSC and RPC together (correct sequence for the standard path)
-muonlocalrecoTask = cms.Task(dtlocalrecoTask,csclocalrecoTask,rpcRecHits)
+
+# DT, CSC and RPC together (correct sequence for the standard path)  Adding also irpcRecHits FIXME later if needed
+#muonlocalrecoTask = cms.Task(dtlocalrecoTask,csclocalrecoTask,rpcRecHits)
+muonlocalrecoTask = cms.Task(dtlocalrecoTask,csclocalrecoTask,rpclocalrecoTask)
 muonlocalreco = cms.Sequence(muonlocalrecoTask)
 
 from RecoLocalMuon.GEMRecHit.gemLocalReco_cff import *

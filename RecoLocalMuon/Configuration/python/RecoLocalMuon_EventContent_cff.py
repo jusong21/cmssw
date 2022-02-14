@@ -8,7 +8,8 @@ RecoLocalMuonAOD = cms.PSet(
         'keep *_dt4DSegments_*_*', 
         'keep *_dt4DCosmicSegments_*_*',
         'keep *_cscSegments_*_*',
-        'keep *_rpcRecHits_*_*')
+        'keep *_rpcRecHits_*_*',
+        'keep *_irpcRecHits_*_*')
 )
 from Configuration.Eras.Modifier_run2_GEM_2017_cff import run2_GEM_2017
 from Configuration.Eras.Modifier_run3_GEM_cff import run3_GEM
