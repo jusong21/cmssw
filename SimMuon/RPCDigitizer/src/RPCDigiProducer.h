@@ -22,6 +22,7 @@ class RPCSynchronizer;
 
 class RPCDigiProducer : public edm::stream::EDProducer<> {
 public:
+  //  typedef edm::DetSetVector<RPCDigiSimLink> RPCDigiSimLinks;
   typedef RPCDigitizer::RPCDigiSimLinks RPCDigitizerSimLinks;
 
   explicit RPCDigiProducer(const edm::ParameterSet& ps);
@@ -36,7 +37,8 @@ public:
 
 private:
   RPCDigitizer* theRPCDigitizer;
-  RPCSimSetUp* theRPCSimSetUp;
+  RPCSimSetUp* theRPCSimSetUpRPC;
+
 
   //Name of Collection used for create the XF
   std::string mix_;
@@ -44,6 +46,7 @@ private:
 
   //Token for accessing data
   edm::EDGetTokenT<CrossingFrame<PSimHit>> crossingFrameToken;
+  const RPCGeometry* _pGeom;
 
   //EventSetup Tokens
   edm::ESGetToken<RPCGeometry, MuonGeometryRecord> geomToken;
