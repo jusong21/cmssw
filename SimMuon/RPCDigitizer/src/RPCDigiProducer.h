@@ -35,7 +35,7 @@ public:
   void setRPCSetUp(const std::vector<RPCStripNoises::NoiseItem>&, const std::vector<double>&);
 
 private:
-  RPCDigitizer* theDigitizer;
+  RPCDigitizer* theRPCDigitizer;
   RPCSimSetUp* theRPCSimSetUp;
 
   //Name of Collection used for create the XF

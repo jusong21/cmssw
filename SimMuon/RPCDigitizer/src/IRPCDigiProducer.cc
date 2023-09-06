@@ -93,8 +93,7 @@ void IRPCDigiProducer::produce(edm::Event& e, const edm::EventSetup& eventSetup)
   LogDebug("IRPCDigiProducer") << "[IRPCDigiProducer::produce] to activate the test go in "
                                         "IRPCDigiProducer.cc and uncomment the line below";
 
-  edm::Handle<CrossingFrame<PSimHit>> cf;
-  e.getByToken(crossingFrameToken, cf);
+  const edm::Handle<CrossingFrame<PSimHit>>& cf = e.getHandle(crossingFrameToken);
 
   std::unique_ptr<MixCollection<PSimHit>> hits(new MixCollection<PSimHit>(cf.product()));
 
