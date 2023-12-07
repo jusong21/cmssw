@@ -17,11 +17,19 @@
 iRPCClusterizer::iRPCClusterizer() {}
 iRPCClusterizer::~iRPCClusterizer() {}
 
+// *** commented out by juhee
 iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const RPCDigiCollection::Range& digiRange, iRPCInfo& info)
 {
+
+// ************************** //
+// *** save digis in hits *** //
+// ************************** //
+
     iRPCClusterContainer clusters;
 
     // Return empty container for null input
+	// *** digiRange std::pair<const_iterator, const_iterator>
+	// *** distance: the number of elements between two iterators
     if(std::distance(digiRange.second, digiRange.first) == 0) return clusters;
 
     // Test output data
@@ -40,14 +48,19 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const RPCDig
         int ch = digi->strip(); int strip = digi->strip();
 
         it = hits.find(bunchX); if(it == hits.end()) hits.insert(std::make_pair(bunchX, std::make_pair(iRPCHitContainer(), iRPCHitContainer())));
-        hits.find(bunchX)->second.first.push_back(iRPCHit(ch, strip, timeHR, bunchX, digi->coordinateY()));
+        // *** hits.find(bunchX)->second.first.push_back(iRPCHit(ch, strip, timeHR, bunchX, digi->coordinateY()));
+        hits.find(bunchX)->second.first.push_back(iRPCHit(ch, strip, timeHR, bunchX));
         hits.find(bunchX)->second.first.back().setHR(true);
 
+// *** !!!! to be replaced bc hasY will be removed
         if(digi->hasY()) {
             float stripLen = roll.specificTopology().stripLength();
+			// recalculate the second time
+// *** !!!! to be replaced then how to calculate the timeLR
             float timeLR = timeHR-(stripLen-2*digi->coordinateY())/info.speed();
             //std::cout << "L:" << stripLen/2 << " y=" << digi->coordinateY() << " delta=" << timeHR - timeLR << std::endl;
-            hits.find(bunchX)->second.second.push_back(iRPCHit(ch, strip, timeLR, bunchX, digi->coordinateY()));
+            // *** hits.find(bunchX)->second.second.push_back(iRPCHit(ch, strip, timeLR, bunchX, digi->coordinateY()));
+            hits.find(bunchX)->second.second.push_back(iRPCHit(ch, strip, timeLR, bunchX));
             hits.find(bunchX)->second.second.back().setLR(true);
             // ---
             //std::cout <<"strip=" << digi->strip() << " time=" <<  digi->time() << " position=" << digi->coordinateY() << " bx=" << digi->bx()  << " dt=" << timeHR - timeLR << std::endl;
@@ -69,10 +82,13 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const RPCDig
     //} std::cout << std::endl;
     // ---------------------------------------------
     
+// *** OK: saved digis in hits
+
     iRPCClusterContainer chr, clr, associated;
     for(auto& it: hits) { // per bunchx
 
         // Clustering for HR and LR separate.
+		// *** std::thread var(class::threadFunction, classMaker, inputs...)
         std::thread thr(&iRPCClusterizer::clustering, this, info.thrTimeHR(), std::ref(it.second.first), std::ref(chr));
         std::thread tlr(&iRPCClusterizer::clustering, this, info.thrTimeLR(), std::ref(it.second.second), std::ref(clr));
         thr.join(); tlr.join();
@@ -113,31 +129,52 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const RPCDig
     return clusters;
 }
 
+// *** iRPCHitContainer def: std::vector<iRPCHit>
 bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClusterContainer &clusters)
 {
     if(hits.size() == 0) return false;
 
     // Sort hits by channel number from lowest to highest.
+	// *** just change channel to strip
     std::sort(hits.begin(), hits.end(),
-        [] (iRPCHit & h1, iRPCHit & h2) -> bool { return h1.channel() < h2.channel(); });
+        //[] (iRPCHit & h1, iRPCHit & h2) -> bool { return h1.channel() < h2.channel(); });
+        [] (iRPCHit & h1, iRPCHit & h2) -> bool { return h1.strip() < h2.strip(); });
 
     //// Print data (test) RAW DATA
     //for(auto hit = hits.begin(); hit != hits.end(); ++hit)
     //    std::cout << hit->channel() << " ";
 
     // Fill all hits to map for group all hits per channel. Key is channel.
-    std::map<int, iRPCHitContainer> channels;
-    for(auto hit = hits.begin(); hit != hits.end(); ++hit) {
-        auto channel = channels.find(hit->channel());
-        if(channel == channels.end()) channels.insert(std::pair<int, iRPCHitContainer>(hit->channel(), iRPCHitContainer()));
-        channels.find(hit->channel())->second.push_back(*hit);
-    }
+	// *** change channel to strip
+    // *** std::map<int, iRPCHitContainer> channels;
 
+// *** if i understand correctly, there's one hit per strip (one bx)
+// *** then, I think we don't need this...? bc we sorted hits by strip number from lowset to highest
+// *** or maybe we can use std::pair instead of std::map 
+    std::map<int, iRPCHitContainer> strips;
+    for(auto hit = hits.begin(); hit != hits.end(); ++hit) {
+        // *** auto channel = channels.find(hit->channel());
+        auto strip = strips.find(hit->strip());
+        // *** if(channel == channels.end()) channels.insert(std::pair<int, iRPCHitContainer>(hit->channel(), iRPCHitContainer()));
+        if(strip == strips.end()) strips.insert(std::pair<int, iRPCHitContainer>(hit->strip(), iRPCHitContainer()));
+        // *** channels.find(hit->channel())->second.push_back(*hit);
+        strips.find(hit->strip())->second.push_back(*hit);
+    }
+// *** to here
+
+// ***-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+// *** From here: also I think we don't need it
     // Sort hits by time from lowest to highest.
-    for(auto channel = channels.begin(); channel != channels.end(); ++channel) {
-        std::sort(channel->second.begin(), channel->second.end(),
+    // *** for(auto channel = channels.begin(); channel != channels.end(); ++channel) {
+    for(auto strip = strips.begin(); strip != strips.end(); ++strip) {
+        // *** std::sort(channel->second.begin(), channel->second.end(),
+        std::sort(strip->second.begin(), strip->second.end(),
             [] (iRPCHit & h1, iRPCHit & h2) -> bool { return h1.time() < h2.time(); });
     }
+// *** To here
 
     //// Print data (test) Groups of hits
     //for(auto channel = channels.begin(); channel != channels.end(); ++channel) {
@@ -147,6 +184,18 @@ bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClus
     //    }
     //}
 
+// *** Fill clusters
+	// ** I assumed strips is std::pair
+	vector<std::map<int, iRPCHitContainer>> cluster_one_side;
+	cluster_one_side.clear();
+
+	vector<int> indice;
+	indice.clear();
+	for(int i=0; i<strips.size(); i++){
+		indice.push_back(i);
+	}
+
+// ***
     // Fill clusters
     unsigned int used = 0; unsigned int nHits = hits.size();
     auto front = channels.begin(); auto next = std::next(channels.begin());
@@ -174,6 +223,7 @@ bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClus
                 clusters.push_back(iRPCCluster()); clusters.back().addHit(front->second.at(minI));
                 clusters.back().addHit(next->second.at(minNI));
 
+				// erase min index
                 next->second.erase(next->second.begin() + minNI); used = used + 1;
                 if(next->second.size() == 0) channels.erase(next);
                 front->second.erase(front->second.begin() + minI); used = used + 1;
