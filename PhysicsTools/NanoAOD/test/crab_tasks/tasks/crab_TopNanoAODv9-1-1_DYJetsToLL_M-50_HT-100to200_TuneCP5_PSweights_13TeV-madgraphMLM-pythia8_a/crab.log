@@ -1,0 +1,145 @@
+Will recalculate the following discriminators on AK8 jets: pfParticleNetMassRegressionJetTags:mass
+DEBUG 2023-11-08 14:04:04.531 UTC: 	 CRAB Client version: v3.231010
+DEBUG 2023-11-08 14:04:04.531 UTC: 	 Running on: Linux m3.iihe.ac.be 3.10.0-1160.92.1.el7.x86_64 #1 SMP Tue Jun 20 11:48:01 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2023-11-08 14:04:04.531 UTC: 	 Executing command: 'submit'
+DEBUG 2023-11-08 14:04:04.532 UTC: 	 Found CRAB cache file /user/jusong/.crab3
+INFO 2023-11-08 14:04:04.548 UTC: 	 Will use CRAB configuration file crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8__2016ULpostVFP.py
+DEBUG 2023-11-08 14:04:04.548 UTC: 	 Loading CRAB configuration file.
+DEBUG 2023-11-08 14:04:04.572 UTC: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+DEBUG 2023-11-08 14:04:04.576 UTC: 	 Checking credentials
+DEBUG 2023-11-08 14:04:04.576 UTC: 	 Found proxy file /tmp/x509up_u23216
+DEBUG 2023-11-08 14:04:04.576 UTC: 	 Making sure it has proper VOMS extension
+DEBUG 2023-11-08 14:04:04.576 UTC: 	 Executing command :
+ voms-proxy-info --vo --file /tmp/x509up_u23216
+DEBUG 2023-11-08 14:04:05.159 UTC: 	 output : cms
+
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 14:04:05.160 UTC: 	 Getting proxy life time left
+DEBUG 2023-11-08 14:04:05.160 UTC: 	 Executing command :
+ voms-proxy-info --actimeleft --timeleft --file /tmp/x509up_u23216
+DEBUG 2023-11-08 14:04:05.750 UTC: 	 output : 685171
+685171
+
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 14:04:05.751 UTC: 	 Proxy valid for 190:19:31 hours
+DEBUG 2023-11-08 14:04:05.788 UTC: 	 Encoded data for curl request: subresource=delegatedn
+DEBUG 2023-11-08 14:04:05.921 UTC: 	 Registering user credentials on myproxy for /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+DEBUG 2023-11-08 14:04:05.921 UTC: 	 Executing command :
+ voms-proxy-info --identity --file /tmp/x509up_u23216
+DEBUG 2023-11-08 14:04:06.480 UTC: 	 output : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song
+
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 14:04:06.480 UTC: 	 Getting myproxy life time left for d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+DEBUG 2023-11-08 14:04:06.480 UTC: 	 Executing command :
+ myproxy-info -s myproxy.cern.ch -l d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+DEBUG 2023-11-08 14:04:06.786 UTC: 	 output : username: d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  timeleft: 669:24:13  (27.9 days)
+
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 14:04:06.787 UTC: 	 Myproxy is valid: 2409840
+DEBUG 2023-11-08 14:04:06.787 UTC: 	 Result of myproxy credential check:
+  Credential exists on myproxy: username: d9a4c5192776b20cef7e34755cb1c66dca7e8a66  - validity: 27 days, 21:24:00
+DEBUG 2023-11-08 14:04:06.787 UTC: 	 Command use: submit
+DEBUG 2023-11-08 14:04:06.787 UTC: 	 Options use: ['crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8__2016ULpostVFP.py']
+DEBUG 2023-11-08 14:04:06.787 UTC: 	 Encoded data for curl request: subresource=version
+DEBUG 2023-11-08 14:04:06.918 UTC: 	 CRABClient version: v3.231010
+DEBUG 2023-11-08 14:04:06.918 UTC: 	 Instance is prod
+DEBUG 2023-11-08 14:04:06.918 UTC: 	 Server base url is cmsweb.cern.ch
+DEBUG 2023-11-08 14:04:06.918 UTC: 	 Command api workflow
+DEBUG 2023-11-08 14:04:06.918 UTC: 	 Started submission
+DEBUG 2023-11-08 14:04:06.918 UTC: 	 Working on /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a
+DEBUG 2023-11-08 14:04:06.918 UTC: 	 Encoded data for curl request: subresource=backendurls
+DEBUG 2023-11-08 14:04:08.312 UTC: 	 Loading required information from the environment
+DEBUG 2023-11-08 14:04:08.312 UTC: 	 Found CMSSW_10_6_27 for slc7_amd64_gcc700 with base /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27
+DEBUG 2023-11-08 14:04:08.312 UTC: 	 Loading required information from the environment
+DEBUG 2023-11-08 14:04:08.312 UTC: 	 Found CMSSW_10_6_27 for slc7_amd64_gcc700 with base /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27
+DEBUG 2023-11-08 14:04:08.312 UTC: 	 UNIQUE NAME: tarUUID fc3eb71e-fe70-4ffb-a698-b5d23b7711d6 
+DEBUG 2023-11-08 14:04:08.312 UTC: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferLogs = True
+config.General.transferOutputs = True
+config.General.workArea = 'tasks'
+config.General.requestName = 'TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a'
+config.section_('JobType')
+config.JobType.psetName = '/ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/topNano_v9-1-1_2016ULpostVFP_MC_cfg.py'
+config.JobType.pluginName = 'Analysis'
+config.JobType.numCores = 2
+config.JobType.allowUndistributedCMSSW = True
+config.JobType.maxMemoryMB = 3000
+config.section_('Data')
+config.Data.inputDataset = '/DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/RunIISummer20UL16MiniAODv2-106X_mcRun2_asymptotic_v17-v2/MINIAODSIM'
+config.Data.outputDatasetTag = 'TopNanoAODv9-1-1_2016ULpostVFP'
+config.Data.publication = True
+config.Data.unitsPerJob = 1
+config.Data.splitting = 'FileBased'
+config.Data.inputDBS = 'global'
+config.Data.outLFNDirBase = '/store/user/jusong/topNanoAOD/v9-1-1/2016ULpostVFP/'
+config.section_('Site')
+config.Site.storageSite = 'T2_BE_IIHE'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2023-11-08 14:04:08.312 UTC: 	 self.config.JobType.psetName: /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/topNano_v9-1-1_2016ULpostVFP_MC_cfg.py
+INFO 2023-11-08 14:04:08.313 UTC: 	 Importing CMSSW configuration /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/topNano_v9-1-1_2016ULpostVFP_MC_cfg.py
+INFO 2023-11-08 14:04:42.978 UTC: 	 Finished importing CMSSW configuration /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/topNano_v9-1-1_2016ULpostVFP_MC_cfg.py
+INFO 2023-11-08 14:04:42.979 UTC: 	 You are requesting more than 1 core per job. Please make sure that your multi-threaded code is thread-safe and CPU-efficient, and request the correct amount of memory since the default 'maxMemoryMB' value is meant for single core jobs.
+DEBUG 2023-11-08 14:04:42.979 UTC: 	 Writing CMSSW configuration to /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/inputs/PSet.py
+DEBUG 2023-11-08 14:04:44.188 UTC: 	 The following EDM output files will be collected: ['tree.root']
+DEBUG 2023-11-08 14:04:44.188 UTC: 	 The following TFile output files will be collected: []
+DEBUG 2023-11-08 14:04:44.188 UTC: 	 The following user output files (not listed as PoolOuputModule or TFileService in the CMSSW PSet) will be collected: 
+DEBUG 2023-11-08 14:04:44.188 UTC: 	 Loading required information from the environment
+DEBUG 2023-11-08 14:04:44.188 UTC: 	 Found CMSSW_10_6_27 for slc7_amd64_gcc700 with base /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27
+DEBUG 2023-11-08 14:04:44.188 UTC: 	 Making tarball in /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/inputs/fc3eb71e-fe70-4ffb-a698-b5d23b7711d6default.tgz
+DEBUG 2023-11-08 14:04:44.189 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/bin
+DEBUG 2023-11-08 14:04:44.189 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/bin to tarball
+DEBUG 2023-11-08 14:04:44.192 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/python
+DEBUG 2023-11-08 14:04:44.192 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/python to tarball
+DEBUG 2023-11-08 14:04:45.018 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/cfipython
+DEBUG 2023-11-08 14:04:45.018 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/cfipython to tarball
+DEBUG 2023-11-08 14:04:46.279 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/lib
+DEBUG 2023-11-08 14:04:46.279 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/lib to tarball
+DEBUG 2023-11-08 14:04:47.265 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/biglib
+DEBUG 2023-11-08 14:04:47.265 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/biglib to tarball
+DEBUG 2023-11-08 14:04:47.266 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/module
+DEBUG 2023-11-08 14:04:47.267 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/config/SCRAM/hooks
+DEBUG 2023-11-08 14:04:47.269 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/config/SCRAM/hooks to tarball
+DEBUG 2023-11-08 14:04:47.306 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/TopQuarkAnalysis/TopTools/interface to tarball
+DEBUG 2023-11-08 14:04:47.418 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/TopQuarkAnalysis/TopTools/python to tarball
+DEBUG 2023-11-08 14:04:47.427 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/interface to tarball
+DEBUG 2023-11-08 14:04:48.123 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/python to tarball
+DEBUG 2023-11-08 14:04:49.500 UTC: 	 Uploading archive /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/inputs/fc3eb71e-fe70-4ffb-a698-b5d23b7711d6default.tgz (1.708984.1 MB) to the CRAB cache. Using URI https://cmsweb.cern.ch/S3/crabcache_prod
+DEBUG 2023-11-08 14:04:50.312 UTC: 	 Encoded data for curl request: tarballname=b170034eeb842b4baaff7681c24edd04584e5066ed740a9903d84420460fc7a2.tar.gz&subresource=upload&objecttype=sandbox
+DEBUG 2023-11-08 14:04:50.476 UTC: 	 Will execute:
+curl -f -v -X POST  -H "User-Agent: CRAB" -F "key=jusong/sandboxes/b170034eeb842b4baaff7681c24edd04584e5066ed740a9903d84420460fc7a2.tar.gz" -F "AWSAccessKeyId=ab00fcc889f248c495d2875f15a3badb" -F "policy=eyJleHBpcmF0aW9uIjogIjIwMjMtMTEtMDhUMTU6MDQ6NTBaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiY3JhYmNhY2hlX3Byb2QifSwgeyJrZXkiOiAianVzb25nL3NhbmRib3hlcy9iMTcwMDM0ZWViODQyYjRiYWFmZjc2ODFjMjRlZGQwNDU4NGU1MDY2ZWQ3NDBhOTkwM2Q4NDQyMDQ2MGZjN2EyLnRhci5neiJ9XX0=" -F "signature=tBdremBVGuov5J6z4UJGfEPdoP8=" -F "file=@/ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/inputs/fc3eb71e-fe70-4ffb-a698-b5d23b7711d6default.tgz" "https://s3.cern.ch/crabcache_prod"
+DEBUG 2023-11-08 14:04:51.733 UTC: 	 exitcode: 0
+stdout: 
+DEBUG 2023-11-08 14:04:51.734 UTC: 	 sandbox /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/inputs/fc3eb71e-fe70-4ffb-a698-b5d23b7711d6default.tgz successully uploaded to S3
+DEBUG 2023-11-08 14:04:51.734 UTC: 	 Loading required information from the environment
+DEBUG 2023-11-08 14:04:51.734 UTC: 	 Found CMSSW_10_6_27 for slc7_amd64_gcc700 with base /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27
+DEBUG 2023-11-08 14:04:51.734 UTC: 	 Making tarball in /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/inputs/debugFiles.tgz
+DEBUG 2023-11-08 14:04:51.738 UTC: 	 Uploading archive /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/inputs/debugFiles.tgz (2 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/S3/crabcache_prod
+DEBUG 2023-11-08 14:04:51.740 UTC: 	 Encoded data for curl request: tarballname=7410cadcce7c9d81c6d077caec6f0d0b28db751e8deb30abf3c42594089500da.tar.gz&subresource=upload&objecttype=sandbox
+DEBUG 2023-11-08 14:04:51.893 UTC: 	 Will execute:
+curl -f -v -X POST  -H "User-Agent: CRAB" -F "key=jusong/sandboxes/7410cadcce7c9d81c6d077caec6f0d0b28db751e8deb30abf3c42594089500da.tar.gz" -F "AWSAccessKeyId=ab00fcc889f248c495d2875f15a3badb" -F "policy=eyJleHBpcmF0aW9uIjogIjIwMjMtMTEtMDhUMTU6MDQ6NTFaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiY3JhYmNhY2hlX3Byb2QifSwgeyJrZXkiOiAianVzb25nL3NhbmRib3hlcy83NDEwY2FkY2NlN2M5ZDgxYzZkMDc3Y2FlYzZmMGQwYjI4ZGI3NTFlOGRlYjMwYWJmM2M0MjU5NDA4OTUwMGRhLnRhci5neiJ9XX0=" -F "signature=woffOwqCM/P6JIA6zIZCT4p+IOg=" -F "file=@/ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/inputs/debugFiles.tgz" "https://s3.cern.ch/crabcache_prod"
+DEBUG 2023-11-08 14:04:53.049 UTC: 	 exitcode: 0
+stdout: 
+DEBUG 2023-11-08 14:04:53.049 UTC: 	 sandbox /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/inputs/debugFiles.tgz successully uploaded to S3
+DEBUG 2023-11-08 14:04:53.049 UTC: 	 Result uploading input files: b170034eeb842b4baaff7681c24edd04584e5066ed740a9903d84420460fc7a2.tar.gz 
+INFO 2023-11-08 14:04:53.050 UTC: 	 Sending the request to the server at cmsweb.cern.ch
+DEBUG 2023-11-08 14:04:53.050 UTC: 	 Submitting {'maxjobruntime': 1250, 'extrajdl': [], 'lfn': '/store/user/jusong/topNanoAOD/v9-1-1/2016ULpostVFP/', 'savelogsflag': 1, 'useparent': 0, 'inputblocks': [], 'asyncdest': 'T2_BE_IIHE', 'algoargs': 1, 'cachefilename': 'b170034eeb842b4baaff7681c24edd04584e5066ed740a9903d84420460fc7a2.tar.gz', 'numcores': 2, 'addoutputfiles': [], 'generator': 'pythia', 'maxmemory': 3000, 'partialdataset': 0, 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'priority': 10, 'jobsw': 'CMSSW_10_6_27', 'edmoutfiles': ['tree.root'], 'userfiles': [], 'primarydataset': '', 'inputdata': '/DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8/RunIISummer20UL16MiniAODv2-106X_mcRun2_asymptotic_v17-v2/MINIAODSIM', 'ignorelocality': 0, 'dryrun': 0, 'workflow': 'crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a', 'cacheurl': u'https://cmsweb.cern.ch/S3/crabcache_prod', 'nonprodsw': 1, 'tfileoutfiles': [], 'oneEventMode': 0, 'debugfilename': '7410cadcce7c9d81c6d077caec6f0d0b28db751e8deb30abf3c42594089500da.tar.gz', 'saveoutput': 1, 'publication': 1, 'jobarch': 'slc7_amd64_gcc700', 'totalunits': 0, 'splitalgo': 'FileBased', 'ignoreglobalblacklist': 0, 'nonvaliddata': 0, 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'jobtype': 'Analysis', 'requireaccelerator': 0, 'publishname2': 'TopNanoAODv9-1-1_2016ULpostVFP'} 
+DEBUG 2023-11-08 14:04:53.051 UTC: 	 Encoded data for curl request: maxjobruntime=1250&lfn=%2Fstore%2Fuser%2Fjusong%2FtopNanoAOD%2Fv9-1-1%2F2016ULpostVFP%2F&savelogsflag=1&useparent=0&asyncdest=T2_BE_IIHE&algoargs=1&cachefilename=b170034eeb842b4baaff7681c24edd04584e5066ed740a9903d84420460fc7a2.tar.gz&numcores=2&generator=pythia&maxmemory=3000&partialdataset=0&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&priority=10&jobsw=CMSSW_10_6_27&primarydataset=&inputdata=%2FDYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8%2FRunIISummer20UL16MiniAODv2-106X_mcRun2_asymptotic_v17-v2%2FMINIAODSIM&ignorelocality=0&dryrun=0&workflow=crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2FS3%2Fcrabcache_prod&nonprodsw=1&oneEventMode=0&debugfilename=7410cadcce7c9d81c6d077caec6f0d0b28db751e8deb30abf3c42594089500da.tar.gz&saveoutput=1&publication=1&jobarch=slc7_amd64_gcc700&totalunits=0&splitalgo=FileBased&ignoreglobalblacklist=0&nonvaliddata=0&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&jobtype=Analysis&requireaccelerator=0&publishname2=TopNanoAODv9-1-1_2016ULpostVFP&edmoutfiles=tree.root
+DEBUG 2023-11-08 14:04:53.458 UTC: 	 Result: {u'result': [{u'RequestName': u'231108_140453:jusong_crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a'}]}
+INFO 2023-11-08 14:04:53.462 UTC: 	 Success: Your task has been delivered to the prod CRAB3 server.
+INFO 2023-11-08 14:04:53.462 UTC: 	 Task name: 231108_140453:jusong_crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a
+INFO 2023-11-08 14:04:53.462 UTC: 	 Project dir: tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a
+INFO 2023-11-08 14:04:53.462 UTC: 	 Please use ' crab status -d tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a ' to check how the submission process proceeds.
+DEBUG 2023-11-08 14:04:53.462 UTC: 	 About to return
+INFO 2023-11-08 14:04:53.466 UTC: 	 Log file is /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_DYJetsToLL_M-50_HT-100to200_TuneCP5_PSweights_13TeV-madgraphMLM-pythia8_a/crab.log

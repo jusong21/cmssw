@@ -1,0 +1,1432 @@
+Will recalculate the following discriminators on AK8 jets: pfParticleNetMassRegressionJetTags:mass
+DEBUG 2023-10-11 07:03:42.450 UTC: 	 CRAB Client version: v3.230612
+DEBUG 2023-10-11 07:03:42.451 UTC: 	 Running on: Linux m3.iihe.ac.be 3.10.0-1160.92.1.el7.x86_64 #1 SMP Tue Jun 20 11:48:01 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2023-10-11 07:03:42.451 UTC: 	 Executing command: 'submit'
+DEBUG 2023-10-11 07:03:42.452 UTC: 	 Found CRAB cache file /user/jusong/.crab3
+INFO 2023-10-11 07:03:42.452 UTC: 	 Will use CRAB configuration file crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL.py
+DEBUG 2023-10-11 07:03:42.452 UTC: 	 Loading CRAB configuration file.
+DEBUG 2023-10-11 07:03:42.455 UTC: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+DEBUG 2023-10-11 07:03:42.459 UTC: 	 Checking credentials
+DEBUG 2023-10-11 07:03:42.459 UTC: 	 Found proxy file /tmp/x509up_u23216
+DEBUG 2023-10-11 07:03:42.459 UTC: 	 Making sure it has proper VOMS extension
+DEBUG 2023-10-11 07:03:42.459 UTC: 	 Executing command :
+ voms-proxy-info --vo --file /tmp/x509up_u23216
+DEBUG 2023-10-11 07:03:43.145 UTC: 	 output : cms
+
+ error: 
+ retcode : 0
+DEBUG 2023-10-11 07:03:43.145 UTC: 	 Getting proxy life time left
+DEBUG 2023-10-11 07:03:43.145 UTC: 	 Executing command :
+ voms-proxy-info --actimeleft --timeleft --file /tmp/x509up_u23216
+DEBUG 2023-10-11 07:03:43.836 UTC: 	 output : 686284
+686283
+
+ error: 
+ retcode : 0
+DEBUG 2023-10-11 07:03:43.837 UTC: 	 Proxy valid for 190:38:03 hours
+DEBUG 2023-10-11 07:03:43.847 UTC: 	 Encoded data for curl request: subresource=delegatedn
+DEBUG 2023-10-11 07:03:43.848 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlDatav2ZMzz --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/info?subresource=delegatedn" | tee /dev/stderr 
+DEBUG 2023-10-11 07:03:44.000 UTC: 	 output : {"result": [
+ {"services": ["/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch"]}
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 188.185.89.194...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (188.185.89.194) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6731 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/info?subresource=delegatedn HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 22
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [22 bytes data]
+* upload completely sent off: 22 out of 22 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Wed, 11 Oct 2023 07:03:43 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 216
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "531fb58a933656ea08a7f418b273fdae3c95932a"
+< X-Rest-Time: 2828.598 us
+< CMS-Server-Time: D=36503 t=1697007823953881
+< 
+{ [5 bytes data]
+100   238  100   216  100    22   1600    162 --:--:-- --:--:-- --:--:--  1762
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ {"services": ["/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch"]}
+]}
+
+ retcode : 0
+DEBUG 2023-10-11 07:03:44.001 UTC: 	 Registering user credentials on myproxy for /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+DEBUG 2023-10-11 07:03:44.001 UTC: 	 Executing command :
+ voms-proxy-info --identity --file /tmp/x509up_u23216
+DEBUG 2023-10-11 07:03:44.579 UTC: 	 output : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song
+
+ error: 
+ retcode : 0
+DEBUG 2023-10-11 07:03:44.580 UTC: 	 Getting myproxy life time left for d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+DEBUG 2023-10-11 07:03:44.580 UTC: 	 Executing command :
+ myproxy-info -s myproxy.cern.ch -l d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+DEBUG 2023-10-11 07:03:44.919 UTC: 	 output : username: d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  timeleft: 539:08:20  (22.5 days)
+
+ error: 
+ retcode : 0
+DEBUG 2023-10-11 07:03:44.920 UTC: 	 Myproxy is valid: 1940880
+DEBUG 2023-10-11 07:03:44.920 UTC: 	 Result of myproxy credential check:
+  Credential exists on myproxy: username: d9a4c5192776b20cef7e34755cb1c66dca7e8a66  - validity: 22 days, 11:08:00
+DEBUG 2023-10-11 07:03:44.920 UTC: 	 Command use: submit
+DEBUG 2023-10-11 07:03:44.920 UTC: 	 Options use: ['crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL.py']
+DEBUG 2023-10-11 07:03:44.920 UTC: 	 Encoded data for curl request: subresource=version
+DEBUG 2023-10-11 07:03:44.920 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlDatavdfYSg --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/info?subresource=version" | tee /dev/stderr 
+DEBUG 2023-10-11 07:03:45.086 UTC: 	 output : {"result": [
+ ["3.3.19", "3.3.20", "v3", "development", "v3.230913"]
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 137.138.154.184...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (137.138.154.184) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6731 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/info?subresource=version HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 19
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [19 bytes data]
+* upload completely sent off: 19 out of 19 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Wed, 11 Oct 2023 07:03:45 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 72
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "8b965172a387813a8898eb28eff3d7afe41e5f08"
+< X-Rest-Time: 2074.957 us
+< CMS-Server-Time: D=9224 t=1697007825066700
+< 
+{ [5 bytes data]
+100    91  100    72  100    19    666    175 --:--:-- --:--:-- --:--:--   842
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ ["3.3.19", "3.3.20", "v3", "development", "v3.230913"]
+]}
+
+ retcode : 0
+DEBUG 2023-10-11 07:03:45.275 UTC: 	 CRABClient version: v3.230612
+DEBUG 2023-10-11 07:03:45.275 UTC: 	 Instance is prod
+DEBUG 2023-10-11 07:03:45.275 UTC: 	 Server base url is cmsweb.cern.ch
+DEBUG 2023-10-11 07:03:45.275 UTC: 	 Command api workflow
+DEBUG 2023-10-11 07:03:45.275 UTC: 	 Started submission
+DEBUG 2023-10-11 07:03:45.275 UTC: 	 Working on /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-10-11 07:03:45.275 UTC: 	 Encoded data for curl request: subresource=backendurls
+DEBUG 2023-10-11 07:03:45.276 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlDataId5etb --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/info?subresource=backendurls" | tee /dev/stderr 
+DEBUG 2023-10-11 07:03:45.398 UTC: 	 output : {"result": [
+ {"cacheSSL": "https://cmsweb.cern.ch/S3/crabcache_prod", "htcondorSchedds": {"crab3@vocms059.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/059", "weightfactor": 0}, "crab3@vocms068.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/068", "weightfactor": 1}, "crab3@vocms069.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/069", "weightfactor": 1}, "crab3@vocms0106.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0106", "weightfactor": 1}, "crab3@vocms0107.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0107", "weightfactor": 1}, "crab3@vocms0119.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0119", "weightfactor": 1}, "crab3@vocms0120.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0120", "weightfactor": 1}, "crab3@vocms0121.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0121", "weightfactor": 1}, "crab3@vocms0122.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0122", "weightfactor": 1}, "crab3@vocms0137.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0137", "weightfactor": 1}, "crab3@vocms0144.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0144", "weightfactor": 1}, "crab3@vocms0155.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0155", "weightfactor": 1}, "crab3@vocms0194.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0194", "weightfactor": 1}, "crab3@vocms0195.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0195", "weightfactor": 1}, "crab3@vocms0196.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0196", "weightfactor": 1}, "crab3@vocms0197.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0197", "weightfactor": 1}, "crab3@vocms0198.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0198", "weightfactor": 1}, "crab3@vocms0199.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0199", "weightfactor": 1}, "crab3@crab-preprod-scd03.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/crab-preprod-scd03", "weightfactor": 1}}, "htcondorPool": "cmsgwms-collector-global.cern.ch:9620,cmsgwms-collector-global.fnal.gov:9620"}
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 188.184.75.82...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (188.184.75.82) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6731 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/info?subresource=backendurls HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 23
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [23 bytes data]
+* upload completely sent off: 23 out of 23 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Wed, 11 Oct 2023 07:03:45 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 2260
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "e5afd968985a5ac36314c1da2c197312220b0de9"
+< X-Rest-Time: 2577.782 us
+< CMS-Server-Time: D=8911 t=1697007825377062
+< 
+{ [5 bytes data]
+100  2283  100  2260  100    23  21320    216 --:--:-- --:--:-- --:--:-- 21336
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ {"cacheSSL": "https://cmsweb.cern.ch/S3/crabcache_prod", "htcondorSchedds": {"crab3@vocms059.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/059", "weightfactor": 0}, "crab3@vocms068.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/068", "weightfactor": 1}, "crab3@vocms069.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/069", "weightfactor": 1}, "crab3@vocms0106.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0106", "weightfactor": 1}, "crab3@vocms0107.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0107", "weightfactor": 1}, "crab3@vocms0119.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0119", "weightfactor": 1}, "crab3@vocms0120.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0120", "weightfactor": 1}, "crab3@vocms0121.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0121", "weightfactor": 1}, "crab3@vocms0122.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0122", "weightfactor": 1}, "crab3@vocms0137.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0137", "weightfactor": 1}, "crab3@vocms0144.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0144", "weightfactor": 1}, "crab3@vocms0155.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0155", "weightfactor": 1}, "crab3@vocms0194.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0194", "weightfactor": 1}, "crab3@vocms0195.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0195", "weightfactor": 1}, "crab3@vocms0196.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0196", "weightfactor": 1}, "crab3@vocms0197.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0197", "weightfactor": 1}, "crab3@vocms0198.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0198", "weightfactor": 1}, "crab3@vocms0199.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/0199", "weightfactor": 1}, "crab3@crab-preprod-scd03.cern.ch": {"proxiedurl": "https://cmsweb.cern.ch:8443/scheddmon/crab-preprod-scd03", "weightfactor": 1}}, "htcondorPool": "cmsgwms-collector-global.cern.ch:9620,cmsgwms-collector-global.fnal.gov:9620"}
+]}
+
+ retcode : 0
+DEBUG 2023-10-11 07:03:45.485 UTC: 	 Loading required information from the environment
+DEBUG 2023-10-11 07:03:45.485 UTC: 	 Found CMSSW_10_6_27 for slc7_amd64_gcc700 with base /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27
+DEBUG 2023-10-11 07:03:45.485 UTC: 	 Loading required information from the environment
+DEBUG 2023-10-11 07:03:45.485 UTC: 	 Found CMSSW_10_6_27 for slc7_amd64_gcc700 with base /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27
+DEBUG 2023-10-11 07:03:45.486 UTC: 	 UNIQUE NAME: tarUUID 02b768cf-25bb-4f1f-a85f-1eb8c0e72f5b 
+DEBUG 2023-10-11 07:03:45.486 UTC: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferLogs = True
+config.General.transferOutputs = True
+config.General.workArea = 'tasks'
+config.General.requestName = 'TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL'
+config.section_('JobType')
+config.JobType.psetName = '/ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/topNano_v9-1-1_2017UL_MC_cfg.py'
+config.JobType.pluginName = 'Analysis'
+config.JobType.numCores = 2
+config.JobType.allowUndistributedCMSSW = True
+config.JobType.maxMemoryMB = 3000
+config.section_('Data')
+config.Data.inputDataset = '/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9_ext1-v2/MINIAODSIM'
+config.Data.outputDatasetTag = 'TopNanoAODv9-1-1_2017UL'
+config.Data.publication = True
+config.Data.unitsPerJob = 1
+config.Data.splitting = 'FileBased'
+config.Data.inputDBS = 'global'
+config.Data.outLFNDirBase = '/store/user/jusong/topNanoAOD/v9-1-1/2017UL/'
+config.section_('Site')
+config.Site.storageSite = 'T2_BE_IIHE'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2023-10-11 07:03:45.486 UTC: 	 self.config.JobType.psetName: /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/topNano_v9-1-1_2017UL_MC_cfg.py
+INFO 2023-10-11 07:03:45.486 UTC: 	 Importing CMSSW configuration /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/topNano_v9-1-1_2017UL_MC_cfg.py
+INFO 2023-10-11 07:03:49.342 UTC: 	 Finished importing CMSSW configuration /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/topNano_v9-1-1_2017UL_MC_cfg.py
+INFO 2023-10-11 07:03:49.342 UTC: 	 You are requesting more than 1 core per job. Please make sure that your multi-threaded code is thread-safe and CPU-efficient, and request the correct amount of memory since the default 'maxMemoryMB' value is meant for single core jobs.
+DEBUG 2023-10-11 07:03:49.342 UTC: 	 Writing CMSSW configuration to /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/inputs/PSet.py
+DEBUG 2023-10-11 07:03:50.504 UTC: 	 The following EDM output files will be collected: ['tree.root']
+DEBUG 2023-10-11 07:03:50.504 UTC: 	 The following TFile output files will be collected: []
+DEBUG 2023-10-11 07:03:50.504 UTC: 	 The following user output files (not listed as PoolOuputModule or TFileService in the CMSSW PSet) will be collected: 
+DEBUG 2023-10-11 07:03:50.504 UTC: 	 Loading required information from the environment
+DEBUG 2023-10-11 07:03:50.504 UTC: 	 Found CMSSW_10_6_27 for slc7_amd64_gcc700 with base /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27
+DEBUG 2023-10-11 07:03:50.504 UTC: 	 Making tarball in /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/inputs/02b768cf-25bb-4f1f-a85f-1eb8c0e72f5bdefault.tgz
+DEBUG 2023-10-11 07:03:50.505 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/lib
+DEBUG 2023-10-11 07:03:50.505 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/lib to tarball
+DEBUG 2023-10-11 07:03:51.108 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/biglib
+DEBUG 2023-10-11 07:03:51.109 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/biglib to tarball
+DEBUG 2023-10-11 07:03:51.109 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/module
+DEBUG 2023-10-11 07:03:51.109 UTC: 	 Checking directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/config/SCRAM/hooks
+DEBUG 2023-10-11 07:03:51.109 UTC: 	 Adding directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/config/SCRAM/hooks to tarball
+DEBUG 2023-10-11 07:03:51.111 UTC: 	 Adding data directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/TopQuarkAnalysis/TopTools/interface to tarball
+DEBUG 2023-10-11 07:03:51.113 UTC: 	 Adding data directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/TopQuarkAnalysis/TopTools/python to tarball
+DEBUG 2023-10-11 07:03:51.117 UTC: 	 Adding data directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/interface to tarball
+DEBUG 2023-10-11 07:03:51.161 UTC: 	 Adding data directory /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/python to tarball
+DEBUG 2023-10-11 07:03:51.891 UTC: 	 Uploading archive /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/inputs/02b768cf-25bb-4f1f-a85f-1eb8c0e72f5bdefault.tgz (1.583008.1 MB) to the CRAB cache. Using URI https://cmsweb.cern.ch/S3/crabcache_prod
+DEBUG 2023-10-11 07:03:52.595 UTC: 	 Encoded data for curl request: tarballname=c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz&subresource=upload&objecttype=sandbox
+DEBUG 2023-10-11 07:03:52.595 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlDataVL87Ia --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/cache?tarballname=c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz&subresource=upload&objecttype=sandbox" | tee /dev/stderr 
+DEBUG 2023-10-11 07:03:52.742 UTC: 	 output : {"result": [
+ ""
+,{}
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 188.184.73.32...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (188.184.73.32) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6731 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/cache?tarballname=c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz&subresource=upload&objecttype=sandbox HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 121
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [121 bytes data]
+* upload completely sent off: 121 out of 121 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Wed, 11 Oct 2023 07:03:52 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 24
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "556ce43763b116622238c65d89d24dd485f20666"
+< X-Rest-Time: 10653.019 us
+< CMS-Server-Time: D=26149 t=1697007832702285
+< 
+{ [5 bytes data]
+100   145  100    24  100   121    190    960 --:--:-- --:--:-- --:--:--  1150
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ ""
+,{}
+]}
+
+ retcode : 0
+DEBUG 2023-10-11 07:03:52.755 UTC: 	 sandbox c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz is already in the S3 store, will not upload again
+DEBUG 2023-10-11 07:03:52.755 UTC: 	 Loading required information from the environment
+DEBUG 2023-10-11 07:03:52.756 UTC: 	 Found CMSSW_10_6_27 for slc7_amd64_gcc700 with base /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27
+DEBUG 2023-10-11 07:03:52.756 UTC: 	 Making tarball in /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/inputs/debugFiles.tgz
+DEBUG 2023-10-11 07:03:52.759 UTC: 	 Uploading archive /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/inputs/debugFiles.tgz (2 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/S3/crabcache_prod
+DEBUG 2023-10-11 07:03:52.761 UTC: 	 Encoded data for curl request: tarballname=6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz&subresource=upload&objecttype=sandbox
+DEBUG 2023-10-11 07:03:52.762 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlDataPxGAUI --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/cache?tarballname=6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz&subresource=upload&objecttype=sandbox" | tee /dev/stderr 
+DEBUG 2023-10-11 07:03:52.909 UTC: 	 output : {"result": [
+ "https://s3.cern.ch/crabcache_prod"
+,{"key": "jusong/sandboxes/6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz", "AWSAccessKeyId": "ab00fcc889f248c495d2875f15a3badb", "policy": "eyJleHBpcmF0aW9uIjogIjIwMjMtMTAtMTFUMDg6MDM6NTJaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiY3JhYmNhY2hlX3Byb2QifSwgeyJrZXkiOiAianVzb25nL3NhbmRib3hlcy82YzllNWQ1MDg0OTcyNDlmMDE2ZjhiZjY1NWQ3ZWJkOGNhMWNhMzQ2ZWQ4YTQ5MGNiMmU0MDhjMDg5ZDljYTAwLnRhci5neiJ9XX0=", "signature": "wqABtpgHBTtgmbLQsNyRk1QGrq0="}
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 188.185.101.116...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (188.185.101.116) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6731 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/cache?tarballname=6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz&subresource=upload&objecttype=sandbox HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 121
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [121 bytes data]
+* upload completely sent off: 121 out of 121 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Wed, 11 Oct 2023 07:03:52 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 515
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "683e314554067a4c2e38b3a6c42a3cb946acf3af"
+< X-Rest-Time: 17200.232 us
+< CMS-Server-Time: D=25604 t=1697007832873016
+< 
+{ [5 bytes data]
+100   636  100   515  100   121   4087    960 --:--:-- --:--:-- --:--:--  5047
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ "https://s3.cern.ch/crabcache_prod"
+,{"key": "jusong/sandboxes/6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz", "AWSAccessKeyId": "ab00fcc889f248c495d2875f15a3badb", "policy": "eyJleHBpcmF0aW9uIjogIjIwMjMtMTAtMTFUMDg6MDM6NTJaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiY3JhYmNhY2hlX3Byb2QifSwgeyJrZXkiOiAianVzb25nL3NhbmRib3hlcy82YzllNWQ1MDg0OTcyNDlmMDE2ZjhiZjY1NWQ3ZWJkOGNhMWNhMzQ2ZWQ4YTQ5MGNiMmU0MDhjMDg5ZDljYTAwLnRhci5neiJ9XX0=", "signature": "wqABtpgHBTtgmbLQsNyRk1QGrq0="}
+]}
+
+ retcode : 0
+DEBUG 2023-10-11 07:03:52.983 UTC: 	 Will execute:
+curl -f -v -X POST  -H "User-Agent: CRAB" -F "key=jusong/sandboxes/6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz" -F "AWSAccessKeyId=ab00fcc889f248c495d2875f15a3badb" -F "policy=eyJleHBpcmF0aW9uIjogIjIwMjMtMTAtMTFUMDg6MDM6NTJaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiY3JhYmNhY2hlX3Byb2QifSwgeyJrZXkiOiAianVzb25nL3NhbmRib3hlcy82YzllNWQ1MDg0OTcyNDlmMDE2ZjhiZjY1NWQ3ZWJkOGNhMWNhMzQ2ZWQ4YTQ5MGNiMmU0MDhjMDg5ZDljYTAwLnRhci5neiJ9XX0=" -F "signature=wqABtpgHBTtgmbLQsNyRk1QGrq0=" -F "file=@/ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/inputs/debugFiles.tgz" "https://s3.cern.ch/crabcache_prod"
+DEBUG 2023-10-11 07:03:54.118 UTC: 	 exitcode: 0
+stdout: 
+DEBUG 2023-10-11 07:03:54.118 UTC: 	 sandbox /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/inputs/debugFiles.tgz successully uploaded to S3
+DEBUG 2023-10-11 07:03:54.118 UTC: 	 Result uploading input files: c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz 
+INFO 2023-10-11 07:03:54.119 UTC: 	 Sending the request to the server at cmsweb.cern.ch
+DEBUG 2023-10-11 07:03:54.119 UTC: 	 Submitting {'maxjobruntime': 1250, 'extrajdl': [], 'lfn': '/store/user/jusong/topNanoAOD/v9-1-1/2017UL/', 'savelogsflag': 1, 'useparent': 0, 'inputblocks': [], 'asyncdest': 'T2_BE_IIHE', 'algoargs': 1, 'cachefilename': 'c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz', 'numcores': 2, 'addoutputfiles': [], 'generator': 'pythia', 'maxmemory': 3000, 'partialdataset': 0, 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'priority': 10, 'jobsw': 'CMSSW_10_6_27', 'edmoutfiles': ['tree.root'], 'userfiles': [], 'primarydataset': '', 'inputdata': '/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9_ext1-v2/MINIAODSIM', 'ignorelocality': 0, 'dryrun': 0, 'workflow': 'crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL', 'cacheurl': u'https://cmsweb.cern.ch/S3/crabcache_prod', 'nonprodsw': 1, 'tfileoutfiles': [], 'oneEventMode': 0, 'debugfilename': '6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz', 'saveoutput': 1, 'publication': 1, 'jobarch': 'slc7_amd64_gcc700', 'totalunits': 0, 'splitalgo': 'FileBased', 'ignoreglobalblacklist': 0, 'nonvaliddata': 0, 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'jobtype': 'Analysis', 'requireaccelerator': 0, 'publishname2': 'TopNanoAODv9-1-1_2017UL'} 
+DEBUG 2023-10-11 07:03:54.119 UTC: 	 Encoded submit request: maxjobruntime=1250&lfn=%2Fstore%2Fuser%2Fjusong%2FtopNanoAOD%2Fv9-1-1%2F2017UL%2F&savelogsflag=1&useparent=0&asyncdest=T2_BE_IIHE&algoargs=1&cachefilename=c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz&numcores=2&generator=pythia&maxmemory=3000&partialdataset=0&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&priority=10&jobsw=CMSSW_10_6_27&primarydataset=&inputdata=%2FWJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8%2FRunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9_ext1-v2%2FMINIAODSIM&ignorelocality=0&dryrun=0&workflow=crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2FS3%2Fcrabcache_prod&nonprodsw=1&oneEventMode=0&debugfilename=6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz&saveoutput=1&publication=1&jobarch=slc7_amd64_gcc700&totalunits=0&splitalgo=FileBased&ignoreglobalblacklist=0&nonvaliddata=0&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&jobtype=Analysis&requireaccelerator=0&publishname2=TopNanoAODv9-1-1_2017UL&edmoutfiles=tree.root
+DEBUG 2023-10-11 07:03:54.119 UTC: 	 Encoded data for curl request: maxjobruntime=1250&lfn=%2Fstore%2Fuser%2Fjusong%2FtopNanoAOD%2Fv9-1-1%2F2017UL%2F&savelogsflag=1&useparent=0&asyncdest=T2_BE_IIHE&algoargs=1&cachefilename=c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz&numcores=2&generator=pythia&maxmemory=3000&partialdataset=0&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&priority=10&jobsw=CMSSW_10_6_27&primarydataset=&inputdata=%2FWJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8%2FRunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9_ext1-v2%2FMINIAODSIM&ignorelocality=0&dryrun=0&workflow=crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2FS3%2Fcrabcache_prod&nonprodsw=1&oneEventMode=0&debugfilename=6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz&saveoutput=1&publication=1&jobarch=slc7_amd64_gcc700&totalunits=0&splitalgo=FileBased&ignoreglobalblacklist=0&nonvaliddata=0&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&jobtype=Analysis&requireaccelerator=0&publishname2=TopNanoAODv9-1-1_2017UL&edmoutfiles=tree.root
+DEBUG 2023-10-11 07:03:54.120 UTC: 	 Executing command :
+ curl -v -X PUT -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlDatadjOr2I --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/workflow" | tee /dev/stderr 
+DEBUG 2023-10-11 07:03:54.300 UTC: 	 output : {"result": [
+ {"RequestName": "231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL"}
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 188.185.89.202...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (188.185.89.202) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6731 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> PUT /crabserver/prod/workflow HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 1143
+> Content-Type: application/x-www-form-urlencoded
+> Expect: 100-continue
+> 
+{ [5 bytes data]
+< HTTP/1.1 100 Continue
+} [5 bytes data]
+* We are completely uploaded and fine
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Wed, 11 Oct 2023 07:03:54 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 144
+< Vary: Accept
+< X-Rest-Status: 100
+< Etag: "4d43cacb2873d171421b0e005903b7700f8acf4d"
+< X-Rest-Time: 14463.902 us
+< CMS-Server-Time: D=61374 t=1697007834228533
+< 
+{ [5 bytes data]
+100  1287  100   144  100  1143    905   7188 --:--:-- --:--:-- --:--:--  8094
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ {"RequestName": "231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL"}
+]}
+
+ retcode : 0
+DEBUG 2023-10-11 07:03:54.306 UTC: 	 Result: {u'result': [{u'RequestName': u'231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL'}]}
+INFO 2023-10-11 07:03:54.309 UTC: 	 Success: Your task has been delivered to the prod CRAB3 server.
+INFO 2023-10-11 07:03:54.310 UTC: 	 Task name: 231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+INFO 2023-10-11 07:03:54.310 UTC: 	 Project dir: tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+INFO 2023-10-11 07:03:54.310 UTC: 	 Please use ' crab status -d tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL ' to check how the submission process proceeds.
+DEBUG 2023-10-11 07:03:54.310 UTC: 	 About to return
+INFO 2023-10-11 07:03:54.313 UTC: 	 Log file is /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/crab.log
+DEBUG 2023-10-12 03:05:53.946 UTC: 	 CRAB Client version: v3.230612
+DEBUG 2023-10-12 03:05:53.947 UTC: 	 Running on: Linux m3.iihe.ac.be 3.10.0-1160.92.1.el7.x86_64 #1 SMP Tue Jun 20 11:48:01 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2023-10-12 03:05:53.947 UTC: 	 Executing command: 'status'
+DEBUG 2023-10-12 03:05:53.948 UTC: 	 Found CRAB cache file /user/jusong/.crab3
+DEBUG 2023-10-12 03:05:54.004 UTC: 	 Checking credentials
+DEBUG 2023-10-12 03:05:54.004 UTC: 	 Found proxy file /tmp/x509up_u23216
+DEBUG 2023-10-12 03:05:54.004 UTC: 	 Making sure it has proper VOMS extension
+DEBUG 2023-10-12 03:05:54.004 UTC: 	 Executing command :
+ voms-proxy-info --vo --file /tmp/x509up_u23216
+DEBUG 2023-10-12 03:05:54.706 UTC: 	 output : cms
+
+ error: 
+ retcode : 0
+DEBUG 2023-10-12 03:05:54.706 UTC: 	 Getting proxy life time left
+DEBUG 2023-10-12 03:05:54.706 UTC: 	 Executing command :
+ voms-proxy-info --actimeleft --timeleft --file /tmp/x509up_u23216
+DEBUG 2023-10-12 03:05:55.382 UTC: 	 output : 690072
+690071
+
+ error: 
+ retcode : 0
+DEBUG 2023-10-12 03:05:55.382 UTC: 	 Proxy valid for 191:41:11 hours
+DEBUG 2023-10-12 03:05:55.390 UTC: 	 Encoded data for curl request: subresource=delegatedn
+DEBUG 2023-10-12 03:05:55.391 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlData5Z1Kdg --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/info?subresource=delegatedn" | tee /dev/stderr 
+DEBUG 2023-10-12 03:05:55.517 UTC: 	 output : {"result": [
+ {"services": ["/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch"]}
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 188.185.89.202...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (188.185.89.202) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6732 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/info?subresource=delegatedn HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 22
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [22 bytes data]
+* upload completely sent off: 22 out of 22 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Thu, 12 Oct 2023 03:05:55 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 216
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "531fb58a933656ea08a7f418b273fdae3c95932a"
+< X-Rest-Time: 4857.302 us
+< CMS-Server-Time: D=12751 t=1697079955495634
+< 
+{ [5 bytes data]
+100   238  100   216  100    22   1945    198 --:--:-- --:--:-- --:--:--  2144
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ {"services": ["/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch"]}
+]}
+
+ retcode : 0
+DEBUG 2023-10-12 03:05:55.518 UTC: 	 Registering user credentials on myproxy for /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+DEBUG 2023-10-12 03:05:55.518 UTC: 	 Executing command :
+ voms-proxy-info --identity --file /tmp/x509up_u23216
+DEBUG 2023-10-12 03:05:56.381 UTC: 	 output : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song
+
+ error: 
+ retcode : 0
+DEBUG 2023-10-12 03:05:56.381 UTC: 	 Getting myproxy life time left for d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+DEBUG 2023-10-12 03:05:56.381 UTC: 	 Executing command :
+ myproxy-info -s myproxy.cern.ch -l d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+DEBUG 2023-10-12 03:05:56.661 UTC: 	 output : username: d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  timeleft: 519:06:08  (21.6 days)
+
+ error: 
+ retcode : 0
+DEBUG 2023-10-12 03:05:56.661 UTC: 	 Myproxy is valid: 1868760
+DEBUG 2023-10-12 03:05:56.661 UTC: 	 Result of myproxy credential check:
+  Credential exists on myproxy: username: d9a4c5192776b20cef7e34755cb1c66dca7e8a66  - validity: 21 days, 15:06:00
+DEBUG 2023-10-12 03:05:56.663 UTC: 	 Command use: status
+DEBUG 2023-10-12 03:05:56.663 UTC: 	 Options use: ['crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL']
+DEBUG 2023-10-12 03:05:56.663 UTC: 	 Encoded data for curl request: subresource=version
+DEBUG 2023-10-12 03:05:56.663 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlDataQ2WTp4 --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/info?subresource=version" | tee /dev/stderr 
+DEBUG 2023-10-12 03:05:56.786 UTC: 	 output : {"result": [
+ ["3.3.19", "3.3.20", "v3", "development", "v3.230913"]
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 188.185.101.116...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (188.185.101.116) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6732 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/info?subresource=version HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 19
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [19 bytes data]
+* upload completely sent off: 19 out of 19 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Thu, 12 Oct 2023 03:05:56 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 72
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "8b965172a387813a8898eb28eff3d7afe41e5f08"
+< X-Rest-Time: 2837.420 us
+< CMS-Server-Time: D=9737 t=1697079956767248
+< 
+{ [5 bytes data]
+100    91  100    72  100    19    666    175 --:--:-- --:--:-- --:--:--   842
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ ["3.3.19", "3.3.20", "v3", "development", "v3.230913"]
+]}
+
+ retcode : 0
+DEBUG 2023-10-12 03:05:56.787 UTC: 	 CRABClient version: v3.230612
+DEBUG 2023-10-12 03:05:56.787 UTC: 	 Instance is prod
+DEBUG 2023-10-12 03:05:56.787 UTC: 	 Server base url is cmsweb.cern.ch
+DEBUG 2023-10-12 03:05:56.787 UTC: 	 Command api workflow
+DEBUG 2023-10-12 03:05:56.787 UTC: 	 Encoded data for curl request: subresource=search&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-10-12 03:05:56.787 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlDataC2qqSQ --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/task?subresource=search&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL" | tee /dev/stderr 
+DEBUG 2023-10-12 03:05:56.921 UTC: 	 output : {"desc": {"columns": ["tm_taskname", "tm_activity", "panda_jobset_id", "tm_task_status", "tm_task_command", "tm_start_time", "tm_start_injection", "tm_end_injection", "tm_task_failure", "tm_job_sw", "tm_job_arch", "tm_input_dataset", "tm_nonvalid_input_dataset", "tm_use_parent", "tm_site_whitelist", "tm_site_blacklist", "tm_split_algo", "tm_split_args", "tm_user_sandbox", "tm_cache_url", "tm_username", "tm_user_dn", "tm_user_vo", "tm_user_role", "tm_user_group", "tm_publish_name", "tm_publish_groupname", "tm_asyncdest", "tm_dbs_url", "tm_publish_dbs_url", "tm_publication", "tm_outfiles", "tm_tfile_outfiles", "tm_edm_outfiles", "tm_job_type", "tm_generator", "tm_events_per_lumi", "tm_arguments", "panda_resubmitted_jobs", "tm_save_logs", "tw_name", "tm_user_infiles", "tm_maxjobruntime", "tm_numcores", "tm_maxmemory", "tm_priority", "tm_output_dataset", "tm_task_warnings", "tm_user_webdir", "tm_scriptexe", "tm_scriptargs", "tm_extrajdl", "tm_asourl", "tm_collector", "tm_schedd", "tm_dry_run", "tm_user_files", "tm_transfer_outputs", "tm_output_lfn", "tm_ignore_locality", "tm_fail_limit", "tm_one_event_mode", "tm_secondary_input_dataset", "tm_primary_dataset", "tm_last_publication", "tm_debug_files", "clusterid", "tm_asodb", "tm_ignore_global_blacklist", "tm_submitter_ip_addr", "tm_totalunits", "tm_ddm_reqid", "tm_user_config", "tm_transfer_container", "tm_transfer_rule", "tm_publish_rule"]}, "result": [
+ "231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL"
+,"None"
+,"None"
+,"SUBMITTED"
+,"SUBMIT"
+,"2023-10-11 07:03:54.282658"
+,"None"
+,"2023-10-11 07:04:43.269613"
+,"None"
+,"CMSSW_10_6_27"
+,"slc7_amd64_gcc700"
+,"/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9_ext1-v2/MINIAODSIM"
+,"F"
+,"0"
+,"[]"
+,"[]"
+,"FileBased"
+,"{'halt_job_on_file_boundaries': False, 'splitOnRun': False, 'files_per_job': 1, 'runs': [], 'lumis': []}"
+,"c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz"
+,"https://cmsweb.cern.ch/S3/crabcache_prod"
+,"jusong"
+,"/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song"
+,"cms"
+,"None"
+,"None"
+,"TopNanoAODv9-1-1_2017UL-00000000000000000000000000000000"
+,"F"
+,"T2_BE_IIHE"
+,"https://cmsweb.cern.ch/dbs/prod/global/DBSReader"
+,"https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter"
+,"T"
+,"[]"
+,"[]"
+,"['tree.root']"
+,"Analysis"
+,"pythia"
+,"None"
+,"{}"
+,"None"
+,"T"
+,"crab-prod-tw01"
+,"[]"
+,"1250"
+,"2"
+,"3000"
+,"10"
+,"['/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/jusong-TopNanoAODv9-1-1_2017UL-27efd120551babaabc6bd4b4b90d69e0/USER']"
+,"[]"
+,"http://vocms0107.cern.ch/mon/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL"
+,"None"
+,"[]"
+,"[]"
+,"None"
+,"cmsgwms-collector-global.cern.ch:9620,cmsgwms-collector-global.fnal.gov:9620"
+,"crab3@vocms0107.cern.ch"
+,"F"
+,"[]"
+,"T"
+,"/store/user/jusong/topNanoAOD/v9-1-1/2017UL/"
+,"F"
+,"None"
+,"F"
+,"None"
+,"WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8"
+,"2023-10-11 12:35:09.003278"
+,"6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz"
+,"98157006"
+,"None"
+,"F"
+,"188.185.89.202"
+,"0.0"
+,"None"
+,"{\"partialdataset\": false, \"requireaccelerator\": false, \"acceleratorparams\": null, \"inputblocks\": null}"
+,"None"
+,"None"
+,"None"
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 188.184.75.82...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (188.184.75.82) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6732 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/task?subresource=search&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 137
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [137 bytes data]
+* upload completely sent off: 137 out of 137 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Thu, 12 Oct 2023 03:05:56 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 3385
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "6ab4042588924789307b49fa8668134ce51a2a3e"
+< X-Rest-Time: 12838.125 us
+< CMS-Server-Time: D=20867 t=1697079956890409
+< 
+{ [5 bytes data]
+100  3522  100  3385  100   137  28445   1151 --:--:-- --:--:-- --:--:-- 29596
+* Connection #0 to host cmsweb.cern.ch left intact
+{"desc": {"columns": ["tm_taskname", "tm_activity", "panda_jobset_id", "tm_task_status", "tm_task_command", "tm_start_time", "tm_start_injection", "tm_end_injection", "tm_task_failure", "tm_job_sw", "tm_job_arch", "tm_input_dataset", "tm_nonvalid_input_dataset", "tm_use_parent", "tm_site_whitelist", "tm_site_blacklist", "tm_split_algo", "tm_split_args", "tm_user_sandbox", "tm_cache_url", "tm_username", "tm_user_dn", "tm_user_vo", "tm_user_role", "tm_user_group", "tm_publish_name", "tm_publish_groupname", "tm_asyncdest", "tm_dbs_url", "tm_publish_dbs_url", "tm_publication", "tm_outfiles", "tm_tfile_outfiles", "tm_edm_outfiles", "tm_job_type", "tm_generator", "tm_events_per_lumi", "tm_arguments", "panda_resubmitted_jobs", "tm_save_logs", "tw_name", "tm_user_infiles", "tm_maxjobruntime", "tm_numcores", "tm_maxmemory", "tm_priority", "tm_output_dataset", "tm_task_warnings", "tm_user_webdir", "tm_scriptexe", "tm_scriptargs", "tm_extrajdl", "tm_asourl", "tm_collector", "tm_schedd", "tm_dry_run", "tm_user_files", "tm_transfer_outputs", "tm_output_lfn", "tm_ignore_locality", "tm_fail_limit", "tm_one_event_mode", "tm_secondary_input_dataset", "tm_primary_dataset", "tm_last_publication", "tm_debug_files", "clusterid", "tm_asodb", "tm_ignore_global_blacklist", "tm_submitter_ip_addr", "tm_totalunits", "tm_ddm_reqid", "tm_user_config", "tm_transfer_container", "tm_transfer_rule", "tm_publish_rule"]}, "result": [
+ "231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL"
+,"None"
+,"None"
+,"SUBMITTED"
+,"SUBMIT"
+,"2023-10-11 07:03:54.282658"
+,"None"
+,"2023-10-11 07:04:43.269613"
+,"None"
+,"CMSSW_10_6_27"
+,"slc7_amd64_gcc700"
+,"/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9_ext1-v2/MINIAODSIM"
+,"F"
+,"0"
+,"[]"
+,"[]"
+,"FileBased"
+,"{'halt_job_on_file_boundaries': False, 'splitOnRun': False, 'files_per_job': 1, 'runs': [], 'lumis': []}"
+,"c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz"
+,"https://cmsweb.cern.ch/S3/crabcache_prod"
+,"jusong"
+,"/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song"
+,"cms"
+,"None"
+,"None"
+,"TopNanoAODv9-1-1_2017UL-00000000000000000000000000000000"
+,"F"
+,"T2_BE_IIHE"
+,"https://cmsweb.cern.ch/dbs/prod/global/DBSReader"
+,"https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter"
+,"T"
+,"[]"
+,"[]"
+,"['tree.root']"
+,"Analysis"
+,"pythia"
+,"None"
+,"{}"
+,"None"
+,"T"
+,"crab-prod-tw01"
+,"[]"
+,"1250"
+,"2"
+,"3000"
+,"10"
+,"['/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/jusong-TopNanoAODv9-1-1_2017UL-27efd120551babaabc6bd4b4b90d69e0/USER']"
+,"[]"
+,"http://vocms0107.cern.ch/mon/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL"
+,"None"
+,"[]"
+,"[]"
+,"None"
+,"cmsgwms-collector-global.cern.ch:9620,cmsgwms-collector-global.fnal.gov:9620"
+,"crab3@vocms0107.cern.ch"
+,"F"
+,"[]"
+,"T"
+,"/store/user/jusong/topNanoAOD/v9-1-1/2017UL/"
+,"F"
+,"None"
+,"F"
+,"None"
+,"WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8"
+,"2023-10-11 12:35:09.003278"
+,"6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz"
+,"98157006"
+,"None"
+,"F"
+,"188.185.89.202"
+,"0.0"
+,"None"
+,"{\"partialdataset\": false, \"requireaccelerator\": false, \"acceleratorparams\": null, \"inputblocks\": null}"
+,"None"
+,"None"
+,"None"
+]}
+
+ retcode : 0
+DEBUG 2023-10-12 03:05:56.922 UTC: 	 Got information from server oracle database: {u'result': [u'231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL', u'None', u'None', u'SUBMITTED', u'SUBMIT', u'2023-10-11 07:03:54.282658', u'None', u'2023-10-11 07:04:43.269613', u'None', u'CMSSW_10_6_27', u'slc7_amd64_gcc700', u'/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9_ext1-v2/MINIAODSIM', u'F', u'0', u'[]', u'[]', u'FileBased', u"{'halt_job_on_file_boundaries': False, 'splitOnRun': False, 'files_per_job': 1, 'runs': [], 'lumis': []}", u'c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz', u'https://cmsweb.cern.ch/S3/crabcache_prod', u'jusong', u'/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song', u'cms', u'None', u'None', u'TopNanoAODv9-1-1_2017UL-00000000000000000000000000000000', u'F', u'T2_BE_IIHE', u'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', u'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', u'T', u'[]', u'[]', u"['tree.root']", u'Analysis', u'pythia', u'None', u'{}', u'None', u'T', u'crab-prod-tw01', u'[]', u'1250', u'2', u'3000', u'10', u"['/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/jusong-TopNanoAODv9-1-1_2017UL-27efd120551babaabc6bd4b4b90d69e0/USER']", u'[]', u'http://vocms0107.cern.ch/mon/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL', u'None', u'[]', u'[]', u'None', u'cmsgwms-collector-global.cern.ch:9620,cmsgwms-collector-global.fnal.gov:9620', u'crab3@vocms0107.cern.ch', u'F', u'[]', u'T', u'/store/user/jusong/topNanoAOD/v9-1-1/2017UL/', u'F', u'None', u'F', u'None', u'WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8', u'2023-10-11 12:35:09.003278', u'6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz', u'98157006', u'None', u'F', u'188.185.89.202', u'0.0', u'None', u'{"partialdataset": false, "requireaccelerator": false, "acceleratorparams": null, "inputblocks": null}', u'None', u'None', u'None'], u'desc': {u'columns': [u'tm_taskname', u'tm_activity', u'panda_jobset_id', u'tm_task_status', u'tm_task_command', u'tm_start_time', u'tm_start_injection', u'tm_end_injection', u'tm_task_failure', u'tm_job_sw', u'tm_job_arch', u'tm_input_dataset', u'tm_nonvalid_input_dataset', u'tm_use_parent', u'tm_site_whitelist', u'tm_site_blacklist', u'tm_split_algo', u'tm_split_args', u'tm_user_sandbox', u'tm_cache_url', u'tm_username', u'tm_user_dn', u'tm_user_vo', u'tm_user_role', u'tm_user_group', u'tm_publish_name', u'tm_publish_groupname', u'tm_asyncdest', u'tm_dbs_url', u'tm_publish_dbs_url', u'tm_publication', u'tm_outfiles', u'tm_tfile_outfiles', u'tm_edm_outfiles', u'tm_job_type', u'tm_generator', u'tm_events_per_lumi', u'tm_arguments', u'panda_resubmitted_jobs', u'tm_save_logs', u'tw_name', u'tm_user_infiles', u'tm_maxjobruntime', u'tm_numcores', u'tm_maxmemory', u'tm_priority', u'tm_output_dataset', u'tm_task_warnings', u'tm_user_webdir', u'tm_scriptexe', u'tm_scriptargs', u'tm_extrajdl', u'tm_asourl', u'tm_collector', u'tm_schedd', u'tm_dry_run', u'tm_user_files', u'tm_transfer_outputs', u'tm_output_lfn', u'tm_ignore_locality', u'tm_fail_limit', u'tm_one_event_mode', u'tm_secondary_input_dataset', u'tm_primary_dataset', u'tm_last_publication', u'tm_debug_files', u'clusterid', u'tm_asodb', u'tm_ignore_global_blacklist', u'tm_submitter_ip_addr', u'tm_totalunits', u'tm_ddm_reqid', u'tm_user_config', u'tm_transfer_container', u'tm_transfer_rule', u'tm_publish_rule']}}
+INFO 2023-10-12 03:05:56.923 UTC: 	 CRAB project directory:		/ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+INFO 2023-10-12 03:05:56.923 UTC: 	 Task name:			231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+INFO 2023-10-12 03:05:56.923 UTC: 	 Grid scheduler - Task Worker:	crab3@vocms0107.cern.ch - crab-prod-tw01
+INFO 2023-10-12 03:05:56.923 UTC: 	 Status on the CRAB server:	SUBMITTED
+INFO 2023-10-12 03:05:56.923 UTC: 	 Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+INFO 2023-10-12 03:05:56.925 UTC: 	 Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=jusong&var-task=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL&from=1697004234000&to=now
+DEBUG 2023-10-12 03:05:56.925 UTC: 	 The CRAB server submitted your task to the Grid scheduler (cluster ID: 98157006)
+DEBUG 2023-10-12 03:05:56.925 UTC: 	 Webdir is located at http://vocms0107.cern.ch/mon/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-10-12 03:05:56.926 UTC: 	 Encoded data for curl request: subresource=webdirprx&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-10-12 03:05:56.926 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlDatavaPLq2 --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/task?subresource=webdirprx&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL" | tee /dev/stderr 
+DEBUG 2023-10-12 03:05:57.057 UTC: 	 output : {"result": [
+ "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL"
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 137.138.154.184...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (137.138.154.184) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6732 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/task?subresource=webdirprx&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 140
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [140 bytes data]
+* upload completely sent off: 140 out of 140 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Thu, 12 Oct 2023 03:05:57 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 177
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "753c0576c9b6678336c3b5fda66ed522d76487c9"
+< X-Rest-Time: 6486.893 us
+< CMS-Server-Time: D=15528 t=1697079957032044
+< 
+{ [5 bytes data]
+100   317  100   177  100   140   1525   1206 --:--:-- --:--:-- --:--:--  2732
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL"
+]}
+
+ retcode : 0
+DEBUG 2023-10-12 03:05:57.130 UTC: 	 Proxied webdir is located at https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-10-12 03:05:57.130 UTC: 	 Retrieving 'status_cache' file from https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache.pkl
+DEBUG 2023-10-12 03:05:57.131 UTC: 	 Will execute:
+curl -sS --capath /etc/grid-security/certificates --cert /tmp/x509up_u23216 --key /tmp/x509up_u23216 -o /tmp/crab_status-cache-1OIe4k.pkl -w %"{http_code}" "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache.pkl"
+DEBUG 2023-10-12 03:05:57.131 UTC: 	 Executing command :
+ curl -sS --capath /etc/grid-security/certificates --cert /tmp/x509up_u23216 --key /tmp/x509up_u23216 -o /tmp/crab_status-cache-1OIe4k.pkl -w %"{http_code}" "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache.pkl"
+DEBUG 2023-10-12 03:05:57.277 UTC: 	 output : 200
+ error: 
+ retcode : 0
+DEBUG 2023-10-12 03:05:57.277 UTC: 	 exitcode: 0
+stdout: 200
+stderr: 
+error details: 
+DEBUG 2023-10-12 03:05:57.444 UTC: 	 Retrieving 'status_cache' file from https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache
+DEBUG 2023-10-12 03:05:57.444 UTC: 	 Will execute:
+curl -sS --capath /etc/grid-security/certificates --cert /tmp/x509up_u23216 --key /tmp/x509up_u23216 -o /tmp/crab_status-cache-XzetbV.txt -w %"{http_code}" "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache"
+DEBUG 2023-10-12 03:05:57.444 UTC: 	 Executing command :
+ curl -sS --capath /etc/grid-security/certificates --cert /tmp/x509up_u23216 --key /tmp/x509up_u23216 -o /tmp/crab_status-cache-XzetbV.txt -w %"{http_code}" "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache"
+DEBUG 2023-10-12 03:05:57.604 UTC: 	 output : 200
+ error: 
+ retcode : 0
+DEBUG 2023-10-12 03:05:57.604 UTC: 	 exitcode: 0
+stdout: 200
+stderr: 
+error details: 
+DEBUG 2023-10-12 03:05:57.726 UTC: 	 Got information from status cache file: {'24': {'Retries': 0, 'WallDurations': [8.0, 61.337981939315796, 4080.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157031.0'], 'EndTimes': [1697013469.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2541388], 'TotalUserCpuTimeHistory': [7391], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [130]}, '25': {'Retries': 0, 'WallDurations': [9.0, 61.337981939315796, 4750.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157032.0'], 'EndTimes': [1697014139.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2470212], 'TotalUserCpuTimeHistory': [8523], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [148]}, '26': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 4370.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157033.0'], 'EndTimes': [1697012361.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2179632], 'TotalUserCpuTimeHistory': [7704], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [245]}, '27': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 6099.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007892.0], 'JobIds': ['98157034.0'], 'EndTimes': [1697014091.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2136176], 'TotalUserCpuTimeHistory': [10217], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [523]}, '20': {'Retries': 0, 'WallDurations': [8.0, 60.337981939315796, 5263.0], 'StartTimes': [1697009390.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157027.0'], 'EndTimes': [1697014653.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2491116], 'TotalUserCpuTimeHistory': [9319], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [167]}, '21': {'Retries': 0, 'WallDurations': [8.0, 61.337981939315796, 4107.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157028.0'], 'EndTimes': [1697013496.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2478044], 'TotalUserCpuTimeHistory': [7396], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [130]}, '22': {'Retries': 0, 'WallDurations': [8.0, 61.337981939315796, 3212.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157029.0'], 'EndTimes': [1697012601.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2491180], 'TotalUserCpuTimeHistory': [5128], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [88]}, '23': {'Retries': 0, 'WallDurations': [8.0, 61.337981939315796, 4329.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157030.0'], 'EndTimes': [1697013718.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2489176], 'TotalUserCpuTimeHistory': [7789], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [142]}, '28': {'Retries': 0, 'WallDurations': [8.0, 257.56811237335205, 7704.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007892.0], 'JobIds': ['98157035.0'], 'EndTimes': [1697015694.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2204760], 'TotalUserCpuTimeHistory': [14104], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [1719]}, '29': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 6270.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007892.0], 'JobIds': ['98157036.0'], 'EndTimes': [1697014262.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2098580], 'TotalUserCpuTimeHistory': [10473], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [861]}, '4': {'Retries': 0, 'WallDurations': [9.0, 254.56811237335205, 3857.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157011.0'], 'EndTimes': [1697011850.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2089892], 'TotalUserCpuTimeHistory': [6844], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [192]}, '8': {'Retries': 1, 'WallDurations': [8.0, 268.22005701065063, 5968.0, 9.0, 291.45249104499817, 10014.0], 'StartTimes': [1697008881.0, 1697015197.0], 'SubmitTimes': [1697007887.0, 1697014925.0], 'JobIds': ['98157015.0', '98163018.0'], 'EndTimes': [1697014849.0, 1697025211.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2246480, 2863588], 'TotalUserCpuTimeHistory': [10462, 18009], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T2_US_UCSD', 'T2_US_UCSD'], 'TotalSysCpuTimeHistory': [366, 1230]}, '59': {'Retries': 0, 'WallDurations': [9.0, 254.56811237335205, 9226.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157065.0'], 'EndTimes': [1697017219.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2096208], 'TotalUserCpuTimeHistory': [15982], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [571]}, '58': {'Retries': 0, 'WallDurations': [10.0, 256.56811237335205, 6367.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157064.0'], 'EndTimes': [1697014358.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2095176], 'TotalUserCpuTimeHistory': [10817], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [387]}, '55': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 8159.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157061.0'], 'EndTimes': [1697016150.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2219776], 'TotalUserCpuTimeHistory': [14379], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [501]}, '54': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 8265.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157060.0'], 'EndTimes': [1697016258.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2210004], 'TotalUserCpuTimeHistory': [14562], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [576]}, '57': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 8048.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157063.0'], 'EndTimes': [1697016040.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2215012], 'TotalUserCpuTimeHistory': [13917], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [454]}, '56': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 5475.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157062.0'], 'EndTimes': [1697013466.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2211044], 'TotalUserCpuTimeHistory': [9801], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [220]}, '51': {'Retries': 0, 'WallDurations': [8.0, 257.56811237335205, 8600.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157057.0'], 'EndTimes': [1697016590.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2254036], 'TotalUserCpuTimeHistory': [15295], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [396]}, '50': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 5516.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157056.0'], 'EndTimes': [1697013506.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2307704], 'TotalUserCpuTimeHistory': [9904], 'SiteHistory': ['Unknown', 'T2_BE_IIHE', 'T2_BE_IIHE'], 'TotalSysCpuTimeHistory': [340]}, '53': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 4890.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157059.0'], 'EndTimes': [1697012883.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2214596], 'TotalUserCpuTimeHistory': [8484], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [292]}, '52': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 7594.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157058.0'], 'EndTimes': [1697015585.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2168128], 'TotalUserCpuTimeHistory': [13443], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [494]}, '88': {'Retries': 1, 'WallDurations': [9.0, 121.53711771965027, 5260.0, 9.0, 77.45249104499817, 5475.0], 'StartTimes': [1697009630.0, 1697015411.0], 'SubmitTimes': [1697007894.0, 1697014966.0], 'JobIds': ['98157094.0', '98163055.0'], 'EndTimes': [1697014890.0, 1697020886.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2251132, 2293620], 'TotalUserCpuTimeHistory': [8989, 9201], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [307, 269]}, '89': {'Retries': 0, 'WallDurations': [8.0, 121.53711771965027, 6297.0], 'StartTimes': [1697009630.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157095.0'], 'EndTimes': [1697015927.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2261396], 'TotalUserCpuTimeHistory': [10953], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [409]}, '82': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 8570.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157088.0'], 'EndTimes': [1697016560.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2461308], 'TotalUserCpuTimeHistory': [15249], 'SiteHistory': ['Unknown', 'T2_BE_UCL', 'T2_BE_UCL'], 'TotalSysCpuTimeHistory': [363]}, '83': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 7342.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157089.0'], 'EndTimes': [1697015333.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2587240], 'TotalUserCpuTimeHistory': [12697], 'SiteHistory': ['Unknown', 'T2_BE_UCL', 'T2_BE_UCL'], 'TotalSysCpuTimeHistory': [328]}, '80': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 5548.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157086.0'], 'EndTimes': [1697013542.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2089268], 'TotalUserCpuTimeHistory': [9127], 'SiteHistory': ['Unknown', 'T2_FR_IPHC', 'T2_FR_IPHC'], 'TotalSysCpuTimeHistory': [2079]}, '81': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 5614.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157087.0'], 'EndTimes': [1697013608.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2193612], 'TotalUserCpuTimeHistory': [9179], 'SiteHistory': ['Unknown', 'T2_FR_IPHC', 'T2_FR_IPHC'], 'TotalSysCpuTimeHistory': [1342]}, '86': {'Retries': 0, 'WallDurations': [10.0, 63.337981939315796, 6777.0], 'StartTimes': [1697009387.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157092.0'], 'EndTimes': [1697016164.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2262680], 'TotalUserCpuTimeHistory': [11909], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [327]}, '87': {'Retries': 0, 'WallDurations': [9.0, 168.3384358882904, 4928.0], 'StartTimes': [1697009885.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157093.0'], 'EndTimes': [1697014813.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2254492], 'TotalUserCpuTimeHistory': [8799], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [218]}, '84': {'Retries': 0, 'WallDurations': [9.0, 10.56811237335205, 6658.0], 'StartTimes': [1697008237.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157090.0'], 'EndTimes': [1697014895.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2761780], 'TotalUserCpuTimeHistory': [12166], 'SiteHistory': ['Unknown', 'T2_BE_UCL', 'T2_BE_UCL'], 'TotalSysCpuTimeHistory': [248]}, '85': {'Retries': 0, 'WallDurations': [9.0, 65.3379819393158, 2396.0], 'StartTimes': [1697009385.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157091.0'], 'EndTimes': [1697011781.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2261820], 'TotalUserCpuTimeHistory': [4238], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [123]}, '3': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 7058.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157010.0'], 'EndTimes': [1697015048.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2306444], 'TotalUserCpuTimeHistory': [12555], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [322]}, '7': {'Retries': 0, 'WallDurations': [8.0, 106.56811237335205, 9413.0], 'StartTimes': [1697008141.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157014.0'], 'EndTimes': [1697017554.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2257704], 'TotalUserCpuTimeHistory': [16627], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [583]}, '39': {'Retries': 0, 'WallDurations': [9.0, 10.56811237335205, 1429.0], 'StartTimes': [1697008237.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157046.0'], 'EndTimes': [1697009666.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2248308], 'TotalUserCpuTimeHistory': [2424], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [65]}, '38': {'Retries': 0, 'WallDurations': [9.0, 288.79304695129395, 3135.0], 'StartTimes': [1697008259.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157045.0'], 'EndTimes': [1697011394.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2068280], 'TotalUserCpuTimeHistory': [4761], 'SiteHistory': ['Unknown', 'T2_US_MIT', 'T2_US_MIT'], 'TotalSysCpuTimeHistory': [285]}, '33': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 5075.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157040.0'], 'EndTimes': [1697013067.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2181872], 'TotalUserCpuTimeHistory': [9039], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [374]}, '32': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 6311.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157039.0'], 'EndTimes': [1697014301.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2134924], 'TotalUserCpuTimeHistory': [10817], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [1389]}, '31': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 4590.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157038.0'], 'EndTimes': [1697012580.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2153676], 'TotalUserCpuTimeHistory': [7673], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [636]}, '30': {'Retries': 0, 'WallDurations': [8.0, 256.56811237335205, 6409.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007892.0], 'JobIds': ['98157037.0'], 'EndTimes': [1697014400.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2086396], 'TotalUserCpuTimeHistory': [11000], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [1488]}, '37': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 5142.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157044.0'], 'EndTimes': [1697014023.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2338368], 'TotalUserCpuTimeHistory': [9118], 'SiteHistory': ['Unknown', 'T1_FR_CCIN2P3', 'T1_FR_CCIN2P3'], 'TotalSysCpuTimeHistory': [303]}, '36': {'Retries': 0, 'WallDurations': [8.0, 255.56811237335205, 6311.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157043.0'], 'EndTimes': [1697014303.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2187868], 'TotalUserCpuTimeHistory': [11152], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [385]}, '35': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 5284.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157042.0'], 'EndTimes': [1697013275.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2166304], 'TotalUserCpuTimeHistory': [9317], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [401]}, '34': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 5145.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157041.0'], 'EndTimes': [1697013136.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2165000], 'TotalUserCpuTimeHistory': [9220], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [868]}, '60': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 8676.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157066.0'], 'EndTimes': [1697016670.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2092264], 'TotalUserCpuTimeHistory': [14855], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [558]}, '61': {'Retries': 0, 'WallDurations': [9.0, 253.56811237335205, 8163.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157067.0'], 'EndTimes': [1697016157.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2199248], 'TotalUserCpuTimeHistory': [14204], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [446]}, '62': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 7811.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157068.0'], 'EndTimes': [1697015805.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2082296], 'TotalUserCpuTimeHistory': [13489], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [478]}, '63': {'Retries': 0, 'WallDurations': [9.0, 253.56811237335205, 8690.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157069.0'], 'EndTimes': [1697016684.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2094896], 'TotalUserCpuTimeHistory': [14964], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [523]}, '64': {'Retries': 0, 'WallDurations': [9.0, 253.56811237335205, 8552.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157070.0'], 'EndTimes': [1697016546.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2187608], 'TotalUserCpuTimeHistory': [14941], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [453]}, '65': {'Retries': 0, 'WallDurations': [9.0, 253.56811237335205, 9395.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157071.0'], 'EndTimes': [1697017389.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2096220], 'TotalUserCpuTimeHistory': [16265], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [599]}, '66': {'Retries': 0, 'WallDurations': [8.0, 252.56811237335205, 8573.0], 'StartTimes': [1697007995.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157072.0'], 'EndTimes': [1697016568.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2056188], 'TotalUserCpuTimeHistory': [14731], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [538]}, '67': {'Retries': 0, 'WallDurations': [9.0, 252.56811237335205, 8474.0], 'StartTimes': [1697007995.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157073.0'], 'EndTimes': [1697016469.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2208320], 'TotalUserCpuTimeHistory': [14781], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [435]}, '68': {'Retries': 0, 'WallDurations': [9.0, 252.56811237335205, 7921.0], 'StartTimes': [1697007995.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157074.0'], 'EndTimes': [1697015916.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2081920], 'TotalUserCpuTimeHistory': [13650], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [478]}, '69': {'Retries': 0, 'WallDurations': [9.0, 105.56811237335205, 8220.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157075.0'], 'EndTimes': [1697016362.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2298364], 'TotalUserCpuTimeHistory': [14745], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [443]}, '2': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 4080.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157009.0'], 'EndTimes': [1697012074.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2519996], 'TotalUserCpuTimeHistory': [7348], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [188]}, '6': {'Retries': 0, 'WallDurations': [8.0, 256.56811237335205, 2379.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157013.0'], 'EndTimes': [1697010370.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2213260], 'TotalUserCpuTimeHistory': [4220], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [141]}, '98': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 4228.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157104.0'], 'EndTimes': [1697012220.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2126140], 'TotalUserCpuTimeHistory': [7958], 'SiteHistory': ['Unknown', 'T2_CH_CSCS', 'T2_CH_CSCS'], 'TotalSysCpuTimeHistory': [755]}, '91': {'Retries': 0, 'WallDurations': [9.0, 120.53711771965027, 6118.0], 'StartTimes': [1697009631.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157097.0'], 'EndTimes': [1697015749.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2224820], 'TotalUserCpuTimeHistory': [9963], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [458]}, '90': {'Retries': 1, 'WallDurations': [9.0, 121.53711771965027, 5269.0, 8.0, 76.45249104499817, 4546.0], 'StartTimes': [1697009630.0, 1697015412.0], 'SubmitTimes': [1697007894.0, 1697014966.0], 'JobIds': ['98157096.0', '98163056.0'], 'EndTimes': [1697014899.0, 1697019958.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2240012, 2250640], 'TotalUserCpuTimeHistory': [7414, 7874], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [285, 222]}, '93': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 8704.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157099.0'], 'EndTimes': [1697017585.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2359692], 'TotalUserCpuTimeHistory': [15279], 'SiteHistory': ['Unknown', 'T1_FR_CCIN2P3', 'T1_FR_CCIN2P3'], 'TotalSysCpuTimeHistory': [523]}, '92': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 7578.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157098.0'], 'EndTimes': [1697016459.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2307080], 'TotalUserCpuTimeHistory': [13327], 'SiteHistory': ['Unknown', 'T1_FR_CCIN2P3', 'T1_FR_CCIN2P3'], 'TotalSysCpuTimeHistory': [416]}, '95': {'Retries': 0, 'WallDurations': [9.0, 106.56811237335205, 6500.0], 'StartTimes': [1697008141.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157101.0'], 'EndTimes': [1697014641.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2270048], 'TotalUserCpuTimeHistory': [11661], 'SiteHistory': ['Unknown', 'T1_DE_KIT', 'T1_DE_KIT'], 'TotalSysCpuTimeHistory': [319]}, '94': {'Retries': 0, 'WallDurations': [9.0, 101.56811237335205, 3084.0], 'StartTimes': [1697008146.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157100.0'], 'EndTimes': [1697011230.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2338984], 'TotalUserCpuTimeHistory': [5271], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [168]}, '97': {'Retries': 0, 'WallDurations': [8.0, 255.56811237335205, 3229.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157103.0'], 'EndTimes': [1697011221.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2364096], 'TotalUserCpuTimeHistory': [5021], 'SiteHistory': ['Unknown', 'T2_CH_CSCS', 'T2_CH_CSCS'], 'TotalSysCpuTimeHistory': [119]}, '96': {'Retries': 0, 'WallDurations': [9.0, 106.56811237335205, 5267.0], 'StartTimes': [1697008141.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157102.0'], 'EndTimes': [1697013408.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2131664], 'TotalUserCpuTimeHistory': [9398], 'SiteHistory': ['Unknown', 'T1_DE_KIT', 'T1_DE_KIT'], 'TotalSysCpuTimeHistory': [291]}, '11': {'Retries': 1, 'WallDurations': [8.0, 268.22005701065063, 5979.0, 8.0, 9621.0], 'StartTimes': [1697008881.0, 1697015160.0], 'SubmitTimes': [1697007887.0, 1697014925.0], 'JobIds': ['98157018.0', '98163017.0'], 'EndTimes': [1697014860.0, 1697024781.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2248824, 2852408], 'TotalUserCpuTimeHistory': [10515, 20042], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'T2_US_UCSD', 'T2_US_UCSD'], 'TotalSysCpuTimeHistory': [319, 5308]}, '10': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 9720.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157017.0'], 'EndTimes': [1697018601.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2268668], 'TotalUserCpuTimeHistory': [17028], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [551]}, '13': {'Retries': 1, 'WallDurations': [9.0, 64.3379819393158, 5490.0, 9.0, 77.45249104499817, 4901.0], 'StartTimes': [1697009386.0, 1697015411.0], 'SubmitTimes': [1697007887.0, 1697014950.0], 'JobIds': ['98157020.0', '98163053.0'], 'EndTimes': [1697014876.0, 1697020312.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2255556, 2256940], 'TotalUserCpuTimeHistory': [9135, 8325], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [302, 278]}, '12': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 3049.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157019.0'], 'EndTimes': [1697011930.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2250936], 'TotalUserCpuTimeHistory': [5238], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [174]}, '15': {'Retries': 1, 'WallDurations': [9.0, 64.3379819393158, 5492.0, 8.0, 76.45249104499817, 8076.0], 'StartTimes': [1697009386.0, 1697015412.0], 'SubmitTimes': [1697007887.0, 1697014950.0], 'JobIds': ['98157022.0', '98163054.0'], 'EndTimes': [1697014878.0, 1697023488.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2229668, 2257328], 'TotalUserCpuTimeHistory': [9258, 12873], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [291, 439]}, '14': {'Retries': 1, 'WallDurations': [9.0, 64.3379819393158, 5492.0, 9.0, 292.45249104499817, 9202.0], 'StartTimes': [1697009386.0, 1697015196.0], 'SubmitTimes': [1697007887.0, 1697014950.0], 'JobIds': ['98157021.0', '98163051.0'], 'EndTimes': [1697014878.0, 1697024398.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2241016, 2482476], 'TotalUserCpuTimeHistory': [8719, 16329], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T2_US_UCSD', 'T2_US_UCSD'], 'TotalSysCpuTimeHistory': [321, 510]}, '17': {'Retries': 0, 'WallDurations': [9.0, 254.56811237335205, 3746.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157024.0'], 'EndTimes': [1697011739.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2817360], 'TotalUserCpuTimeHistory': [6720], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [175]}, '16': {'Retries': 1, 'WallDurations': [10.0, 63.337981939315796, 5491.0, 9.0, 292.45249104499817, 9538.0], 'StartTimes': [1697009387.0, 1697015196.0], 'SubmitTimes': [1697007887.0, 1697014950.0], 'JobIds': ['98157023.0', '98163052.0'], 'EndTimes': [1697014878.0, 1697024734.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2241048, 2851464], 'TotalUserCpuTimeHistory': [8684, 16882], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T2_US_UCSD', 'T2_US_UCSD'], 'TotalSysCpuTimeHistory': [312, 482]}, '19': {'Retries': 0, 'WallDurations': [9.0, 59.337981939315796, 3078.0], 'StartTimes': [1697009391.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157026.0'], 'EndTimes': [1697012469.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2454764], 'TotalUserCpuTimeHistory': [5522], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [93]}, '18': {'Retries': 0, 'WallDurations': [8.0, 256.56811237335205, 778.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157025.0'], 'EndTimes': [1697008769.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2151824], 'TotalUserCpuTimeHistory': [1196], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [52]}, '48': {'Retries': 0, 'WallDurations': [9.0, 254.56811237335205, 9389.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157054.0'], 'EndTimes': [1697017382.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2314300], 'TotalUserCpuTimeHistory': [16258], 'SiteHistory': ['Unknown', 'T2_DE_DESY', 'T2_DE_DESY'], 'TotalSysCpuTimeHistory': [696]}, '49': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 3836.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157055.0'], 'EndTimes': [1697011826.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2476644], 'TotalUserCpuTimeHistory': [6842], 'SiteHistory': ['Unknown', 'T2_BE_IIHE', 'T2_BE_IIHE'], 'TotalSysCpuTimeHistory': [214]}, '46': {'Retries': 0, 'WallDurations': [8.0, 255.56811237335205, 4625.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157053.0'], 'EndTimes': [1697012617.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2280632], 'TotalUserCpuTimeHistory': [8255], 'SiteHistory': ['Unknown', 'T2_FR_GRIF', 'T2_FR_GRIF'], 'TotalSysCpuTimeHistory': [628]}, '47': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 1255.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157105.0'], 'EndTimes': [1697009248.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2297964], 'TotalUserCpuTimeHistory': [1745], 'SiteHistory': ['Unknown', 'T2_DE_DESY', 'T2_DE_DESY'], 'TotalSysCpuTimeHistory': [52]}, '44': {'Retries': 0, 'WallDurations': [9.0, 11.56811237335205, 3797.0], 'StartTimes': [1697008236.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157051.0'], 'EndTimes': [1697012033.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2179648], 'TotalUserCpuTimeHistory': [6829], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [177]}, '45': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 1897.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157052.0'], 'EndTimes': [1697009890.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2097484], 'TotalUserCpuTimeHistory': [3189], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [123]}, '42': {'Retries': 0, 'WallDurations': [9.0, 11.56811237335205, 5791.0], 'StartTimes': [1697008236.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157049.0'], 'EndTimes': [1697014027.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2180532], 'TotalUserCpuTimeHistory': [10433], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [254]}, '43': {'Retries': 0, 'WallDurations': [8.0, 11.56811237335205, 5157.0], 'StartTimes': [1697008236.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157050.0'], 'EndTimes': [1697013393.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2233700], 'TotalUserCpuTimeHistory': [9335], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [233]}, '40': {'Retries': 0, 'WallDurations': [9.0, 10.56811237335205, 5838.0], 'StartTimes': [1697008237.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157047.0'], 'EndTimes': [1697014075.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2158608], 'TotalUserCpuTimeHistory': [10515], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [268]}, '41': {'Retries': 0, 'WallDurations': [9.0, 11.56811237335205, 3964.0], 'StartTimes': [1697008236.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157048.0'], 'EndTimes': [1697012200.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2376392], 'TotalUserCpuTimeHistory': [7159], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [175]}, '1': {'Retries': 0, 'WallDurations': [8.0, 256.56811237335205, 1526.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157008.0'], 'EndTimes': [1697009517.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2477584], 'TotalUserCpuTimeHistory': [2656], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [69]}, '5': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 4749.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157012.0'], 'EndTimes': [1697012742.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2909004], 'TotalUserCpuTimeHistory': [8595], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [225]}, '9': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 12210.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157016.0'], 'EndTimes': [1697021091.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2229232], 'TotalUserCpuTimeHistory': [20500], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [687]}, '77': {'Retries': 0, 'WallDurations': [9.0, 60.793046951293945, 8657.0], 'StartTimes': [1697008487.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157083.0'], 'EndTimes': [1697017144.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2268076], 'TotalUserCpuTimeHistory': [15254], 'SiteHistory': ['Unknown', 'T2_IT_Pisa', 'T2_IT_Pisa'], 'TotalSysCpuTimeHistory': [763]}, '76': {'Retries': 0, 'WallDurations': [9.0, 60.793046951293945, 9934.0], 'StartTimes': [1697008487.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157082.0'], 'EndTimes': [1697018421.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2230476], 'TotalUserCpuTimeHistory': [16784], 'SiteHistory': ['Unknown', 'T2_IT_Pisa', 'T2_IT_Pisa'], 'TotalSysCpuTimeHistory': [485]}, '75': {'Retries': 0, 'WallDurations': [0, 10.56811237335205, 8797.0], 'StartTimes': [1697008237.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157081.0'], 'EndTimes': [1697017034.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2240820], 'TotalUserCpuTimeHistory': [15773], 'SiteHistory': ['Unknown', 'T2_IT_Pisa', 'T2_IT_Pisa'], 'TotalSysCpuTimeHistory': [495]}, '74': {'Retries': 0, 'WallDurations': [9.0, 106.56811237335205, 7589.0], 'StartTimes': [1697008141.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157080.0'], 'EndTimes': [1697015730.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2320136], 'TotalUserCpuTimeHistory': [13615], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [385]}, '73': {'Retries': 0, 'WallDurations': [8.0, 105.56811237335205, 2640.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157079.0'], 'EndTimes': [1697010782.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2304056], 'TotalUserCpuTimeHistory': [4716], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [160]}, '72': {'Retries': 0, 'WallDurations': [8.0, 105.56811237335205, 3633.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157078.0'], 'EndTimes': [1697011775.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2334700], 'TotalUserCpuTimeHistory': [6505], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [183]}, '71': {'Retries': 0, 'WallDurations': [9.0, 105.56811237335205, 5632.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157077.0'], 'EndTimes': [1697013774.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2291696], 'TotalUserCpuTimeHistory': [9811], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [313]}, '70': {'Retries': 0, 'WallDurations': [8.0, 105.56811237335205, 6575.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157076.0'], 'EndTimes': [1697014717.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2267152], 'TotalUserCpuTimeHistory': [11799], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [330]}, '79': {'Retries': 0, 'WallDurations': [8.0, 257.56811237335205, 12259.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157085.0'], 'EndTimes': [1697020249.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2148604], 'TotalUserCpuTimeHistory': [17264], 'SiteHistory': ['Unknown', 'T2_FR_IPHC', 'T2_FR_IPHC'], 'TotalSysCpuTimeHistory': [4688]}, '78': {'Retries': 0, 'WallDurations': [8.0, 58.793046951293945, 5826.0], 'StartTimes': [1697008489.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157084.0'], 'EndTimes': [1697014315.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2233360], 'TotalUserCpuTimeHistory': [10076], 'SiteHistory': ['Unknown', 'T2_IT_Pisa', 'T2_IT_Pisa'], 'TotalSysCpuTimeHistory': [564]}}
+INFO 2023-10-12 03:05:57.726 UTC: 	 Status on the scheduler:	COMPLETED
+INFO 2023-10-12 03:05:57.727 UTC: 	 
+Jobs status:                    finished     		100.0% (98/98)
+DEBUG 2023-10-12 03:05:57.727 UTC: 	 Encoded data for curl request: username=jusong&subresource=publicationstatus&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-10-12 03:05:57.727 UTC: 	 Executing command :
+ curl -v -X GET -H "User-Agent: CRABClient/v3.230612" -H "Accept: */*" --data @/tmp/crab_curlData0uzxvM --cert "/tmp/x509up_u23216" --key "/tmp/x509up_u23216" --capath "/etc/grid-security/certificates/" "https://cmsweb.cern.ch:8443/crabserver/prod/workflow?username=jusong&subresource=publicationstatus&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL" | tee /dev/stderr 
+DEBUG 2023-10-12 03:05:57.854 UTC: 	 output : {"result": [
+ {"status": {"done": 98}}
+]}
+
+ error:   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 188.185.89.202...
+* TCP_NODELAY set
+* Connected to cmsweb.cern.ch (188.185.89.202) port 8443 (#0)
+* ALPN, offering http/1.1
+* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
+* successfully set certificate verify locations:
+  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+  CApath: /etc/grid-security/certificates/
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+} [5 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server hello (2):
+{ [109 bytes data]
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+{ [6240 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+{ [333 bytes data]
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+{ [14071 bytes data]
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+{ [4 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+} [6732 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+} [70 bytes data]
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+} [264 bytes data]
+* TLSv1.2 (OUT), TLS change cipher, Client hello (1):
+} [1 bytes data]
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+} [16 bytes data]
+* TLSv1.2 (IN), TLS change cipher, Client hello (1):
+{ [1 bytes data]
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+{ [16 bytes data]
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: DC=ch; DC=cern; OU=computers; CN=cmsweb.cern.ch
+*  start date: Feb 28 02:56:51 2023 GMT
+*  expire date: Apr  3 02:56:51 2024 GMT
+*  subjectAltName: host "cmsweb.cern.ch" matched cert's "cmsweb.cern.ch"
+*  issuer: DC=ch; DC=cern; CN=CERN Grid Certification Authority
+*  SSL certificate verify ok.
+} [5 bytes data]
+> GET /crabserver/prod/workflow?username=jusong&subresource=publicationstatus&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL HTTP/1.1
+> Host: cmsweb.cern.ch:8443
+> User-Agent: CRABClient/v3.230612
+> Accept: */*
+> Content-Length: 164
+> Content-Type: application/x-www-form-urlencoded
+> 
+} [164 bytes data]
+* upload completely sent off: 164 out of 164 bytes
+{ [5 bytes data]
+< HTTP/1.1 200 OK
+< Date: Thu, 12 Oct 2023 03:05:57 GMT
+< Server: Apache
+< Content-Type: application/json
+< Content-Length: 42
+< Vary: Accept
+< Cache-Control: max-age=3600
+< X-Rest-Status: 100
+< Etag: "28b53767df88ae883d775718237bd9cb1bffe4bc"
+< X-Rest-Time: 6081.104 us
+< CMS-Server-Time: D=13409 t=1697079957831691
+< 
+{ [5 bytes data]
+100   206  100    42  100   164    375   1464 --:--:-- --:--:-- --:--:--  1839
+* Connection #0 to host cmsweb.cern.ch left intact
+{"result": [
+ {"status": {"done": 98}}
+]}
+
+ retcode : 0
+INFO 2023-10-12 03:05:57.855 UTC: 	 
+Publication status of 1 dataset(s):	done         		100.0% (98/98)
+(from CRAB internal bookkeeping in transferdb)
+INFO 2023-10-12 03:05:57.855 UTC: 	 
+Output dataset:			/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/jusong-TopNanoAODv9-1-1_2017UL-27efd120551babaabc6bd4b4b90d69e0/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FWJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8%2Fjusong-TopNanoAODv9-1-1_2017UL-27efd120551babaabc6bd4b4b90d69e0%2FUSER&instance=prod%2Fphys03
+INFO 2023-10-12 03:05:57.858 UTC: 	 
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+INFO 2023-10-12 03:05:57.858 UTC: 	 
+Summary of run jobs:
+ * Memory: 2244MB min, 2840MB max, 2235MB ave
+ * Runtime: 0:12:58 min, 3:24:19 max, 1:41:47 ave
+ * CPU eff: 72% min, 132% max, 92% ave
+ * Waste: 17:55:25 (10% of total)
+
+INFO 2023-10-12 03:05:57.899 UTC: 	 Log file is /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/crab.log
+DEBUG 2023-11-08 11:56:47.983 UTC: 	 CRAB Client version: v3.231010
+DEBUG 2023-11-08 11:56:47.984 UTC: 	 Running on: Linux m3.iihe.ac.be 3.10.0-1160.92.1.el7.x86_64 #1 SMP Tue Jun 20 11:48:01 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2023-11-08 11:56:47.984 UTC: 	 Executing command: 'status'
+DEBUG 2023-11-08 11:56:47.985 UTC: 	 Found CRAB cache file /user/jusong/.crab3
+DEBUG 2023-11-08 11:56:48.002 UTC: 	 Checking credentials
+DEBUG 2023-11-08 11:56:48.002 UTC: 	 Found proxy file /tmp/x509up_u23216
+DEBUG 2023-11-08 11:56:48.002 UTC: 	 Making sure it has proper VOMS extension
+DEBUG 2023-11-08 11:56:48.002 UTC: 	 Executing command :
+ voms-proxy-info --vo --file /tmp/x509up_u23216
+DEBUG 2023-11-08 11:56:48.564 UTC: 	 output : cms
+
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 11:56:48.564 UTC: 	 Getting proxy life time left
+DEBUG 2023-11-08 11:56:48.564 UTC: 	 Executing command :
+ voms-proxy-info --actimeleft --timeleft --file /tmp/x509up_u23216
+DEBUG 2023-11-08 11:56:49.215 UTC: 	 output : 690539
+690538
+
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 11:56:49.215 UTC: 	 Proxy valid for 191:48:58 hours
+DEBUG 2023-11-08 11:56:49.225 UTC: 	 Encoded data for curl request: subresource=delegatedn
+DEBUG 2023-11-08 11:56:49.424 UTC: 	 Registering user credentials on myproxy for /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+DEBUG 2023-11-08 11:56:49.425 UTC: 	 Executing command :
+ voms-proxy-info --identity --file /tmp/x509up_u23216
+DEBUG 2023-11-08 11:56:49.969 UTC: 	 output : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song
+
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 11:56:49.969 UTC: 	 Getting myproxy life time left for d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+DEBUG 2023-11-08 11:56:49.969 UTC: 	 Executing command :
+ myproxy-info -s myproxy.cern.ch -l d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+DEBUG 2023-11-08 11:56:50.251 UTC: 	 output : username: d9a4c5192776b20cef7e34755cb1c66dca7e8a66
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(01|02|03).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch|/DC=ch/DC=cern/OU=computers/CN=dciangot-tw.cern.ch
+  timeleft: 671:31:29  (28.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 11:56:50.251 UTC: 	 Myproxy is valid: 2417460
+DEBUG 2023-11-08 11:56:50.251 UTC: 	 Result of myproxy credential check:
+  Credential exists on myproxy: username: d9a4c5192776b20cef7e34755cb1c66dca7e8a66  - validity: 27 days, 23:31:00
+DEBUG 2023-11-08 11:56:50.253 UTC: 	 Command use: status
+DEBUG 2023-11-08 11:56:50.253 UTC: 	 Options use: ['crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL']
+DEBUG 2023-11-08 11:56:50.253 UTC: 	 Encoded data for curl request: subresource=version
+DEBUG 2023-11-08 11:56:50.436 UTC: 	 CRABClient version: v3.231010
+DEBUG 2023-11-08 11:56:50.437 UTC: 	 Instance is prod
+DEBUG 2023-11-08 11:56:50.437 UTC: 	 Server base url is cmsweb.cern.ch
+DEBUG 2023-11-08 11:56:50.437 UTC: 	 Command api workflow
+DEBUG 2023-11-08 11:56:50.437 UTC: 	 Encoded data for curl request: subresource=search&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-11-08 11:56:51.317 UTC: 	 Got information from server oracle database: {u'result': [u'231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL', u'None', u'None', u'SUBMITTED', u'SUBMIT', u'2023-10-11 07:03:54.282658', u'None', u'2023-10-11 07:04:43.269613', u'None', u'CMSSW_10_6_27', u'slc7_amd64_gcc700', u'/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIISummer20UL17MiniAODv2-106X_mc2017_realistic_v9_ext1-v2/MINIAODSIM', u'F', u'0', u'[]', u'[]', u'FileBased', u"{'halt_job_on_file_boundaries': False, 'splitOnRun': False, 'files_per_job': 1, 'runs': [], 'lumis': []}", u'c195efb8b2d4a6572e2b80792b6b03c001758fece2c83c9b7be561c58ea5d388.tar.gz', u'https://cmsweb.cern.ch/S3/crabcache_prod', u'jusong', u'/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=jusong/CN=847184/CN=Juhee Song', u'cms', u'None', u'None', u'TopNanoAODv9-1-1_2017UL-00000000000000000000000000000000', u'F', u'T2_BE_IIHE', u'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', u'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', u'T', u'[]', u'[]', u"['tree.root']", u'Analysis', u'pythia', u'None', u'{}', u'None', u'T', u'crab-prod-tw01', u'[]', u'1250', u'2', u'3000', u'10', u"['/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/jusong-TopNanoAODv9-1-1_2017UL-27efd120551babaabc6bd4b4b90d69e0/USER']", u'[]', u'http://vocms0107.cern.ch/mon/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL', u'None', u'[]', u'[]', u'None', u'cmsgwms-collector-global.cern.ch:9620,cmsgwms-collector-global.fnal.gov:9620', u'crab3@vocms0107.cern.ch', u'F', u'[]', u'T', u'/store/user/jusong/topNanoAOD/v9-1-1/2017UL/', u'F', u'None', u'F', u'None', u'WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8', u'2023-10-11 12:35:09.003278', u'6c9e5d508497249f016f8bf655d7ebd8ca1ca346ed8a490cb2e408c089d9ca00.tar.gz', u'98157006', u'None', u'F', u'188.185.89.202', u'0.0', u'None', u'{"partialdataset": false, "requireaccelerator": false, "acceleratorparams": null, "inputblocks": null}', u'None', u'None', u'None'], u'desc': {u'columns': [u'tm_taskname', u'tm_activity', u'panda_jobset_id', u'tm_task_status', u'tm_task_command', u'tm_start_time', u'tm_start_injection', u'tm_end_injection', u'tm_task_failure', u'tm_job_sw', u'tm_job_arch', u'tm_input_dataset', u'tm_nonvalid_input_dataset', u'tm_use_parent', u'tm_site_whitelist', u'tm_site_blacklist', u'tm_split_algo', u'tm_split_args', u'tm_user_sandbox', u'tm_cache_url', u'tm_username', u'tm_user_dn', u'tm_user_vo', u'tm_user_role', u'tm_user_group', u'tm_publish_name', u'tm_publish_groupname', u'tm_asyncdest', u'tm_dbs_url', u'tm_publish_dbs_url', u'tm_publication', u'tm_outfiles', u'tm_tfile_outfiles', u'tm_edm_outfiles', u'tm_job_type', u'tm_generator', u'tm_events_per_lumi', u'tm_arguments', u'panda_resubmitted_jobs', u'tm_save_logs', u'tw_name', u'tm_user_infiles', u'tm_maxjobruntime', u'tm_numcores', u'tm_maxmemory', u'tm_priority', u'tm_output_dataset', u'tm_task_warnings', u'tm_user_webdir', u'tm_scriptexe', u'tm_scriptargs', u'tm_extrajdl', u'tm_asourl', u'tm_collector', u'tm_schedd', u'tm_dry_run', u'tm_user_files', u'tm_transfer_outputs', u'tm_output_lfn', u'tm_ignore_locality', u'tm_fail_limit', u'tm_one_event_mode', u'tm_secondary_input_dataset', u'tm_primary_dataset', u'tm_last_publication', u'tm_debug_files', u'clusterid', u'tm_asodb', u'tm_ignore_global_blacklist', u'tm_submitter_ip_addr', u'tm_totalunits', u'tm_ddm_reqid', u'tm_user_config', u'tm_transfer_container', u'tm_transfer_rule', u'tm_publish_rule']}}
+INFO 2023-11-08 11:56:51.318 UTC: 	 CRAB project directory:		/ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+INFO 2023-11-08 11:56:51.318 UTC: 	 Task name:			231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+INFO 2023-11-08 11:56:51.318 UTC: 	 Grid scheduler - Task Worker:	crab3@vocms0107.cern.ch - crab-prod-tw01
+INFO 2023-11-08 11:56:51.318 UTC: 	 Status on the CRAB server:	SUBMITTED
+INFO 2023-11-08 11:56:51.318 UTC: 	 Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+INFO 2023-11-08 11:56:51.321 UTC: 	 Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=jusong&var-task=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL&from=1697004234000&to=now
+DEBUG 2023-11-08 11:56:51.321 UTC: 	 The CRAB server submitted your task to the Grid scheduler (cluster ID: 98157006)
+DEBUG 2023-11-08 11:56:51.321 UTC: 	 Webdir is located at http://vocms0107.cern.ch/mon/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-11-08 11:56:51.322 UTC: 	 Encoded data for curl request: subresource=webdirprx&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-11-08 11:56:51.474 UTC: 	 Proxied webdir is located at https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+DEBUG 2023-11-08 11:56:51.475 UTC: 	 Retrieving 'status_cache' file from https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache.pkl
+DEBUG 2023-11-08 11:56:51.475 UTC: 	 Will execute:
+curl -sS --capath /etc/grid-security/certificates --cert /tmp/x509up_u23216 --key /tmp/x509up_u23216 -o /tmp/crab_status-cache-825n9S.pkl -w %"{http_code}" "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache.pkl"
+DEBUG 2023-11-08 11:56:51.475 UTC: 	 Executing command :
+ curl -sS --capath /etc/grid-security/certificates --cert /tmp/x509up_u23216 --key /tmp/x509up_u23216 -o /tmp/crab_status-cache-825n9S.pkl -w %"{http_code}" "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache.pkl"
+DEBUG 2023-11-08 11:56:52.146 UTC: 	 output : 200
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 11:56:52.147 UTC: 	 exitcode: 0
+stdout: 200
+stderr: 
+error details: 
+DEBUG 2023-11-08 11:56:52.615 UTC: 	 Retrieving 'status_cache' file from https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache
+DEBUG 2023-11-08 11:56:52.615 UTC: 	 Will execute:
+curl -sS --capath /etc/grid-security/certificates --cert /tmp/x509up_u23216 --key /tmp/x509up_u23216 -o /tmp/crab_status-cache-_Nnmz4.txt -w %"{http_code}" "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache"
+DEBUG 2023-11-08 11:56:52.615 UTC: 	 Executing command :
+ curl -sS --capath /etc/grid-security/certificates --cert /tmp/x509up_u23216 --key /tmp/x509up_u23216 -o /tmp/crab_status-cache-_Nnmz4.txt -w %"{http_code}" "https://cmsweb.cern.ch:8443/scheddmon/0107/jusong/231011_070354:jusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/status_cache"
+DEBUG 2023-11-08 11:56:52.789 UTC: 	 output : 200
+ error: 
+ retcode : 0
+DEBUG 2023-11-08 11:56:52.790 UTC: 	 exitcode: 0
+stdout: 200
+stderr: 
+error details: 
+DEBUG 2023-11-08 11:56:52.836 UTC: 	 Got information from status cache file: {'24': {'Retries': 0, 'WallDurations': [8.0, 61.337981939315796, 4080.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157031.0'], 'EndTimes': [1697013469.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2541388], 'TotalUserCpuTimeHistory': [7391], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [130]}, '25': {'Retries': 0, 'WallDurations': [9.0, 61.337981939315796, 4750.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157032.0'], 'EndTimes': [1697014139.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2470212], 'TotalUserCpuTimeHistory': [8523], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [148]}, '26': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 4370.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157033.0'], 'EndTimes': [1697012361.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2179632], 'TotalUserCpuTimeHistory': [7704], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [245]}, '27': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 6099.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007892.0], 'JobIds': ['98157034.0'], 'EndTimes': [1697014091.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2136176], 'TotalUserCpuTimeHistory': [10217], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [523]}, '20': {'Retries': 0, 'WallDurations': [8.0, 60.337981939315796, 5263.0], 'StartTimes': [1697009390.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157027.0'], 'EndTimes': [1697014653.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2491116], 'TotalUserCpuTimeHistory': [9319], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [167]}, '21': {'Retries': 0, 'WallDurations': [8.0, 61.337981939315796, 4107.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157028.0'], 'EndTimes': [1697013496.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2478044], 'TotalUserCpuTimeHistory': [7396], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [130]}, '22': {'Retries': 0, 'WallDurations': [8.0, 61.337981939315796, 3212.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157029.0'], 'EndTimes': [1697012601.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2491180], 'TotalUserCpuTimeHistory': [5128], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [88]}, '23': {'Retries': 0, 'WallDurations': [8.0, 61.337981939315796, 4329.0], 'StartTimes': [1697009389.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157030.0'], 'EndTimes': [1697013718.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2489176], 'TotalUserCpuTimeHistory': [7789], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [142]}, '28': {'Retries': 0, 'WallDurations': [8.0, 257.56811237335205, 7704.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007892.0], 'JobIds': ['98157035.0'], 'EndTimes': [1697015694.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2204760], 'TotalUserCpuTimeHistory': [14104], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [1719]}, '29': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 6270.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007892.0], 'JobIds': ['98157036.0'], 'EndTimes': [1697014262.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2098580], 'TotalUserCpuTimeHistory': [10473], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [861]}, '4': {'Retries': 0, 'WallDurations': [9.0, 254.56811237335205, 3857.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157011.0'], 'EndTimes': [1697011850.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2089892], 'TotalUserCpuTimeHistory': [6844], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [192]}, '8': {'Retries': 1, 'WallDurations': [8.0, 268.22005701065063, 5968.0, 9.0, 291.45249104499817, 10014.0], 'StartTimes': [1697008881.0, 1697015197.0], 'SubmitTimes': [1697007887.0, 1697014925.0], 'JobIds': ['98157015.0', '98163018.0'], 'EndTimes': [1697014849.0, 1697025211.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2246480, 2863588], 'TotalUserCpuTimeHistory': [10462, 18009], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T2_US_UCSD', 'T2_US_UCSD'], 'TotalSysCpuTimeHistory': [366, 1230]}, '59': {'Retries': 0, 'WallDurations': [9.0, 254.56811237335205, 9226.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157065.0'], 'EndTimes': [1697017219.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2096208], 'TotalUserCpuTimeHistory': [15982], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [571]}, '58': {'Retries': 0, 'WallDurations': [10.0, 256.56811237335205, 6367.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157064.0'], 'EndTimes': [1697014358.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2095176], 'TotalUserCpuTimeHistory': [10817], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [387]}, '55': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 8159.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157061.0'], 'EndTimes': [1697016150.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2219776], 'TotalUserCpuTimeHistory': [14379], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [501]}, '54': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 8265.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157060.0'], 'EndTimes': [1697016258.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2210004], 'TotalUserCpuTimeHistory': [14562], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [576]}, '57': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 8048.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157063.0'], 'EndTimes': [1697016040.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2215012], 'TotalUserCpuTimeHistory': [13917], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [454]}, '56': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 5475.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157062.0'], 'EndTimes': [1697013466.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2211044], 'TotalUserCpuTimeHistory': [9801], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [220]}, '51': {'Retries': 0, 'WallDurations': [8.0, 257.56811237335205, 8600.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157057.0'], 'EndTimes': [1697016590.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2254036], 'TotalUserCpuTimeHistory': [15295], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [396]}, '50': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 5516.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157056.0'], 'EndTimes': [1697013506.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2307704], 'TotalUserCpuTimeHistory': [9904], 'SiteHistory': ['Unknown', 'T2_BE_IIHE', 'T2_BE_IIHE'], 'TotalSysCpuTimeHistory': [340]}, '53': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 4890.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157059.0'], 'EndTimes': [1697012883.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2214596], 'TotalUserCpuTimeHistory': [8484], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [292]}, '52': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 7594.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157058.0'], 'EndTimes': [1697015585.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2168128], 'TotalUserCpuTimeHistory': [13443], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [494]}, '88': {'Retries': 1, 'WallDurations': [9.0, 121.53711771965027, 5260.0, 9.0, 77.45249104499817, 5475.0], 'StartTimes': [1697009630.0, 1697015411.0], 'SubmitTimes': [1697007894.0, 1697014966.0], 'JobIds': ['98157094.0', '98163055.0'], 'EndTimes': [1697014890.0, 1697020886.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2251132, 2293620], 'TotalUserCpuTimeHistory': [8989, 9201], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [307, 269]}, '89': {'Retries': 0, 'WallDurations': [8.0, 121.53711771965027, 6297.0], 'StartTimes': [1697009630.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157095.0'], 'EndTimes': [1697015927.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2261396], 'TotalUserCpuTimeHistory': [10953], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [409]}, '82': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 8570.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157088.0'], 'EndTimes': [1697016560.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2461308], 'TotalUserCpuTimeHistory': [15249], 'SiteHistory': ['Unknown', 'T2_BE_UCL', 'T2_BE_UCL'], 'TotalSysCpuTimeHistory': [363]}, '83': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 7342.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157089.0'], 'EndTimes': [1697015333.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2587240], 'TotalUserCpuTimeHistory': [12697], 'SiteHistory': ['Unknown', 'T2_BE_UCL', 'T2_BE_UCL'], 'TotalSysCpuTimeHistory': [328]}, '80': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 5548.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157086.0'], 'EndTimes': [1697013542.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2089268], 'TotalUserCpuTimeHistory': [9127], 'SiteHistory': ['Unknown', 'T2_FR_IPHC', 'T2_FR_IPHC'], 'TotalSysCpuTimeHistory': [2079]}, '81': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 5614.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157087.0'], 'EndTimes': [1697013608.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2193612], 'TotalUserCpuTimeHistory': [9179], 'SiteHistory': ['Unknown', 'T2_FR_IPHC', 'T2_FR_IPHC'], 'TotalSysCpuTimeHistory': [1342]}, '86': {'Retries': 0, 'WallDurations': [10.0, 63.337981939315796, 6777.0], 'StartTimes': [1697009387.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157092.0'], 'EndTimes': [1697016164.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2262680], 'TotalUserCpuTimeHistory': [11909], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [327]}, '87': {'Retries': 0, 'WallDurations': [9.0, 168.3384358882904, 4928.0], 'StartTimes': [1697009885.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157093.0'], 'EndTimes': [1697014813.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2254492], 'TotalUserCpuTimeHistory': [8799], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [218]}, '84': {'Retries': 0, 'WallDurations': [9.0, 10.56811237335205, 6658.0], 'StartTimes': [1697008237.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157090.0'], 'EndTimes': [1697014895.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2761780], 'TotalUserCpuTimeHistory': [12166], 'SiteHistory': ['Unknown', 'T2_BE_UCL', 'T2_BE_UCL'], 'TotalSysCpuTimeHistory': [248]}, '85': {'Retries': 0, 'WallDurations': [9.0, 65.3379819393158, 2396.0], 'StartTimes': [1697009385.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157091.0'], 'EndTimes': [1697011781.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2261820], 'TotalUserCpuTimeHistory': [4238], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [123]}, '3': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 7058.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157010.0'], 'EndTimes': [1697015048.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2306444], 'TotalUserCpuTimeHistory': [12555], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [322]}, '7': {'Retries': 0, 'WallDurations': [8.0, 106.56811237335205, 9413.0], 'StartTimes': [1697008141.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157014.0'], 'EndTimes': [1697017554.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2257704], 'TotalUserCpuTimeHistory': [16627], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [583]}, '39': {'Retries': 0, 'WallDurations': [9.0, 10.56811237335205, 1429.0], 'StartTimes': [1697008237.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157046.0'], 'EndTimes': [1697009666.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2248308], 'TotalUserCpuTimeHistory': [2424], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [65]}, '38': {'Retries': 0, 'WallDurations': [9.0, 288.79304695129395, 3135.0], 'StartTimes': [1697008259.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157045.0'], 'EndTimes': [1697011394.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2068280], 'TotalUserCpuTimeHistory': [4761], 'SiteHistory': ['Unknown', 'T2_US_MIT', 'T2_US_MIT'], 'TotalSysCpuTimeHistory': [285]}, '33': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 5075.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157040.0'], 'EndTimes': [1697013067.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2181872], 'TotalUserCpuTimeHistory': [9039], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [374]}, '32': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 6311.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157039.0'], 'EndTimes': [1697014301.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2134924], 'TotalUserCpuTimeHistory': [10817], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [1389]}, '31': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 4590.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157038.0'], 'EndTimes': [1697012580.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2153676], 'TotalUserCpuTimeHistory': [7673], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [636]}, '30': {'Retries': 0, 'WallDurations': [8.0, 256.56811237335205, 6409.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007892.0], 'JobIds': ['98157037.0'], 'EndTimes': [1697014400.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2086396], 'TotalUserCpuTimeHistory': [11000], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [1488]}, '37': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 5142.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157044.0'], 'EndTimes': [1697014023.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2338368], 'TotalUserCpuTimeHistory': [9118], 'SiteHistory': ['Unknown', 'T1_FR_CCIN2P3', 'T1_FR_CCIN2P3'], 'TotalSysCpuTimeHistory': [303]}, '36': {'Retries': 0, 'WallDurations': [8.0, 255.56811237335205, 6311.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157043.0'], 'EndTimes': [1697014303.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2187868], 'TotalUserCpuTimeHistory': [11152], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [385]}, '35': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 5284.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157042.0'], 'EndTimes': [1697013275.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2166304], 'TotalUserCpuTimeHistory': [9317], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [401]}, '34': {'Retries': 0, 'WallDurations': [9.0, 256.56811237335205, 5145.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157041.0'], 'EndTimes': [1697013136.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2165000], 'TotalUserCpuTimeHistory': [9220], 'SiteHistory': ['Unknown', 'T3_UK_ScotGrid_GLA', 'T3_UK_ScotGrid_GLA'], 'TotalSysCpuTimeHistory': [868]}, '60': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 8676.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157066.0'], 'EndTimes': [1697016670.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2092264], 'TotalUserCpuTimeHistory': [14855], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [558]}, '61': {'Retries': 0, 'WallDurations': [9.0, 253.56811237335205, 8163.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157067.0'], 'EndTimes': [1697016157.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2199248], 'TotalUserCpuTimeHistory': [14204], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [446]}, '62': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 7811.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157068.0'], 'EndTimes': [1697015805.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2082296], 'TotalUserCpuTimeHistory': [13489], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [478]}, '63': {'Retries': 0, 'WallDurations': [9.0, 253.56811237335205, 8690.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157069.0'], 'EndTimes': [1697016684.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2094896], 'TotalUserCpuTimeHistory': [14964], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [523]}, '64': {'Retries': 0, 'WallDurations': [9.0, 253.56811237335205, 8552.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157070.0'], 'EndTimes': [1697016546.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2187608], 'TotalUserCpuTimeHistory': [14941], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [453]}, '65': {'Retries': 0, 'WallDurations': [9.0, 253.56811237335205, 9395.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157071.0'], 'EndTimes': [1697017389.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2096220], 'TotalUserCpuTimeHistory': [16265], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [599]}, '66': {'Retries': 0, 'WallDurations': [8.0, 252.56811237335205, 8573.0], 'StartTimes': [1697007995.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157072.0'], 'EndTimes': [1697016568.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2056188], 'TotalUserCpuTimeHistory': [14731], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [538]}, '67': {'Retries': 0, 'WallDurations': [9.0, 252.56811237335205, 8474.0], 'StartTimes': [1697007995.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157073.0'], 'EndTimes': [1697016469.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2208320], 'TotalUserCpuTimeHistory': [14781], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [435]}, '68': {'Retries': 0, 'WallDurations': [9.0, 252.56811237335205, 7921.0], 'StartTimes': [1697007995.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157074.0'], 'EndTimes': [1697015916.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2081920], 'TotalUserCpuTimeHistory': [13650], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [478]}, '69': {'Retries': 0, 'WallDurations': [9.0, 105.56811237335205, 8220.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157075.0'], 'EndTimes': [1697016362.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2298364], 'TotalUserCpuTimeHistory': [14745], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [443]}, '2': {'Retries': 0, 'WallDurations': [8.0, 253.56811237335205, 4080.0], 'StartTimes': [1697007994.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157009.0'], 'EndTimes': [1697012074.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2519996], 'TotalUserCpuTimeHistory': [7348], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [188]}, '6': {'Retries': 0, 'WallDurations': [8.0, 256.56811237335205, 2379.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157013.0'], 'EndTimes': [1697010370.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2213260], 'TotalUserCpuTimeHistory': [4220], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [141]}, '98': {'Retries': 0, 'WallDurations': [9.0, 255.56811237335205, 4228.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157104.0'], 'EndTimes': [1697012220.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2126140], 'TotalUserCpuTimeHistory': [7958], 'SiteHistory': ['Unknown', 'T2_CH_CSCS', 'T2_CH_CSCS'], 'TotalSysCpuTimeHistory': [755]}, '91': {'Retries': 0, 'WallDurations': [9.0, 120.53711771965027, 6118.0], 'StartTimes': [1697009631.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157097.0'], 'EndTimes': [1697015749.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2224820], 'TotalUserCpuTimeHistory': [9963], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [458]}, '90': {'Retries': 1, 'WallDurations': [9.0, 121.53711771965027, 5269.0, 8.0, 76.45249104499817, 4546.0], 'StartTimes': [1697009630.0, 1697015412.0], 'SubmitTimes': [1697007894.0, 1697014966.0], 'JobIds': ['98157096.0', '98163056.0'], 'EndTimes': [1697014899.0, 1697019958.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2240012, 2250640], 'TotalUserCpuTimeHistory': [7414, 7874], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [285, 222]}, '93': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 8704.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157099.0'], 'EndTimes': [1697017585.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2359692], 'TotalUserCpuTimeHistory': [15279], 'SiteHistory': ['Unknown', 'T1_FR_CCIN2P3', 'T1_FR_CCIN2P3'], 'TotalSysCpuTimeHistory': [523]}, '92': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 7578.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157098.0'], 'EndTimes': [1697016459.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2307080], 'TotalUserCpuTimeHistory': [13327], 'SiteHistory': ['Unknown', 'T1_FR_CCIN2P3', 'T1_FR_CCIN2P3'], 'TotalSysCpuTimeHistory': [416]}, '95': {'Retries': 0, 'WallDurations': [9.0, 106.56811237335205, 6500.0], 'StartTimes': [1697008141.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157101.0'], 'EndTimes': [1697014641.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2270048], 'TotalUserCpuTimeHistory': [11661], 'SiteHistory': ['Unknown', 'T1_DE_KIT', 'T1_DE_KIT'], 'TotalSysCpuTimeHistory': [319]}, '94': {'Retries': 0, 'WallDurations': [9.0, 101.56811237335205, 3084.0], 'StartTimes': [1697008146.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157100.0'], 'EndTimes': [1697011230.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2338984], 'TotalUserCpuTimeHistory': [5271], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [168]}, '97': {'Retries': 0, 'WallDurations': [8.0, 255.56811237335205, 3229.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157103.0'], 'EndTimes': [1697011221.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2364096], 'TotalUserCpuTimeHistory': [5021], 'SiteHistory': ['Unknown', 'T2_CH_CSCS', 'T2_CH_CSCS'], 'TotalSysCpuTimeHistory': [119]}, '96': {'Retries': 0, 'WallDurations': [9.0, 106.56811237335205, 5267.0], 'StartTimes': [1697008141.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157102.0'], 'EndTimes': [1697013408.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2131664], 'TotalUserCpuTimeHistory': [9398], 'SiteHistory': ['Unknown', 'T1_DE_KIT', 'T1_DE_KIT'], 'TotalSysCpuTimeHistory': [291]}, '11': {'Retries': 1, 'WallDurations': [8.0, 268.22005701065063, 5979.0, 8.0, 9621.0], 'StartTimes': [1697008881.0, 1697015160.0], 'SubmitTimes': [1697007887.0, 1697014925.0], 'JobIds': ['98157018.0', '98163017.0'], 'EndTimes': [1697014860.0, 1697024781.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2248824, 2852408], 'TotalUserCpuTimeHistory': [10515, 20042], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'T2_US_UCSD', 'T2_US_UCSD'], 'TotalSysCpuTimeHistory': [319, 5308]}, '10': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 9720.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157017.0'], 'EndTimes': [1697018601.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2268668], 'TotalUserCpuTimeHistory': [17028], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [551]}, '13': {'Retries': 1, 'WallDurations': [9.0, 64.3379819393158, 5490.0, 9.0, 77.45249104499817, 4901.0], 'StartTimes': [1697009386.0, 1697015411.0], 'SubmitTimes': [1697007887.0, 1697014950.0], 'JobIds': ['98157020.0', '98163053.0'], 'EndTimes': [1697014876.0, 1697020312.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2255556, 2256940], 'TotalUserCpuTimeHistory': [9135, 8325], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [302, 278]}, '12': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 3049.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157019.0'], 'EndTimes': [1697011930.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2250936], 'TotalUserCpuTimeHistory': [5238], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [174]}, '15': {'Retries': 1, 'WallDurations': [9.0, 64.3379819393158, 5492.0, 8.0, 76.45249104499817, 8076.0], 'StartTimes': [1697009386.0, 1697015412.0], 'SubmitTimes': [1697007887.0, 1697014950.0], 'JobIds': ['98157022.0', '98163054.0'], 'EndTimes': [1697014878.0, 1697023488.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2229668, 2257328], 'TotalUserCpuTimeHistory': [9258, 12873], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [291, 439]}, '14': {'Retries': 1, 'WallDurations': [9.0, 64.3379819393158, 5492.0, 9.0, 292.45249104499817, 9202.0], 'StartTimes': [1697009386.0, 1697015196.0], 'SubmitTimes': [1697007887.0, 1697014950.0], 'JobIds': ['98157021.0', '98163051.0'], 'EndTimes': [1697014878.0, 1697024398.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2241016, 2482476], 'TotalUserCpuTimeHistory': [8719, 16329], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T2_US_UCSD', 'T2_US_UCSD'], 'TotalSysCpuTimeHistory': [321, 510]}, '17': {'Retries': 0, 'WallDurations': [9.0, 254.56811237335205, 3746.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157024.0'], 'EndTimes': [1697011739.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2817360], 'TotalUserCpuTimeHistory': [6720], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [175]}, '16': {'Retries': 1, 'WallDurations': [10.0, 63.337981939315796, 5491.0, 9.0, 292.45249104499817, 9538.0], 'StartTimes': [1697009387.0, 1697015196.0], 'SubmitTimes': [1697007887.0, 1697014950.0], 'JobIds': ['98157023.0', '98163052.0'], 'EndTimes': [1697014878.0, 1697024734.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2241048, 2851464], 'TotalUserCpuTimeHistory': [8684, 16882], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF', 'Unknown', 'T2_US_UCSD', 'T2_US_UCSD'], 'TotalSysCpuTimeHistory': [312, 482]}, '19': {'Retries': 0, 'WallDurations': [9.0, 59.337981939315796, 3078.0], 'StartTimes': [1697009391.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157026.0'], 'EndTimes': [1697012469.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2454764], 'TotalUserCpuTimeHistory': [5522], 'SiteHistory': ['Unknown', 'T2_US_Florida', 'T2_US_Florida'], 'TotalSysCpuTimeHistory': [93]}, '18': {'Retries': 0, 'WallDurations': [8.0, 256.56811237335205, 778.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157025.0'], 'EndTimes': [1697008769.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2151824], 'TotalUserCpuTimeHistory': [1196], 'SiteHistory': ['Unknown', 'T3_UK_London_RHUL', 'T3_UK_London_RHUL'], 'TotalSysCpuTimeHistory': [52]}, '48': {'Retries': 0, 'WallDurations': [9.0, 254.56811237335205, 9389.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157054.0'], 'EndTimes': [1697017382.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2314300], 'TotalUserCpuTimeHistory': [16258], 'SiteHistory': ['Unknown', 'T2_DE_DESY', 'T2_DE_DESY'], 'TotalSysCpuTimeHistory': [696]}, '49': {'Retries': 0, 'WallDurations': [9.0, 257.56811237335205, 3836.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157055.0'], 'EndTimes': [1697011826.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2476644], 'TotalUserCpuTimeHistory': [6842], 'SiteHistory': ['Unknown', 'T2_BE_IIHE', 'T2_BE_IIHE'], 'TotalSysCpuTimeHistory': [214]}, '46': {'Retries': 0, 'WallDurations': [8.0, 255.56811237335205, 4625.0], 'StartTimes': [1697007992.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157053.0'], 'EndTimes': [1697012617.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2280632], 'TotalUserCpuTimeHistory': [8255], 'SiteHistory': ['Unknown', 'T2_FR_GRIF', 'T2_FR_GRIF'], 'TotalSysCpuTimeHistory': [628]}, '47': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 1255.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157105.0'], 'EndTimes': [1697009248.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2297964], 'TotalUserCpuTimeHistory': [1745], 'SiteHistory': ['Unknown', 'T2_DE_DESY', 'T2_DE_DESY'], 'TotalSysCpuTimeHistory': [52]}, '44': {'Retries': 0, 'WallDurations': [9.0, 11.56811237335205, 3797.0], 'StartTimes': [1697008236.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157051.0'], 'EndTimes': [1697012033.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2179648], 'TotalUserCpuTimeHistory': [6829], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [177]}, '45': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 1897.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157052.0'], 'EndTimes': [1697009890.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2097484], 'TotalUserCpuTimeHistory': [3189], 'SiteHistory': ['Unknown', 'T2_IT_Bari', 'T2_IT_Bari'], 'TotalSysCpuTimeHistory': [123]}, '42': {'Retries': 0, 'WallDurations': [9.0, 11.56811237335205, 5791.0], 'StartTimes': [1697008236.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157049.0'], 'EndTimes': [1697014027.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2180532], 'TotalUserCpuTimeHistory': [10433], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [254]}, '43': {'Retries': 0, 'WallDurations': [8.0, 11.56811237335205, 5157.0], 'StartTimes': [1697008236.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157050.0'], 'EndTimes': [1697013393.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2233700], 'TotalUserCpuTimeHistory': [9335], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [233]}, '40': {'Retries': 0, 'WallDurations': [9.0, 10.56811237335205, 5838.0], 'StartTimes': [1697008237.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157047.0'], 'EndTimes': [1697014075.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2158608], 'TotalUserCpuTimeHistory': [10515], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [268]}, '41': {'Retries': 0, 'WallDurations': [9.0, 11.56811237335205, 3964.0], 'StartTimes': [1697008236.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157048.0'], 'EndTimes': [1697012200.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2376392], 'TotalUserCpuTimeHistory': [7159], 'SiteHistory': ['Unknown', 'T2_IT_Legnaro', 'T2_IT_Legnaro'], 'TotalSysCpuTimeHistory': [175]}, '1': {'Retries': 0, 'WallDurations': [8.0, 256.56811237335205, 1526.0], 'StartTimes': [1697007991.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157008.0'], 'EndTimes': [1697009517.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2477584], 'TotalUserCpuTimeHistory': [2656], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [69]}, '5': {'Retries': 0, 'WallDurations': [8.0, 254.56811237335205, 4749.0], 'StartTimes': [1697007993.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157012.0'], 'EndTimes': [1697012742.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2909004], 'TotalUserCpuTimeHistory': [8595], 'SiteHistory': ['Unknown', 'T2_UK_London_IC', 'T2_UK_London_IC'], 'TotalSysCpuTimeHistory': [225]}, '9': {'Retries': 0, 'WallDurations': [8.0, 268.22005701065063, 12210.0], 'StartTimes': [1697008881.0], 'SubmitTimes': [1697007887.0], 'JobIds': ['98157016.0'], 'EndTimes': [1697021091.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2229232], 'TotalUserCpuTimeHistory': [20500], 'SiteHistory': ['Unknown', 'T1_IT_CNAF', 'T1_IT_CNAF'], 'TotalSysCpuTimeHistory': [687]}, '77': {'Retries': 0, 'WallDurations': [9.0, 60.793046951293945, 8657.0], 'StartTimes': [1697008487.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157083.0'], 'EndTimes': [1697017144.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2268076], 'TotalUserCpuTimeHistory': [15254], 'SiteHistory': ['Unknown', 'T2_IT_Pisa', 'T2_IT_Pisa'], 'TotalSysCpuTimeHistory': [763]}, '76': {'Retries': 0, 'WallDurations': [9.0, 60.793046951293945, 9934.0], 'StartTimes': [1697008487.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157082.0'], 'EndTimes': [1697018421.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2230476], 'TotalUserCpuTimeHistory': [16784], 'SiteHistory': ['Unknown', 'T2_IT_Pisa', 'T2_IT_Pisa'], 'TotalSysCpuTimeHistory': [485]}, '75': {'Retries': 0, 'WallDurations': [0, 10.56811237335205, 8797.0], 'StartTimes': [1697008237.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157081.0'], 'EndTimes': [1697017034.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2240820], 'TotalUserCpuTimeHistory': [15773], 'SiteHistory': ['Unknown', 'T2_IT_Pisa', 'T2_IT_Pisa'], 'TotalSysCpuTimeHistory': [495]}, '74': {'Retries': 0, 'WallDurations': [9.0, 106.56811237335205, 7589.0], 'StartTimes': [1697008141.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157080.0'], 'EndTimes': [1697015730.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2320136], 'TotalUserCpuTimeHistory': [13615], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [385]}, '73': {'Retries': 0, 'WallDurations': [8.0, 105.56811237335205, 2640.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157079.0'], 'EndTimes': [1697010782.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2304056], 'TotalUserCpuTimeHistory': [4716], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [160]}, '72': {'Retries': 0, 'WallDurations': [8.0, 105.56811237335205, 3633.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157078.0'], 'EndTimes': [1697011775.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2334700], 'TotalUserCpuTimeHistory': [6505], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [183]}, '71': {'Retries': 0, 'WallDurations': [9.0, 105.56811237335205, 5632.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157077.0'], 'EndTimes': [1697013774.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2291696], 'TotalUserCpuTimeHistory': [9811], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [313]}, '70': {'Retries': 0, 'WallDurations': [8.0, 105.56811237335205, 6575.0], 'StartTimes': [1697008142.0], 'SubmitTimes': [1697007893.0], 'JobIds': ['98157076.0'], 'EndTimes': [1697014717.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2267152], 'TotalUserCpuTimeHistory': [11799], 'SiteHistory': ['Unknown', 'T1_ES_PIC', 'T1_ES_PIC'], 'TotalSysCpuTimeHistory': [330]}, '79': {'Retries': 0, 'WallDurations': [8.0, 257.56811237335205, 12259.0], 'StartTimes': [1697007990.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157085.0'], 'EndTimes': [1697020249.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2148604], 'TotalUserCpuTimeHistory': [17264], 'SiteHistory': ['Unknown', 'T2_FR_IPHC', 'T2_FR_IPHC'], 'TotalSysCpuTimeHistory': [4688]}, '78': {'Retries': 0, 'WallDurations': [8.0, 58.793046951293945, 5826.0], 'StartTimes': [1697008489.0], 'SubmitTimes': [1697007894.0], 'JobIds': ['98157084.0'], 'EndTimes': [1697014315.0], 'Restarts': 0, 'RecordedSite': True, 'State': 'finished', 'ResidentSetSize': [2233360], 'TotalUserCpuTimeHistory': [10076], 'SiteHistory': ['Unknown', 'T2_IT_Pisa', 'T2_IT_Pisa'], 'TotalSysCpuTimeHistory': [564]}}
+INFO 2023-11-08 11:56:52.836 UTC: 	 Status on the scheduler:	COMPLETED
+INFO 2023-11-08 11:56:52.837 UTC: 	 
+Jobs status:                    finished     		100.0% (98/98)
+DEBUG 2023-11-08 11:56:52.837 UTC: 	 Encoded data for curl request: username=jusong&subresource=publicationstatus&workflow=231011_070354%3Ajusong_crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL
+INFO 2023-11-08 11:56:52.971 UTC: 	 
+Publication status of 1 dataset(s):	done         		100.0% (98/98)
+(from CRAB internal bookkeeping in transferdb)
+INFO 2023-11-08 11:56:52.971 UTC: 	 
+Output dataset:			/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/jusong-TopNanoAODv9-1-1_2017UL-27efd120551babaabc6bd4b4b90d69e0/USER
+Output dataset DAS URL:		https://cmsweb.cern.ch/das/request?input=%2FWJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8%2Fjusong-TopNanoAODv9-1-1_2017UL-27efd120551babaabc6bd4b4b90d69e0%2FUSER&instance=prod%2Fphys03
+INFO 2023-11-08 11:56:52.974 UTC: 	 
+Warning: the max jobs runtime is less than 30% of the task requested value (1250 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+INFO 2023-11-08 11:56:52.975 UTC: 	 
+Summary of run jobs:
+ * Memory: 2244MB min, 2840MB max, 2235MB ave
+ * Runtime: 0:12:58 min, 3:24:19 max, 1:41:47 ave
+ * CPU eff: 72% min, 132% max, 92% ave
+ * Waste: 17:55:25 (10% of total)
+
+INFO 2023-11-08 11:56:52.992 UTC: 	 Log file is /ada_mnt/ada/user/jusong/analysis/CMSSW_10_6_27/src/PhysicsTools/NanoAOD/test/crab_tasks/tasks/crab_TopNanoAODv9-1-1_WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8__2017UL/crab.log
