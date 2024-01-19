@@ -162,7 +162,7 @@ void RPCSimModelTiming::simulate(const RPCRoll* roll,
 	RPCDigi adigi(*i, tdc.first,tdc.second);
         //adigi.hasTime(true);
         //adigi.setTime(precise_time);
-        irpc_digis.insert(adigi);
+        rpc_digis.insert(adigi);
         theDetectorHitMap.insert(DetectorHitMap::value_type(digi, &(*_hit)));
       }
     }
@@ -208,7 +208,7 @@ void RPCSimModelTiming::simulateNoise(const RPCRoll* roll, CLHEP::HepRandomEngin
 
       //adigi.hasTime(true);
       //adigi.setTime(precise_time);
-      irpc_digis.insert(adigi);
+      rpc_digis.insert(adigi);
     }
   }
 }

@@ -63,7 +63,6 @@ protected:
   std::vector<double> sum_clsize;
   std::vector<double> clsForDetId;
   std::ifstream* infile;
-  std::set<RPCDigi> irpc_digis;
 
   RPCSynchronizer* _rpcSync;
 };
