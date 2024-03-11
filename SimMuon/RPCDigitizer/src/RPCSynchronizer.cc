@@ -310,42 +310,30 @@ int RPCSynchronizer::getBX(float time){
 }
 
 std::pair<int,int> RPCSynchronizer::getBX_SBX(float time){
-  const float LB_clock = 25.;
-  const float LB_precise_clock=2.5;
-  int sign = (time > 0) ? -1 : 1;
-  int BX=int(time/LB_clock + sign*0.5);
+  const float LB_clock = 25.; // 25 ns
+  const float LB_precise_clock=2.5; // 2.5 ns
+  int BX=int(time/LB_clock);
+  if(time<0) BX--;
   double dt=time-BX*LB_clock;
-  int SBX = int(dt/LB_precise_clock)+5;
-
-  //double tcalc =  2.5*(SBX-5)+BX*25;
-  //std::cout<<"time="<<time<<"\tsign="<<sign<<"\tBX="<<BX<<"\tSBX="<<SBX<<"\ttime="<<tcalc<<"\tDelta="<<time-tcalc<<std::endl;
-  
-  pair<int,int> tdc;
+  int SBX = int(dt/LB_precise_clock);
+  std::pair<int,int> tdc;
   tdc.first=BX;
   tdc.second=SBX;
   return tdc;
 }
 
-
-std::pair<int,int> RPCSynchronizer::getFineTime(const PSimHit* simhit, CLHEP::HepRandomEngine* engine,float StripLength){
-  float half_stripL=StripLength/2;
-  LocalPoint simHitPos = simhit->localPosition();
-  float  distanceFromEdge1 = half_stripL - simHitPos.y();
-  float  distanceFromEdge2 = half_stripL + simHitPos.y();
-
-  float prop_time1 = distanceFromEdge1 / sspeed;
-  float prop_time2 = distanceFromEdge2 / sspeed;
-
-  // adding electronics resolution
-  prop_time1 += CLHEP::RandGaussQ::shoot(engine, 0., irpc_electronics_jitter);
-  prop_time2 += CLHEP::RandGaussQ::shoot(engine, 0., irpc_electronics_jitter);
-
-  const float LB_precise_clock=2.5;
-  const int bins=256;
-  const float time_resolution=LB_precise_clock/bins;
-
-  int fineTimeTDC1 = int(prop_time1/time_resolution);
-  int fineTimeTDC2 = int(prop_time2/time_resolution);
-
-  return pair<int,int>(fineTimeTDC1,fineTimeTDC2);
+std::tuple<int,int,int> RPCSynchronizer::getBX_SBX_fine_time(float time){
+   const float LB_clock = 25.; // 25 ns
+  const float LB_precise_clock=2.5; // 2.5 ns
+  const float LB_fine_clock = 0.2; // 200 ps = 0.2 ns
+  int BX=int(time/LB_clock);
+  if(time<0) BX--;
+  double dt=time-BX*LB_clock;
+  int SBX = int(dt/LB_precise_clock);
+  dt=time-BX*LB_clock-SBX*LB_precise_clock;
+  int fine_time = int(dt/LB_fine_clock);
+  std::tuple<int,int,int> tdc;
+  tdc = std::make_tuple(BX,SBX,fine_time);
+  return tdc;
 }
+
