@@ -47,8 +47,9 @@ public:
   float getSecondTDCTiming(float t, CLHEP::HepRandomEngine* engine, float StripLength);
   int getBX(float time);
   std::pair<int,int> getBX_SBX(float time);
-  std::pair<int,int> getFineTime(const PSimHit* simhit, CLHEP::HepRandomEngine* engine,float StripLength);
-
+  //std::pair<int,int> getFineTime(const PSimHit* simhit, CLHEP::HepRandomEngine* engine,float StripLength);
+  std::tuple<int,int,int> getBX_SBX_fine_time(float time);
+  
 private:
   double resRPC;
   double timOff;
