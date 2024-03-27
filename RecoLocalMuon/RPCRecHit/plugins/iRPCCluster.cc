@@ -75,10 +75,10 @@ iRPCHitContainer* iRPCCluster::hits() { return &_hits; }
 float iRPCCluster::deltaStrip(){
 	int strip = 0;
 	for(auto hit = _hits.begin(); hit != _hits.end(); ++hit){
-		strip = strip+hit.strip();
+		strip = strip+hit->strip();
 	}
 	int nHits = _hits.size();
-	return strip/nHits
+	return strip/nHits;
 }
 
 

@@ -13,7 +13,7 @@
 iRPCHit::iRPCHit() { _channel = -1; _strip = -1; _time = -1; _isHR = false; _isLR = false; }
 
 // *** I think we don't need channels
-iRPCHit::iRPCHit(int strip, float time, , int bunchx) :
+iRPCHit::iRPCHit(int strip, float time, int bunchx) :
 				_strip(strip), _time(time), _bunchx(bunchx) {_isHR = false; _isLR = false;}
 iRPCHit::iRPCHit(int strip, float time) :
 				_strip(strip), _time(time) {_isHR = false; _isLR = false;}

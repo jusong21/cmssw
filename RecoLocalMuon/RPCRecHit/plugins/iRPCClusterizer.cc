@@ -18,7 +18,7 @@ iRPCClusterizer::iRPCClusterizer() {}
 iRPCClusterizer::~iRPCClusterizer() {}
 
 // *** commented out by juhee
-iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const RPCDigiCollection::Range& digiRange, iRPCInfo& info)
+iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDigiCollection::Range& digiRange, iRPCInfo& info)
 {
 
 // ************************** //
@@ -74,27 +74,11 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const RPCDig
 */
             // ---
             //std::cout <<"strip=" << digi->strip() << " time=" <<  digi->time() << " position=" << digi->coordinateY() << " bx=" << digi->bx()  << " dt=" << timeHR - timeLR << std::endl;
-        }
     }
-    // Fill digi (real)
-    // Here need to write code from real format.
-
-    //// Test output data
-    //std::cout << "\n HITS ";
-    //for(auto& it: hits) {
-    //    std::cout << "\nBX: " << it.first << std::endl;
-    //    std::cout << "HR: " << it.first << " :";
-    //    for(auto hit = it.second.first.begin(); hit != it.second.first.end(); ++hit)
-    //        std::cout << " " << hit->channel() << ":" << hit->time();
-    //    std::cout << "\nLR: " << it.first << " :";
-    //    for(auto hit = it.second.second.begin(); hit != it.second.second.end(); ++hit)
-    //        std::cout << " " << hit->channel() << ":" << hit->time();
-    //} std::cout << std::endl;
-    // ---------------------------------------------
     
-// *** OK: saved digis in hits
-//
-	iRPCClusterContainer cHR, cLR, cPair
+	iRPCClusterContainer cHR;
+	iRPCClusterContainer cLR;
+	iRPCClusterContainer cPair;
 	for(auto & it: hits){
 		cHR = oneSideCluster(it.second.first, 0.3);
 		cLR = oneSideCluster(it.second.second, 0.3);
@@ -106,9 +90,6 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const RPCDig
 		clusters.insert(clusters.end(), cPair.begin(), cPair.end());
 		cHR.clear(); cLR.clear(); cPair.clear();
 	}
-	// FIXME info?? but I don't think iRPCInfo is needed
-	
-	hits.clear();
 	return clusters;
 }
 
@@ -164,15 +145,15 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const RPCDig
 // *** hitsOneSide: only HR or LR hits ex.hits.find(bunchX)->second.first;
 iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSide, float limit){
 	
-	if(hitsOneSide.size() == 0) return false;
+	iRPCClusterContainer clusters;
+	if(hitsOneSide.size() == 0) return clusters;
 
     //std::vector<iRPCHitContainer> clusters;
-	iRPCClusterContainer clusters;
 
-	vector<int> indice;
+	std::vector<int> indice;
 	indice.clear();
 	
-	for(int j=0; j<hitOneSide.size(); j++){
+	for(unsigned int j=0; j<hitsOneSide.size(); j++){
 		indice.push_back(j);
 	}
 
@@ -180,7 +161,7 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 	while(indice.size()>0){
 		float minTime = 9999999999999999999999.;
 		int minTimeIdx = -999;
-		for(int j=0; j<indice.size(); j++){
+		for(int j=0; j<(int)indice.size(); j++){
 			float time = hitsOneSide.at(indice.at(j)).time();
 			if(time < minTime) {minTime = time; minTimeIdx = j;}
 		}
@@ -191,8 +172,10 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 		//iRPCHit tempHit = iRPCHit(tempStrip, tempTime);
 		//iRPCHitContainer tempHits = iRPCHitContainer(iRPCHit(tempStrip, tempTime);
 		//tempHits.push_back(tempHit);
-		iRPCCluster tempHits = iRPCCluster().addHit(iRPCHit(tempStrip, tempTime));
-		tempHits.addHit(iRPCHit(tempStrip, tempTime));
+		//iRPCCluster tempHits = iRPCCluster().addHit(iRPCHit(tempStrip, tempTime));
+		iRPCCluster tempHits = iRPCCluster();
+		iRPCHit tempHit  = iRPCHit(tempStrip, tempTime); 
+		tempHits.addHit(tempHit);
 
 		std::vector<int> eraseIdx;
 		eraseIdx.clear();
@@ -203,7 +186,8 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 		int i = -99;
 		int refTimeIdx = -99;
 		// look in the strips in the right side with max strip jump and delta time limit
-		for(int j=minTimeIdx; j<indice.size(); j++){
+		//for(unsigned int j=minTimeIdx; j<indice.size(); j++){
+		for(int j=minTimeIdx; j<(int)indice.size(); j++){
 			if(j==minTimeIdx) {i=minTimeIdx; refTimeIdx=minTimeIdx; continue;}
 
 			float refTime = hitsOneSide.at(indice.at(refTimeIdx)).time();
@@ -214,7 +198,8 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 			
 			if(abs(refTime-time)<limit){
 				if(abs(refStrip-strip)<=1+max_jumps){
-					tempHits.addHit(iRPCHit(strip, time);
+					iRPCHit clusterHit = iRPCHit(strip, time);
+					tempHits.addHit(clusterHit);
 					eraseIdx.push_back(j);
 					i=j;
 				} else break;
@@ -235,7 +220,8 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 			
 			if(abs(refTime-time)<limit){
 				if(abs(refStrip-strip)<=1+max_jumps){
-					tempHits.addHit(iRPCHit(strip, time);
+					iRPCHit clusterHit = iRPCHit(strip, time);
+					tempHits.addHit(clusterHit);
 					eraseIdx.push_back(j);
 					i=j;
 				} else break;
@@ -250,11 +236,11 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 
 		clusters.push_back(tempHits);
 	}
-	return clusters
+	return clusters;
 }
 
 
-iRPCClusterContainer finalCluster(iRPCClusterContainer LR, iRPCClusterContainer HR){
+iRPCClusterContainer iRPCClusterizer::finalCluster(iRPCClusterContainer LR, iRPCClusterContainer HR){
 
 	iRPCClusterContainer clusters;
 
@@ -263,10 +249,10 @@ iRPCClusterContainer finalCluster(iRPCClusterContainer LR, iRPCClusterContainer 
 		float stripDiff = 999;
 		int idxLR = -1;
 		int idxHR = -1;
-		for(int ij=0; ij<HR.size(); ij++){
-			for(int ji=0; ji<LR.size(); ji++){
+		for(int ij=0; ij<(int)HR.size(); ij++){
+			for(int ji=0; ji<(int)LR.size(); ji++){
 				if(abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip()) < stripDiff){
-					stripDiff = abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip();
+					stripDiff = abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip());
 					idxLR = ji;
 					idxHR = ij;
 				}

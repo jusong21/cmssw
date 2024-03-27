@@ -22,7 +22,7 @@
 #include "iRPCCluster.h"
 #include "iRPCInfo.h"
 /* CMSSW */
-#include "DataFormats/RPCDigi/interface/RPCDigiCollection.h"
+#include "DataFormats/IRPCDigi/interface/IRPCDigiCollection.h"
 #include "Geometry/RPCGeometry/interface/RPCRoll.h"
 #include "Geometry/CommonTopologies/interface/StripTopology.h"
 #include "Geometry/CommonTopologies/interface/TrapezoidalStripTopology.h"
@@ -56,6 +56,10 @@ class iRPCClusterizer
         */
         iRPCClusterContainer association(iRPCInfo &info, iRPCClusterContainer hr, iRPCClusterContainer lr);
 
+		iRPCClusterContainer oneSideCluster(iRPCHitContainer &hitsOneSide, float limit);
+		iRPCClusterContainer finalCluster(iRPCClusterContainer LR, iRPCClusterContainer HR);
+
+
         /* CMSSW */
         /*!
             \brief The action function.
@@ -63,7 +67,7 @@ class iRPCClusterizer
             \return Container of clusters.
         */
         //iRPCClusterContainer doAction(const RPCDigiCollection::Range& digiRange, iRPCInfo& info);
-        iRPCClusterContainer doAction(const RPCRoll& roll, const RPCDigiCollection::Range& digiRange, iRPCInfo& info);
+        iRPCClusterContainer doAction(const RPCRoll& roll, const IRPCDigiCollection::Range& digiRange, iRPCInfo& info);
 };
 
 #endif // RecoLocalMuon_iRPCClusterClusterizer_h
