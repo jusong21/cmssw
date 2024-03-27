@@ -338,7 +338,6 @@ std::tuple<int,int,int> RPCSynchronizer::getBX_SBX_fine_time(float time){
   return tdc;
 }
 
-
 float RPCSynchronizer::TDC2Time(int BX, int SBX, int FT){
   return 25.*BX + 2.5*SBX + (2.5/256.)*FT;
 }
