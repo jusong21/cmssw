@@ -358,10 +358,8 @@ float RPCSynchronizer::coordinateY(const IRPCDigi & adigi){
   tHR = TDC2Time(adigi.bxHR(),adigi.sbxHR(),adigi.tHR());
 
   double c = 299792458;  // [m/s]
-  //light speed in [cm/ns]
-  float cspeed = c * 1e+2 * 1e-9;
-  //signal propagation speed [cm/ns]
-  float sspeed = 0.66 * cspeed;
+  float cspeed = c * 1e+2 * 1e-9; //light speed in [cm/ns]
+  float sspeed = 0.66 * cspeed; //signal propagation speed [cm/ns]
 
   return sspeed*(tHR-tLR)/2.;
 }
