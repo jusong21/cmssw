@@ -48,8 +48,9 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
 //        int ch = digi->strip(); int strip = digi->strip();
 
 		// *** iRPC digi has both times
-		// FIXME but not sure, is this implemented?
-		float timeHR = digi->tHR();
+		// FIXME time is not properly implemented
+		float sbxtime = 5;
+		float timeHR = digi->time() + sbxtime * digi->tHR();
 		float timeLR = digi->tLR();
 		int strip = digi->strip();
 
