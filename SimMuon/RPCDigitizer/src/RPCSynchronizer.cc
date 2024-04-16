@@ -352,6 +352,7 @@ float RPCSynchronizer::time(const IRPCDigi & adigi){
 }
 
 float RPCSynchronizer::coordinateY(const IRPCDigi & adigi){
+  
   float tLR,tHR;
   tLR = TDC2Time(adigi.bxLR(),adigi.sbxLR(),adigi.tLR());
   tHR = TDC2Time(adigi.bxHR(),adigi.sbxHR(),adigi.tHR());
