@@ -54,7 +54,6 @@ public:
   static float time(const IRPCDigi &);
   static float coordinateY(const IRPCDigi &);
 
-  
 private:
   double resRPC;
   double timOff;
