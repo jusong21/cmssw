@@ -49,6 +49,7 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
 
 		// *** iRPC digi has both times
 		// FIXME time is not properly implemented
+		// FIXME test
 		float sbxtime = 5;
 		float timeHR = digi->time() + sbxtime * digi->tHR();
 		float timeLR = digi->tLR();
