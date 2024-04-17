@@ -49,7 +49,6 @@ public:
   int getBX(float time);
   std::pair<int,int> getBX_SBX(float time);
   //std::pair<int,int> getFineTime(const PSimHit* simhit, CLHEP::HepRandomEngine* engine,float StripLength);
-  std::tuple<int,int,int> getBX_SBX_fine_time(float time);
   static float TDC2Time(int BX, int SBX, int FT);
   static float time(const IRPCDigi &);
   static float coordinateY(const IRPCDigi &);
