@@ -33,6 +33,8 @@ public:
   int bxHR() const { return bxHR_; }
   int sbxLR() const { return sbxLR_; }
   int sbxHR() const { return sbxHR_; }
+  int tLR() const { return tLR_; }
+  int tHR() const { return tHR_; }
   double coordinateY() const { return 0; } //to be properly implemented    
   double time() const { return 0; } //to be properly implemented
 
@@ -48,8 +50,8 @@ private:
   int32_t bxHR_;    //BX from high radius FEB 
   int32_t sbxLR_;   //sub-BX from low radius FEB     
   int32_t sbxHR_;   //sub-BX from high radius FEB  
-  float tLR_;     //high resolution time rom low radius FEB       
-  float tHR_;     //high resolution time rom high radius FEB 
+  int32_t tLR_;     //high resolution time rom low radius FEB       
+  int32_t tHR_;     //high resolution time rom high radius FEB 
 };
 
 std::ostream& operator<<(std::ostream& o, const IRPCDigi& digi);
