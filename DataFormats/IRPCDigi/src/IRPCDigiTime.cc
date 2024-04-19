@@ -22,5 +22,5 @@ float IRPCDigiTime::timeHR(){
 }
 
 float IRPCDigiTime::TDC2Time(int BX, int SBX, int FT){
-  return 25.*BX + 2.5*SBX + (2.5/256.)*FT;
+  return 25.*BX + 2.5*SBX + 0.2*FT;
 }
