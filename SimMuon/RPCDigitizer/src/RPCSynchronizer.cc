@@ -16,7 +16,6 @@
 #include "DataFormats/MuonDetId/interface/RPCDetId.h"
 #include "SimMuon/RPCDigitizer/src/RPCSimSetUp.h"
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"
-#include "DataFormats/IRPCDigi/interface/IRPCDigi.h"
 
 #include "CLHEP/Random/RandGaussQ.h"
 
@@ -336,32 +335,5 @@ std::tuple<int,int,int> RPCSynchronizer::getBX_SBX_fine_time(float time){
   std::tuple<int,int,int> tdc;
   tdc = std::make_tuple(BX,SBX,fine_time);
   return tdc;
-}
-
-float RPCSynchronizer::TDC2Time(int BX, int SBX, int FT){
-  return 25.*BX + 2.5*SBX + (2.5/256.)*FT;
-}
-
-float RPCSynchronizer::time(const IRPCDigi & adigi){
-
-  float tLR,tHR;
-  tLR = TDC2Time(adigi.bxLR(),adigi.sbxLR(),adigi.tLR());
-  tHR = TDC2Time(adigi.bxHR(),adigi.sbxHR(),adigi.tHR());
-
-  return (tLR+tHR)/2.;
-}
-
-float RPCSynchronizer::coordinateY(const IRPCDigi & adigi){
-  float tLR,tHR;
-  tLR = TDC2Time(adigi.bxLR(),adigi.sbxLR(),adigi.tLR());
-  tHR = TDC2Time(adigi.bxHR(),adigi.sbxHR(),adigi.tHR());
-
-  double c = 299792458;  // [m/s]
-  //light speed in [cm/ns]
-  float cspeed = c * 1e+2 * 1e-9;
-  //signal propagation speed [cm/ns]
-  float sspeed = 0.66 * cspeed;
-
-  return sspeed*(tHR-tLR)/2.;
 }
 
