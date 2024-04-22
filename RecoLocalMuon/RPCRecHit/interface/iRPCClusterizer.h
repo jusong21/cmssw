@@ -18,9 +18,9 @@
     \date May 2019
 */
 /* iRPC */
-#include "iRPCClusterContainer.h"
-#include "iRPCCluster.h"
-#include "iRPCInfo.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCClusterContainer.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCCluster.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCInfo.h"
 /* CMSSW */
 #include "DataFormats/IRPCDigi/interface/IRPCDigiCollection.h"
 #include "Geometry/RPCGeometry/interface/RPCRoll.h"

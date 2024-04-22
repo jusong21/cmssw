@@ -1,10 +1,10 @@
-#include "iRPCClusterizer.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCClusterizer.h"
 
 /* iRPC */
-#include "iRPCCluster.h"
-#include "iRPCInfo.h"
-#include "iRPCHit.h"
-#include "iRPCHitContainer.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCCluster.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCInfo.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCHit.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCHitContainer.h"
 /* std */
 #include <algorithm>
 #include <limits>

@@ -7,7 +7,7 @@
 \license This file is released under the GNU General Public License v3.0.
 \date May 2019
 */
-#include "iRPCInfo.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCInfo.h"
 
 /* std */
 #include <limits>

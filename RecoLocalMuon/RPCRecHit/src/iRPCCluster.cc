@@ -9,7 +9,7 @@
 */
 
 /* iRPC */
-#include "iRPCCluster.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCCluster.h"
 /* std */
 #include <cmath>
 #include <algorithm>

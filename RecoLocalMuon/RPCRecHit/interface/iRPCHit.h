@@ -43,7 +43,7 @@ class iRPCHit
         iRPCHit(int channel, int strip, float time, int bunchx);
         /*! \brief Destructor. */
         iRPCHit(int channel, int strip, float time, int bunchx, float digiY);
-        ~iRPCHit();
+        //~iRPCHit();
 
         /*!
             \brief Return the bunchx of hit.

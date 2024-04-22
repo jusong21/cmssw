@@ -7,7 +7,7 @@
 \license This file is released under the GNU General Public License v3.0.
 \date May 2019
 */
-#include "iRPCHit.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCHit.h"
 
 
 iRPCHit::iRPCHit() { _channel = -1; _strip = -1; _time = -1; _isHR = false; _isLR = false; }
@@ -25,7 +25,7 @@ iRPCHit::iRPCHit(int channel, int strip, float time, int bunchx) :
                  _channel(channel), _strip(strip), _time(time), _bunchx(bunchx) { _isHR = false; _isLR = false; }
 iRPCHit::iRPCHit(int channel, int strip, float time, int bunchx, float digiY) :
                  _channel(channel), _strip(strip), _time(time), _bunchx(bunchx), _digiY{digiY} { _isHR = false; _isLR = false; }
-iRPCHit::~iRPCHit() {}
+//iRPCHit::~iRPCHit() {}
 
 int iRPCHit::bx() { return _bunchx; }
 int iRPCHit::strip() { return _strip; }

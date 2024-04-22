@@ -12,9 +12,9 @@
 #define RecoLocalMuon_iRPCCluster_h
 
 /* iRPC */
-#include "iRPCInfo.h"
-#include "iRPCHit.h"
-#include "iRPCHitContainer.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCInfo.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCHit.h"
+#include "RecoLocalMuon/RPCRecHit/interface/iRPCHitContainer.h"
 
 /*!
     \brief This class defines a cluster for improved Resistive Plate Chamber (iRPC).
