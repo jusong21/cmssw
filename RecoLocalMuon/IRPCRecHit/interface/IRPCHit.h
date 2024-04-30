@@ -1,6 +1,6 @@
 /*!
 \file
-\brief Header file with definitions of iRPCHit class.
+\brief Header file with definitions of IRPCHit class.
 \authors Shchablo Konstantin (shchablo@gmail.com)
 \version 1.0
 \copyright Copyright 2019 Shchablo Konstantin.
@@ -8,31 +8,31 @@
 \date May 2019
 */
 
-#ifndef RecoLocalMuon_iRPCHit_h
-#define RecoLocalMuon_iRPCHit_h
+#ifndef RecoLocalMuon_IRPCHit_h
+#define RecoLocalMuon_IRPCHit_h
 
 /*!
-    \brief This class defines a hit for improved Resistive Plate Chamber (iRPC).
+    \brief This class defines a hit for improved Resistive Plate Chamber (IRPC).
     \author Shchablo
     \version 1.0
     \date May 2019
 */
-class iRPCHit
+class IRPCHit
 {
     public:
 
         /*! \brief Constructor. */
-        iRPCHit();
+        IRPCHit();
         /*!
             \brief Constructor.
             \param[in] channels - TDC channel.
             \param[in] strip - PCB strip.
             \param[in] time - TDC time.
         */
-		iRPCHit(int strip, float time, int bunchx);
-		iRPCHit(int strip, float time);
+		IRPCHit(int strip, float time, int bunchx);
+		IRPCHit(int strip, float time);
 
-        iRPCHit(int channel, int strip, float time);
+        IRPCHit(int channel, int strip, float time);
         /*!
             \brief Constructor.
             \param[in] channels - TDC channel.
@@ -40,10 +40,10 @@ class iRPCHit
             \param[in] time - TDC time.
             \param[in] bunchx - information about bunchx from digi.
         */
-        iRPCHit(int channel, int strip, float time, int bunchx);
+        IRPCHit(int channel, int strip, float time, int bunchx);
         /*! \brief Destructor. */
-        iRPCHit(int channel, int strip, float time, int bunchx, float digiY);
-        //~iRPCHit();
+        IRPCHit(int channel, int strip, float time, int bunchx, float digiY);
+        //~IRPCHit();
 
         /*!
             \brief Return the bunchx of hit.
@@ -99,4 +99,4 @@ class iRPCHit
         float _bunchx; // !> TDC time.
         float _digiY; // !> TDC time.
 };
-#endif // RecoLocalMuon_iRPCHit_h
+#endif // RecoLocalMuon_IRPCHit_h

@@ -8,12 +8,12 @@
 \date May 2019
 */
 
-#ifndef RecoLocalMuon_iRPCClusterContainer_h
-#define RecoLocalMuon_iRPCClusterContainer_h
+#ifndef RecoLocalMuon_IRPCClusterContainer_h
+#define RecoLocalMuon_IRPCClusterContainer_h
 
 #include <vector>
 
-class iRPCCluster;
-typedef std::vector<iRPCCluster> iRPCClusterContainer;
+class IRPCCluster;
+typedef std::vector<IRPCCluster> IRPCClusterContainer;
 
-#endif // RecoLocalMuon_iRPCClusterContainer_h
+#endif // RecoLocalMuon_IRPCClusterContainer_h

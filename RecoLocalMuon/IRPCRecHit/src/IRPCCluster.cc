@@ -1,6 +1,6 @@
 /*!
 \file
-\brief Body file with definitions of iRPCCluster functions.
+\brief Body file with definitions of IRPCCluster functions.
 \authors Shchablo Konstantin (shchablo@gmail.com)
 \version 1.0
 \copyright Copyright 2019 Shchablo Konstantin.
@@ -8,14 +8,14 @@
 \date May 2019
 */
 
-/* iRPC */
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCCluster.h"
+/* IRPC */
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCCluster.h"
 /* std */
 #include <cmath>
 #include <algorithm>
 #include <limits>
 
-iRPCCluster::iRPCCluster()
+IRPCCluster::IRPCCluster()
 {
     _isCorrect = false;
     _bunchx = 0;
@@ -28,7 +28,7 @@ iRPCCluster::iRPCCluster()
     _sumY = 0; _sumY2 = 0; _nY = 0;
 
 }
-iRPCCluster::iRPCCluster(int bx) : _bunchx(bx)
+IRPCCluster::IRPCCluster(int bx) : _bunchx(bx)
 {
     _isCorrect = false;
     _fstrip = -1; _lstrip = -1;
@@ -40,39 +40,39 @@ iRPCCluster::iRPCCluster(int bx) : _bunchx(bx)
     _sumY = 0; _sumY2 = 0; _nY = 0;
 
 }
-iRPCCluster::~iRPCCluster() {}
+IRPCCluster::~IRPCCluster() {}
 
-int iRPCCluster::bx() { return _bunchx; }
-void iRPCCluster::setBx(int bx) { _bunchx = bx; }
+int IRPCCluster::bx() { return _bunchx; }
+void IRPCCluster::setBx(int bx) { _bunchx = bx; }
 
-int iRPCCluster::firstStrip() { return _fstrip; }
-int iRPCCluster::lastStrip() { return _lstrip; }
-int iRPCCluster::clusterSize() { return _lstrip-_fstrip+1; }
+int IRPCCluster::firstStrip() { return _fstrip; }
+int IRPCCluster::lastStrip() { return _lstrip; }
+int IRPCCluster::clusterSize() { return _lstrip-_fstrip+1; }
 
-bool iRPCCluster::hasHighTime() { return _nHighTime > 0; }
-float iRPCCluster::highTime() { return hasHighTime() ? _sumHighTime/_nHighTime : -1; }
-float iRPCCluster::highTimeRMS() { return hasHighTime() ? std::sqrt(std::max(0.0f, _sumHighTime2*_nHighTime - _sumHighTime*_sumHighTime))/_nHighTime : -1; }
+bool IRPCCluster::hasHighTime() { return _nHighTime > 0; }
+float IRPCCluster::highTime() { return hasHighTime() ? _sumHighTime/_nHighTime : -1; }
+float IRPCCluster::highTimeRMS() { return hasHighTime() ? std::sqrt(std::max(0.0f, _sumHighTime2*_nHighTime - _sumHighTime*_sumHighTime))/_nHighTime : -1; }
 
-bool iRPCCluster::hasLowTime() { return _nLowTime > 0; }
-float iRPCCluster::lowTime() { return hasLowTime() ? _sumLowTime/_nLowTime : -1; }
-float iRPCCluster::lowTimeRMS() { return hasLowTime() ? std::sqrt(std::max(0.0f, _sumLowTime2*_nLowTime - _sumLowTime*_sumLowTime))/_nLowTime : -1; }
+bool IRPCCluster::hasLowTime() { return _nLowTime > 0; }
+float IRPCCluster::lowTime() { return hasLowTime() ? _sumLowTime/_nLowTime : -1; }
+float IRPCCluster::lowTimeRMS() { return hasLowTime() ? std::sqrt(std::max(0.0f, _sumLowTime2*_nLowTime - _sumLowTime*_sumLowTime))/_nLowTime : -1; }
 
-bool iRPCCluster::hasDeltaTime() { return _nDeltaTime > 0; }
-float iRPCCluster::deltaTime() { return hasDeltaTime() ? _sumDeltaTime/_nDeltaTime : -1; }
-//float iRPCCluster::deltaTime() { return this->highTime() - this->lowTime(); }
-float iRPCCluster::deltaTimeRMS() { return hasDeltaTime() ? std::sqrt(std::max(0.0f, _sumDeltaTime2*_nDeltaTime - _sumDeltaTime*_sumDeltaTime))/_nDeltaTime : -1; }
+bool IRPCCluster::hasDeltaTime() { return _nDeltaTime > 0; }
+float IRPCCluster::deltaTime() { return hasDeltaTime() ? _sumDeltaTime/_nDeltaTime : -1; }
+//float IRPCCluster::deltaTime() { return this->highTime() - this->lowTime(); }
+float IRPCCluster::deltaTimeRMS() { return hasDeltaTime() ? std::sqrt(std::max(0.0f, _sumDeltaTime2*_nDeltaTime - _sumDeltaTime*_sumDeltaTime))/_nDeltaTime : -1; }
 
-bool iRPCCluster::hasY() { return _nY > 0; }
-float iRPCCluster::y() { return hasY() ? _sumY/_nY : 0; }
-float iRPCCluster::yRMS() { return hasY() ? std::sqrt(std::max(0.0f, _sumY2*_nY - _sumY*_sumY))/_nY : -1; }
+bool IRPCCluster::hasY() { return _nY > 0; }
+float IRPCCluster::y() { return hasY() ? _sumY/_nY : 0; }
+float IRPCCluster::yRMS() { return hasY() ? std::sqrt(std::max(0.0f, _sumY2*_nY - _sumY*_sumY))/_nY : -1; }
 
-bool iRPCCluster::hasX() { if(_fstrip == -1 || _lstrip == -1) return false; else return true; }
-float iRPCCluster::x() { return hasX() ? (_lstrip + _fstrip)/2 : -1; }
-float iRPCCluster::xD() { return hasX() ? std::pow((_lstrip-_fstrip),2)/12 : -1; }
+bool IRPCCluster::hasX() { if(_fstrip == -1 || _lstrip == -1) return false; else return true; }
+float IRPCCluster::x() { return hasX() ? (_lstrip + _fstrip)/2 : -1; }
+float IRPCCluster::xD() { return hasX() ? std::pow((_lstrip-_fstrip),2)/12 : -1; }
 
-iRPCHitContainer* iRPCCluster::hits() { return &_hits; }
+IRPCHitContainer* IRPCCluster::hits() { return &_hits; }
 
-float iRPCCluster::deltaStrip(){
+float IRPCCluster::deltaStrip(){
 	int strip = 0;
 	for(auto hit = _hits.begin(); hit != _hits.end(); ++hit){
 		strip = strip+hit->strip();
@@ -82,7 +82,7 @@ float iRPCCluster::deltaStrip(){
 }
 
 
-bool iRPCCluster::compute(iRPCInfo &info)
+bool IRPCCluster::compute(IRPCInfo &info)
 {
     bool result = true;
     _nHighTime = 0; _sumHighTime = 0; _sumHighTime2 = 0;
@@ -119,16 +119,16 @@ bool iRPCCluster::compute(iRPCInfo &info)
     _isCorrect = result; return result;
 }
 
-void iRPCCluster::initialize(iRPCCluster &hr, iRPCCluster &lr)
+void IRPCCluster::initialize(IRPCCluster &hr, IRPCCluster &lr)
 {
     _hits.clear();
     for(auto hit = hr.hits()->begin(); hit != hr.hits()->end(); ++hit) _hits.push_back(*hit);
     for(auto hit = lr.hits()->begin(); hit != lr.hits()->end(); ++hit) _hits.push_back(*hit);
 }
 
-void iRPCCluster::addHit(iRPCHit &hit) { _hits.push_back(hit); }
+void IRPCCluster::addHit(IRPCHit &hit) { _hits.push_back(hit); }
 
-bool iRPCCluster::split(iRPCCluster *cluster, int strip)
+bool IRPCCluster::split(IRPCCluster *cluster, int strip)
 {
     bool isSplit = false;
     for(auto hit = _hits.begin(); hit != _hits.end();) {

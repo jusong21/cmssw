@@ -1,6 +1,6 @@
 /*!
 \file
-\brief Header file with definitions of iRPCCluster class.
+\brief Header file with definitions of IRPCCluster class.
 \authors Shchablo Konstantin (shchablo@gmail.com)
 \version 1.0
 \copyright Copyright 2019 Shchablo Konstantin.
@@ -8,34 +8,34 @@
 \date May 2019
 */
 
-#ifndef RecoLocalMuon_iRPCCluster_h
-#define RecoLocalMuon_iRPCCluster_h
+#ifndef RecoLocalMuon_IRPCCluster_h
+#define RecoLocalMuon_IRPCCluster_h
 
-/* iRPC */
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCInfo.h"
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCHit.h"
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCHitContainer.h"
+/* IRPC */
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCInfo.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCHit.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCHitContainer.h"
 
 /*!
-    \brief This class defines a cluster for improved Resistive Plate Chamber (iRPC).
+    \brief This class defines a cluster for improved Resistive Plate Chamber (IRPC).
     \author Shchablo
     \version 1.0
     \date May 2019
 */
-class iRPCCluster
+class IRPCCluster
 {
     public:
 
         /*! \brief Constructor. */
-        iRPCCluster();
+        IRPCCluster();
         /*!
             \brief Constructor.
             \param[in] bx - bunchx.
         */
-        iRPCCluster(int bx);
+        IRPCCluster(int bx);
 
         /*! \brief Destructor. */
-        ~iRPCCluster();
+        ~IRPCCluster();
 
         /*!
             \brief Return bunchx.
@@ -148,7 +148,7 @@ class iRPCCluster
             \brief Returns a pointer to the hit container.
             \return The container of hits which include in the cluster.
         */
-        iRPCHitContainer* hits();
+        IRPCHitContainer* hits();
 
 		float deltaStrip();
 
@@ -157,19 +157,19 @@ class iRPCCluster
             \param[in] info -  All parameters for compute cluster.
             \return true if computed. false if something wrong.
         */
-        bool compute(iRPCInfo &info);
+        bool compute(IRPCInfo &info);
         /*!
             \brief Fills the cluster and calculates important parameters for cluster algorithms.
             \param[in] hr - Cluster from high radius of chamber.
             \param[in] lr - Cluster from low radius of chamber.
         */
-        void  initialize(iRPCCluster &hr, iRPCCluster &lr);
+        void  initialize(IRPCCluster &hr, IRPCCluster &lr);
 
         /*!
             \brief Add hit to the container of the cluster and calculates important parameters for cluster algorithms.
-            \param[in] hit - signle hit (iRPCHit) from raw data.
+            \param[in] hit - signle hit (IRPCHit) from raw data.
         */
-        void addHit(iRPCHit &hit);
+        void addHit(IRPCHit &hit);
         
         /*!
             \brief Split existing cluster by two along the border of the strip.
@@ -177,7 +177,7 @@ class iRPCCluster
             \param[out] cluster - new cluster. 
             \return true if splitted. false if something wrong.
         */
-        bool split(iRPCCluster *cluster, int strip);
+        bool split(IRPCCluster *cluster, int strip);
 
     private:
 
@@ -200,9 +200,9 @@ class iRPCCluster
         float _sumLowTime2; // !< The sum of squares of all times from low radius of cluster.
 
         unsigned int _nY; // !< The number of strips which have time information from both ends.
-        float _sumY; // !< The sum of all reconstructed positions (need the speed of light from iRPCInfo).
-        float _sumY2;  // !< The sum of squares of all reconstructed positions (need the speed of light from iRPCInfo).
+        float _sumY; // !< The sum of all reconstructed positions (need the speed of light from IRPCInfo).
+        float _sumY2;  // !< The sum of squares of all reconstructed positions (need the speed of light from IRPCInfo).
 
-        iRPCHitContainer _hits; // !< The container of hits which include in the cluster.
+        IRPCHitContainer _hits; // !< The container of hits which include in the cluster.
 };
-#endif // RecoLocalMuon_iRPCCluster_h
+#endif // RecoLocalMuon_IRPCCluster_h

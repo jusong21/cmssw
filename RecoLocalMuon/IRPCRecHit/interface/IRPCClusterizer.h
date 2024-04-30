@@ -1,6 +1,6 @@
 /*!
 \file
-\brief File with definitions iRPCClusterizer class.
+\brief File with definitions IRPCClusterizer class.
 \authors Shchablo Konstantin (IPNL-France) (shchablo@gmail.com)
 \version 1.0
 \copyright Copyright 2019 Shchablo Konstantin.
@@ -8,8 +8,8 @@
 \date May 2019
 */
 
-#ifndef RecoLocalMuon_iRPCClusterizer_h
-#define RecoLocalMuon_iRPCClusterizer_h
+#ifndef RecoLocalMuon_IRPCClusterizer_h
+#define RecoLocalMuon_IRPCClusterizer_h
 
 /*!
     \brief In this class defined functions to fulfillment clustering.
@@ -17,10 +17,10 @@
     \version 1.0
     \date May 2019
 */
-/* iRPC */
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCClusterContainer.h"
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCCluster.h"
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCInfo.h"
+/* IRPC */
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCClusterContainer.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCCluster.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCInfo.h"
 /* CMSSW */
 #include "DataFormats/IRPCDigi/interface/IRPCDigiCollection.h"
 #include "Geometry/RPCGeometry/interface/RPCRoll.h"
@@ -30,14 +30,14 @@
 #include <vector>
 #include <utility>
 
-class iRPCClusterizer 
+class IRPCClusterizer 
 {
     public:
 
         /* \brief Constructor.*/
-        iRPCClusterizer();
+        IRPCClusterizer();
         /*! \brief Destructor. */
-        ~iRPCClusterizer();
+        ~IRPCClusterizer();
 
         /*!
             \brief The function of clustering hits from a single side of the chamber.
@@ -45,7 +45,7 @@ class iRPCClusterizer
             \param[out] clusters - Container of output clusters.
             \return Fulfillment status.
         */
-        bool clustering(float thrTime, iRPCHitContainer &hits, iRPCClusterContainer &clusters);
+        bool clustering(float thrTime, IRPCHitContainer &hits, IRPCClusterContainer &clusters);
 
         /*!
             \brief The function of the association of clusters from high radius and low radius radius.
@@ -54,10 +54,10 @@ class iRPCClusterizer
             \param[in] lr - Container of clusters correspond low radius of the chamber.
             \return Container of clusters.
         */
-        iRPCClusterContainer association(iRPCInfo &info, iRPCClusterContainer hr, iRPCClusterContainer lr);
+        IRPCClusterContainer association(IRPCInfo &info, IRPCClusterContainer hr, IRPCClusterContainer lr);
 
-		iRPCClusterContainer oneSideCluster(iRPCHitContainer &hitsOneSide, float limit);
-		iRPCClusterContainer finalCluster(iRPCClusterContainer LR, iRPCClusterContainer HR);
+		IRPCClusterContainer oneSideCluster(IRPCHitContainer &hitsOneSide, float limit);
+		IRPCClusterContainer finalCluster(IRPCClusterContainer LR, IRPCClusterContainer HR);
 
 
         /* CMSSW */
@@ -66,8 +66,8 @@ class iRPCClusterizer
             \param[in] digiRange - simulated data.
             \return Container of clusters.
         */
-        //iRPCClusterContainer doAction(const RPCDigiCollection::Range& digiRange, iRPCInfo& info);
-        iRPCClusterContainer doAction(const RPCRoll& roll, const IRPCDigiCollection::Range& digiRange, iRPCInfo& info);
+        //IRPCClusterContainer doAction(const RPCDigiCollection::Range& digiRange, IRPCInfo& info);
+        IRPCClusterContainer doAction(const RPCRoll& roll, const IRPCDigiCollection::Range& digiRange, IRPCInfo& info);
 };
 
-#endif // RecoLocalMuon_iRPCClusterClusterizer_h
+#endif // RecoLocalMuon_IRPCClusterClusterizer_h

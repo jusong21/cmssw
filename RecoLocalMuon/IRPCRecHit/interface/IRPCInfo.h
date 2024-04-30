@@ -1,6 +1,6 @@
 /*!
 \file
-\brief Header file with definitions of iRPCMap class.
+\brief Header file with definitions of IRPCMap class.
 \authors Shchablo Konstantin (shchablo@gmail.com)
 \version 1.0
 \copyright Copyright 2019 Shchablo Konstantin.
@@ -8,26 +8,26 @@
 \date May 2019
 */
 
-#ifndef RecoLocalMuon_iRPCInfo_h
-#define RecoLocalMuon_iRPCInfo_h
+#ifndef RecoLocalMuon_IRPCInfo_h
+#define RecoLocalMuon_IRPCInfo_h
 
 /* std */
 #include <map>
 
 /*!
-    \brief This class defines an association map and parameters for the cluster algorithm for improved Resistive Plate Chamber (iRPC).
+    \brief This class defines an association map and parameters for the cluster algorithm for improved Resistive Plate Chamber (IRPC).
     \author Shchablo
     \version 1.0
     \date May 2019
 */
-class iRPCInfo
+class IRPCInfo
 {
     public:
 
         /* \brief Constructor. */
-        iRPCInfo();
+        IRPCInfo();
         /*! \brief Destructor. */
-        ~iRPCInfo();
+        ~IRPCInfo();
 
         /*!
             \brief Checking that TDC channel related to the high radius.
@@ -143,12 +143,12 @@ class iRPCInfo
         void isReturnOnlyAND(bool is);
 
         /*!
-            \brief Return true if need to use iRPC algorithm.
+            \brief Return true if need to use IRPC algorithm.
             \return _isUse.
         */
         bool isUseIRPCAlgorithm();
         /*!
-            \brief Set true if need to use iRPC algorithm.
+            \brief Set true if need to use IRPC algorithm.
             \param[in] is - true or false.
         */
         void isUseIRPCAlgorithm(bool is);
@@ -202,4 +202,4 @@ class iRPCInfo
         
         bool _count; // !< just count..
 };
-#endif // RecoLocalMuon_iRPCInfo_h
+#endif // RecoLocalMuon_IRPCInfo_h

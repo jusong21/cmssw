@@ -1,10 +1,10 @@
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCClusterizer.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCClusterizer.h"
 
-/* iRPC */
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCCluster.h"
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCInfo.h"
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCHit.h"
-#include "RecoLocalMuon/RPCRecHit/interface/iRPCHitContainer.h"
+/* IRPC */
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCCluster.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCInfo.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCHit.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCHitContainer.h"
 /* std */
 #include <algorithm>
 #include <limits>
@@ -14,18 +14,18 @@
 #include <iostream> // tests
 #include <iomanip> // tests
 
-iRPCClusterizer::iRPCClusterizer() {}
-iRPCClusterizer::~iRPCClusterizer() {}
+IRPCClusterizer::IRPCClusterizer() {}
+IRPCClusterizer::~IRPCClusterizer() {}
 
 // *** commented out by juhee
-iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDigiCollection::Range& digiRange, iRPCInfo& info)
+IRPCClusterContainer IRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDigiCollection::Range& digiRange, IRPCInfo& info)
 {
 
 // ************************** //
 // *** save digis in hits *** //
 // ************************** //
 
-    iRPCClusterContainer clusters;
+    IRPCClusterContainer clusters;
 
     // Return empty container for null input
 	// *** digiRange std::pair<const_iterator, const_iterator>
@@ -38,7 +38,7 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
     //  std::cout <<"strip=" << digi->strip() << " time=" <<  digi->time() << " position=" << digi->coordinateY() << " bx=" << digi->bx() << std::endl;
     //}
 
-    std::map<int, std::pair<iRPCHitContainer, iRPCHitContainer>> hits; // <map<bunchX, std::pair<hr, lr>>
+    std::map<int, std::pair<IRPCHitContainer, IRPCHitContainer>> hits; // <map<bunchX, std::pair<hr, lr>>
     auto it = hits.begin();
     //std::cout << "Clusterizer: " << std::endl;
     // Fill digi (simulation)
@@ -47,7 +47,7 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
 //        float timeHR = digi->time();
 //        int ch = digi->strip(); int strip = digi->strip();
 
-		// *** iRPC digi has both times
+		// *** IRPC digi has both times
 		// FIXME time is not properly implemented
 		// FIXME test
 		float sbxtime = 5;
@@ -56,12 +56,12 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
 		int strip = digi->strip();
 
         it = hits.find(bunchX); 
-		if(it == hits.end()) hits.insert(std::make_pair(bunchX, std::make_pair(iRPCHitContainer(), iRPCHitContainer())));
+		if(it == hits.end()) hits.insert(std::make_pair(bunchX, std::make_pair(IRPCHitContainer(), IRPCHitContainer())));
 
-        hits.find(bunchX)->second.first.push_back(iRPCHit(strip, timeHR, bunchX));
+        hits.find(bunchX)->second.first.push_back(IRPCHit(strip, timeHR, bunchX));
         hits.find(bunchX)->second.first.back().setHR(true);
 
-        hits.find(bunchX)->second.second.push_back(iRPCHit(strip, timeLR, bunchX));
+        hits.find(bunchX)->second.second.push_back(IRPCHit(strip, timeLR, bunchX));
         hits.find(bunchX)->second.second.back().setLR(true);
 
 /*
@@ -70,17 +70,17 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
 			// recalculate the second time
             float timeLR = timeHR-(stripLen-2*digi->coordinateY())/info.speed();
             //std::cout << "L:" << stripLen/2 << " y=" << digi->coordinateY() << " delta=" << timeHR - timeLR << std::endl;
-            hits.find(bunchX)->second.second.push_back(iRPCHit(ch, strip, timeLR, bunchX, digi->coordinateY()));
-            //hits.find(bunchX)->second.second.push_back(iRPCHit(ch, strip, timeLR, bunchX));
+            hits.find(bunchX)->second.second.push_back(IRPCHit(ch, strip, timeLR, bunchX, digi->coordinateY()));
+            //hits.find(bunchX)->second.second.push_back(IRPCHit(ch, strip, timeLR, bunchX));
             hits.find(bunchX)->second.second.back().setLR(true);
 */
             // ---
             //std::cout <<"strip=" << digi->strip() << " time=" <<  digi->time() << " position=" << digi->coordinateY() << " bx=" << digi->bx()  << " dt=" << timeHR - timeLR << std::endl;
     }
     
-	iRPCClusterContainer cHR;
-	iRPCClusterContainer cLR;
-	iRPCClusterContainer cPair;
+	IRPCClusterContainer cHR;
+	IRPCClusterContainer cLR;
+	IRPCClusterContainer cPair;
 	for(auto & it: hits){
 		cHR = oneSideCluster(it.second.first, 0.3);
 		cLR = oneSideCluster(it.second.second, 0.3);
@@ -98,13 +98,13 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
 /*
 
 
-    iRPCClusterContainer chr, clr, associated;
+    IRPCClusterContainer chr, clr, associated;
     for(auto& it: hits) { // per bunchx
 
         // Clustering for HR and LR separate.
 		// *** std::thread var(class::threadFunction, classMaker, inputs...)
-        std::thread thr(&iRPCClusterizer::clustering, this, info.thrTimeHR(), std::ref(it.second.first), std::ref(chr));
-        std::thread tlr(&iRPCClusterizer::clustering, this, info.thrTimeLR(), std::ref(it.second.second), std::ref(clr));
+        std::thread thr(&IRPCClusterizer::clustering, this, info.thrTimeHR(), std::ref(it.second.first), std::ref(chr));
+        std::thread tlr(&IRPCClusterizer::clustering, this, info.thrTimeLR(), std::ref(it.second.second), std::ref(clr));
         thr.join(); tlr.join();
 
         // Compute clusters parameters HR.
@@ -143,14 +143,14 @@ iRPCClusterContainer iRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
     return clusters;
 }
 */
-// *** iRPCHitContainer def: std::vector<iRPCHit>
+// *** IRPCHitContainer def: std::vector<IRPCHit>
 // *** hitsOneSide: only HR or LR hits ex.hits.find(bunchX)->second.first;
-iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSide, float limit){
+IRPCClusterContainer IRPCClusterizer::oneSideCluster(IRPCHitContainer &hitsOneSide, float limit){
 	
-	iRPCClusterContainer clusters;
+	IRPCClusterContainer clusters;
 	if(hitsOneSide.size() == 0) return clusters;
 
-    //std::vector<iRPCHitContainer> clusters;
+    //std::vector<IRPCHitContainer> clusters;
 
 	std::vector<int> indice;
 	indice.clear();
@@ -171,12 +171,12 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 		// *** temporary hits with  minimum time and its strip
 		int tempStrip = hitsOneSide.at(indice.at(minTimeIdx)).strip();
 		float tempTime = hitsOneSide.at(indice.at(minTimeIdx)).time();
-		//iRPCHit tempHit = iRPCHit(tempStrip, tempTime);
-		//iRPCHitContainer tempHits = iRPCHitContainer(iRPCHit(tempStrip, tempTime);
+		//IRPCHit tempHit = IRPCHit(tempStrip, tempTime);
+		//IRPCHitContainer tempHits = IRPCHitContainer(IRPCHit(tempStrip, tempTime);
 		//tempHits.push_back(tempHit);
-		//iRPCCluster tempHits = iRPCCluster().addHit(iRPCHit(tempStrip, tempTime));
-		iRPCCluster tempHits = iRPCCluster();
-		iRPCHit tempHit  = iRPCHit(tempStrip, tempTime); 
+		//IRPCCluster tempHits = IRPCCluster().addHit(IRPCHit(tempStrip, tempTime));
+		IRPCCluster tempHits = IRPCCluster();
+		IRPCHit tempHit  = IRPCHit(tempStrip, tempTime); 
 		tempHits.addHit(tempHit);
 
 		std::vector<int> eraseIdx;
@@ -200,7 +200,7 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 			
 			if(abs(refTime-time)<limit){
 				if(abs(refStrip-strip)<=1+max_jumps){
-					iRPCHit clusterHit = iRPCHit(strip, time);
+					IRPCHit clusterHit = IRPCHit(strip, time);
 					tempHits.addHit(clusterHit);
 					eraseIdx.push_back(j);
 					i=j;
@@ -222,7 +222,7 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 			
 			if(abs(refTime-time)<limit){
 				if(abs(refStrip-strip)<=1+max_jumps){
-					iRPCHit clusterHit = iRPCHit(strip, time);
+					IRPCHit clusterHit = IRPCHit(strip, time);
 					tempHits.addHit(clusterHit);
 					eraseIdx.push_back(j);
 					i=j;
@@ -242,9 +242,9 @@ iRPCClusterContainer iRPCClusterizer::oneSideCluster(iRPCHitContainer &hitsOneSi
 }
 
 
-iRPCClusterContainer iRPCClusterizer::finalCluster(iRPCClusterContainer LR, iRPCClusterContainer HR){
+IRPCClusterContainer IRPCClusterizer::finalCluster(IRPCClusterContainer LR, IRPCClusterContainer HR){
 
-	iRPCClusterContainer clusters;
+	IRPCClusterContainer clusters;
 
 	int noMatch = 0;
 	while(LR.size()>0 && HR.size()>0 && noMatch==0){
@@ -262,7 +262,7 @@ iRPCClusterContainer iRPCClusterizer::finalCluster(iRPCClusterContainer LR, iRPC
 		}
 		//if(abs(HR.at(HR_ind_smallest).strip() - LR.at(LR_ind_smallest).strip())<=1.){
 		if(abs(HR.at(idxHR).deltaStrip() - LR.at(idxLR).deltaStrip())<0.9){
-			iRPCCluster temp0;
+			IRPCCluster temp0;
 			temp0.initialize(HR.at(idxHR), LR.at(idxLR));
 			clusters.push_back(temp0);
 			LR.erase(LR.begin()+idxLR);
@@ -276,15 +276,15 @@ iRPCClusterContainer iRPCClusterizer::finalCluster(iRPCClusterContainer LR, iRPC
 
 /*
 
-bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClusterContainer &clusters)
+bool IRPCClusterizer::clustering(float thrTime, IRPCHitContainer &hits, IRPCClusterContainer &clusters)
 {
     if(hits.size() == 0) return false;
 
     // Sort hits by channel number from lowest to highest.
 	// *** just change channel to strip
     std::sort(hits.begin(), hits.end(),
-        //[] (iRPCHit & h1, iRPCHit & h2) -> bool { return h1.channel() < h2.channel(); });
-        [] (iRPCHit & h1, iRPCHit & h2) -> bool { return h1.strip() < h2.strip(); });
+        //[] (IRPCHit & h1, IRPCHit & h2) -> bool { return h1.channel() < h2.channel(); });
+        [] (IRPCHit & h1, IRPCHit & h2) -> bool { return h1.strip() < h2.strip(); });
 
     //// Print data (test) RAW DATA
     //for(auto hit = hits.begin(); hit != hits.end(); ++hit)
@@ -292,17 +292,17 @@ bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClus
 
     // Fill all hits to map for group all hits per channel. Key is channel.
 	// *** change channel to strip
-    // *** std::map<int, iRPCHitContainer> channels;
+    // *** std::map<int, IRPCHitContainer> channels;
 
 // *** if i understand correctly, there's one hit per strip (one bx)
 // *** then, I think we don't need this...? bc we sorted hits by strip number from lowset to highest
 // *** or maybe we can use std::pair instead of std::map 
-    std::map<int, iRPCHitContainer> strips;
+    std::map<int, IRPCHitContainer> strips;
     for(auto hit = hits.begin(); hit != hits.end(); ++hit) {
         // *** auto channel = channels.find(hit->channel());
         auto strip = strips.find(hit->strip());
-        // *** if(channel == channels.end()) channels.insert(std::pair<int, iRPCHitContainer>(hit->channel(), iRPCHitContainer()));
-        if(strip == strips.end()) strips.insert(std::pair<int, iRPCHitContainer>(hit->strip(), iRPCHitContainer()));
+        // *** if(channel == channels.end()) channels.insert(std::pair<int, IRPCHitContainer>(hit->channel(), IRPCHitContainer()));
+        if(strip == strips.end()) strips.insert(std::pair<int, IRPCHitContainer>(hit->strip(), IRPCHitContainer()));
         // *** channels.find(hit->channel())->second.push_back(*hit);
         strips.find(hit->strip())->second.push_back(*hit);
     }
@@ -318,7 +318,7 @@ bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClus
     for(auto strip = strips.begin(); strip != strips.end(); ++strip) {
         // *** std::sort(channel->second.begin(), channel->second.end(),
         std::sort(strip->second.begin(), strip->second.end(),
-            [] (iRPCHit & h1, iRPCHit & h2) -> bool { return h1.time() < h2.time(); });
+            [] (IRPCHit & h1, IRPCHit & h2) -> bool { return h1.time() < h2.time(); });
     }
 // *** To here
 
@@ -332,7 +332,7 @@ bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClus
 
 // *** Fill clusters
 	// ** I assumed strips is std::pair
-	vector<std::map<int, iRPCHitContainer>> cluster_one_side;
+	vector<std::map<int, IRPCHitContainer>> cluster_one_side;
 	cluster_one_side.clear();
 
 	vector<int> indice;
@@ -366,7 +366,7 @@ bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClus
             }
             // if minDelta below thresholt (param) fill two first hits in cluster
             if(minDelta < thrTime) {
-                clusters.push_back(iRPCCluster()); clusters.back().addHit(front->second.at(minI));
+                clusters.push_back(IRPCCluster()); clusters.back().addHit(front->second.at(minI));
                 clusters.back().addHit(next->second.at(minNI));
 
 				// erase min index
@@ -376,7 +376,7 @@ bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClus
                 if(front->second.size() == 0) channels.erase(front);
             }
             else { // fill only first hit in cluster
-                clusters.push_back(iRPCCluster()); clusters.back().addHit(front->second.at(minI));
+                clusters.push_back(IRPCCluster()); clusters.back().addHit(front->second.at(minI));
                 front->second.erase(front->second.begin() + minI); used = used + 1;
                 if(front->second.size() == 0) channels.erase(front);
             }
@@ -397,7 +397,7 @@ bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClus
             }
         }
         else { // if it last channel or it isn't first channel in cluster - make cluster with single hit
-            clusters.push_back(iRPCCluster()); clusters.back().addHit(channels.begin()->second.front());
+            clusters.push_back(IRPCCluster()); clusters.back().addHit(channels.begin()->second.front());
             channels.begin()->second.erase(channels.begin()->second.begin()); used = used + 1;
             if(channels.begin()->second.size() == 0) channels.erase(channels.begin());
         }
@@ -416,7 +416,7 @@ bool iRPCClusterizer::clustering(float thrTime, iRPCHitContainer &hits, iRPCClus
     return true;
 }
 
-iRPCClusterContainer iRPCClusterizer::association(iRPCInfo &info, iRPCClusterContainer hr, iRPCClusterContainer lr)
+IRPCClusterContainer IRPCClusterizer::association(IRPCInfo &info, IRPCClusterContainer hr, IRPCClusterContainer lr)
 {
     // ---
     bool isAND = info.isReturnOnlyAND();
@@ -424,14 +424,14 @@ iRPCClusterContainer iRPCClusterizer::association(iRPCInfo &info, iRPCClusterCon
     float thrDeltaMax = info.thrDeltaTimeMax();
     float thrDeltaY = info.thrDeltaTimeY();
     // ---
-    iRPCClusterContainer clusters;
+    IRPCClusterContainer clusters;
 
     // Sort clusters by number of hits from lowest to highest.
     std::sort(hr.begin(), hr.end(),
-             [] (iRPCCluster & c1, iRPCCluster & c2) -> bool
+             [] (IRPCCluster & c1, IRPCCluster & c2) -> bool
                     { return c1.hits()->size() < c2.hits()->size(); });
     std::sort(lr.begin(), lr.end(),
-             [] (iRPCCluster & c1, iRPCCluster & c2) -> bool
+             [] (IRPCCluster & c1, IRPCCluster & c2) -> bool
                     { return c1.hits()->size() < c2.hits()->size(); });
 
     //// Print data (test)
@@ -503,27 +503,27 @@ iRPCClusterContainer iRPCClusterizer::association(iRPCInfo &info, iRPCClusterCon
             if(deltaTimes.size() > 0) deltaTime = deltaTimes.at(0).second; 
             for(unsigned int idT = 0; idT < deltaTimes.size(); idT++) {
                 if(std::abs(deltaTime - deltaTimes.at(idT).second) > thrDeltaY) {  
-                    iRPCCluster cHR; isSplitHR = hr.at(min->first).split(&cHR, deltaTimes.at(idT).first);
+                    IRPCCluster cHR; isSplitHR = hr.at(min->first).split(&cHR, deltaTimes.at(idT).first);
                     if(isSplitHR) {
                         hr.at(min->first).compute(info);
                         hr.push_back(cHR); hr.back().compute(info); nClusters += 1;
                         std::sort(hr.begin(), hr.end(),
-                                    [] (iRPCCluster & c1, iRPCCluster & c2) -> bool
+                                    [] (IRPCCluster & c1, IRPCCluster & c2) -> bool
                                     { return c1.hits()->size() < c2.hits()->size(); });
                     }
-                    iRPCCluster cLR; isSplitLR = lr.at(min->second).split(&cLR, deltaTimes.at(idT).first);
+                    IRPCCluster cLR; isSplitLR = lr.at(min->second).split(&cLR, deltaTimes.at(idT).first);
                     if(isSplitLR) {
                         lr.at(min->second).compute(info);
                         lr.push_back(cLR); lr.back().compute(info); nClusters += 1;
                         std::sort(lr.begin(), lr.end(),
-                                    [] (iRPCCluster & c1, iRPCCluster & c2) -> bool
+                                    [] (IRPCCluster & c1, IRPCCluster & c2) -> bool
                                     { return c1.hits()->size() < c2.hits()->size(); });
                     }
                     break;
                 }        
             }
             if(!isSplitHR && !isSplitLR) {
-              clusters.push_back(iRPCCluster());
+              clusters.push_back(IRPCCluster());
               clusters.back().initialize(hr.at(min->first), lr.at(min->second));
               hr.erase(hr.begin() + min->first); used = used + 1;
               lr.erase(lr.begin() + min->second); used = used + 1;

@@ -8,12 +8,12 @@
 \date May 2019
 */
 
-#ifndef RecoLocalMuon_iRPCHitContainer_h
-#define RecoLocalMuon_iRPCHitContainer_h
+#ifndef RecoLocalMuon_IRPCHitContainer_h
+#define RecoLocalMuon_IRPCHitContainer_h
 
 #include <vector>
 
-class iRPCHit;
-typedef std::vector<iRPCHit> iRPCHitContainer;
+class IRPCHit;
+typedef std::vector<IRPCHit> IRPCHitContainer;
 
-#endif // RecoLocalMuon_iRPCHitContainer_h
+#endif // RecoLocalMuon_IRPCHitContainer_h
