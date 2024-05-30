@@ -159,18 +159,24 @@ IRPCClusterContainer IRPCClusterizer::oneSideCluster(IRPCHitContainer &hitsOneSi
 		indice.push_back(j);
 	}
 
+	std::vector<int> NMat;
+	NMat.clear();
+
 	// *** find the smallest time and its idx
 	while(indice.size()>0){
 		float minTime = 9999999999999999999999.;
 		int minTimeIdx = -999;
+		std::cout << std::endl << " Find the smallest time and idx" << std::endl;
 		for(int j=0; j<(int)indice.size(); j++){
 			float time = hitsOneSide.at(indice.at(j)).time();
-			if(time < minTime) {minTime = time; minTimeIdx = j;}
+			std::cout << std::endl << j << ": " << time;
+			if(time < minTime) {minTime = time; minTimeIdx = j; std::cout << "<< min time!" <<  std::endl;}
 		}
-
 		// *** temporary hits with  minimum time and its strip
 		int tempStrip = hitsOneSide.at(indice.at(minTimeIdx)).strip();
 		float tempTime = hitsOneSide.at(indice.at(minTimeIdx)).time();
+
+		std::cout << std::endl << "** minTimeIdx: " << minTimeIdx << " tempStrip: " << tempStrip << " tempTime: " << tempTime << std::endl;
 		//IRPCHit tempHit = IRPCHit(tempStrip, tempTime);
 		//IRPCHitContainer tempHits = IRPCHitContainer(IRPCHit(tempStrip, tempTime);
 		//tempHits.push_back(tempHit);
@@ -187,8 +193,12 @@ IRPCClusterContainer IRPCClusterizer::oneSideCluster(IRPCHitContainer &hitsOneSi
 
 		int i = -99;
 		int refTimeIdx = -99;
+
+		int NMatch = 0; // N matched hits
+
 		// look in the strips in the right side with max strip jump and delta time limit
 		//for(unsigned int j=minTimeIdx; j<indice.size(); j++){
+		std::cout << std::endl << " = looking right side =" << std::endl;
 		for(int j=minTimeIdx; j<(int)indice.size(); j++){
 			if(j==minTimeIdx) {i=minTimeIdx; refTimeIdx=minTimeIdx; continue;}
 
@@ -197,13 +207,17 @@ IRPCClusterContainer IRPCClusterizer::oneSideCluster(IRPCHitContainer &hitsOneSi
 
 			int refStrip = hitsOneSide.at(indice.at(i)).strip();
 			int strip = hitsOneSide.at(indice.at(j)).strip();
-			
+
+			std::cout << "j: " << j << " time: " << time << " strip: " << strip <<" delT: " << refTime-time << std::endl;
 			if(abs(refTime-time)<limit){
+				std::cout << " !!!! in limit";
 				if(abs(refStrip-strip)<=1+max_jumps){
+					std::cout << " !!!!  in strip jump ------> save hit" << std::endl;
 					IRPCHit clusterHit = IRPCHit(strip, time);
 					tempHits.addHit(clusterHit);
 					eraseIdx.push_back(j);
 					i=j;
+					NMatch++;
 				} else break;
 			}
 		}
@@ -211,6 +225,7 @@ IRPCClusterContainer IRPCClusterizer::oneSideCluster(IRPCHitContainer &hitsOneSi
 		i = -99;
 		refTimeIdx = -99;
 		// look in the strips in the left side with max strip jump and delta time limit
+		std::cout << std::endl << " = looking left side = " << std::endl;
 		for(int j=minTimeIdx; j>-1; j--){
 			if(j==minTimeIdx) {i=minTimeIdx; refTimeIdx=minTimeIdx; continue;}
 
@@ -220,15 +235,20 @@ IRPCClusterContainer IRPCClusterizer::oneSideCluster(IRPCHitContainer &hitsOneSi
 			int refStrip = hitsOneSide.at(indice.at(i)).strip();
 			int strip = hitsOneSide.at(indice.at(j)).strip();
 			
+			std::cout << "j: " << j << " time: " << time << " strip: " << strip <<" delT: " << refTime-time << std::endl;
 			if(abs(refTime-time)<limit){
+				std::cout << " !!!! in limit";
 				if(abs(refStrip-strip)<=1+max_jumps){
+					std::cout << " !!!! in strip jump ------> save hit" << std::endl;
 					IRPCHit clusterHit = IRPCHit(strip, time);
 					tempHits.addHit(clusterHit);
 					eraseIdx.push_back(j);
 					i=j;
+					NMatch++;
 				} else break;
 			}
 		}
+		NMat.push_back(NMatch);
 
 		std::sort(eraseIdx.begin(), eraseIdx.end());
 
@@ -238,7 +258,9 @@ IRPCClusterContainer IRPCClusterizer::oneSideCluster(IRPCHitContainer &hitsOneSi
 
 		clusters.push_back(tempHits);
 	}
-	return clusters;
+	std::cout << "num: ";
+	for(size_t i=0; i<NMat.size(); i++){ std::cout << NMat[i] << " " << std::endl;}
+	return clusters; 
 }
 
 
@@ -253,7 +275,9 @@ IRPCClusterContainer IRPCClusterizer::finalCluster(IRPCClusterContainer LR, IRPC
 		int idxHR = -1;
 		for(int ij=0; ij<(int)HR.size(); ij++){
 			for(int ji=0; ji<(int)LR.size(); ji++){
+				std::cout << std::endl <<"HR dS: " << HR.at(ij).deltaStrip() << " LR dS: " << LR.at(ji).deltaStrip() << " diff: " <<abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip());
 				if(abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip()) < stripDiff){
+					std::cout << " << min diff " << std::endl;
 					stripDiff = abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip());
 					idxLR = ji;
 					idxHR = ij;
@@ -262,6 +286,7 @@ IRPCClusterContainer IRPCClusterizer::finalCluster(IRPCClusterContainer LR, IRPC
 		}
 		//if(abs(HR.at(HR_ind_smallest).strip() - LR.at(LR_ind_smallest).strip())<=1.){
 		if(abs(HR.at(idxHR).deltaStrip() - LR.at(idxLR).deltaStrip())<0.9){
+			std::cout << "HR " << idxHR << " LR " << idxLR << " are matched! " << std::endl;
 			IRPCCluster temp0;
 			temp0.initialize(HR.at(idxHR), LR.at(idxLR));
 			clusters.push_back(temp0);
