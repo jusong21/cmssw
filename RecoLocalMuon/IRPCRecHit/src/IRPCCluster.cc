@@ -78,7 +78,7 @@ float IRPCCluster::deltaStrip(){
 		strip = strip+hit->strip();
 	}
 	int nHits = _hits.size();
-	return strip/nHits;
+	return (float)strip/(float)nHits;
 }
 
 

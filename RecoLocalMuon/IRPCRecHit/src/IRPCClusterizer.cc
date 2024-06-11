@@ -5,11 +5,17 @@
 #include "RecoLocalMuon/IRPCRecHit/interface/IRPCInfo.h"
 #include "RecoLocalMuon/IRPCRecHit/interface/IRPCHit.h"
 #include "RecoLocalMuon/IRPCRecHit/interface/IRPCHitContainer.h"
+
+#include "DataFormats/IRPCDigi/interface/IRPCDigi.h"
+#include "DataFormats/IRPCDigi/interface/IRPCDigiCollection.h"
+#include "DataFormats/IRPCDigi/interface/IRPCDigiTime.h"
+
 /* std */
 #include <algorithm>
 #include <limits>
 #include <map>
 #include <thread>
+#include <numeric>
 
 #include <iostream> // tests
 #include <iomanip> // tests
@@ -40,20 +46,15 @@ IRPCClusterContainer IRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
 
     std::map<int, std::pair<IRPCHitContainer, IRPCHitContainer>> hits; // <map<bunchX, std::pair<hr, lr>>
     auto it = hits.begin();
+
     //std::cout << "Clusterizer: " << std::endl;
     // Fill digi (simulation)
+	//IRPCDigiTime time;
     for(auto digi = digiRange.first; digi != digiRange.second; ++digi) {
         int bunchX = digi->bx();
-//        float timeHR = digi->time();
-//        int ch = digi->strip(); int strip = digi->strip();
-
-		// *** IRPC digi has both times
-		// FIXME time is not properly implemented
-		// FIXME test
-		float sbxtime = 5;
-		float timeHR = digi->time() + sbxtime * digi->tHR();
-		float timeLR = digi->tLR();
 		int strip = digi->strip();
+		float timeHR = abs(IRPCDigiTime( *digi ).timeHR());
+		float timeLR = abs(IRPCDigiTime( *digi ).timeLR());
 
         it = hits.find(bunchX); 
 		if(it == hits.end()) hits.insert(std::make_pair(bunchX, std::make_pair(IRPCHitContainer(), IRPCHitContainer())));
@@ -64,507 +65,177 @@ IRPCClusterContainer IRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
         hits.find(bunchX)->second.second.push_back(IRPCHit(strip, timeLR, bunchX));
         hits.find(bunchX)->second.second.back().setLR(true);
 
-/*
-        if(digi->hasY()) {
-            float stripLen = roll.specificTopology().stripLength();
-			// recalculate the second time
-            float timeLR = timeHR-(stripLen-2*digi->coordinateY())/info.speed();
-            //std::cout << "L:" << stripLen/2 << " y=" << digi->coordinateY() << " delta=" << timeHR - timeLR << std::endl;
-            hits.find(bunchX)->second.second.push_back(IRPCHit(ch, strip, timeLR, bunchX, digi->coordinateY()));
-            //hits.find(bunchX)->second.second.push_back(IRPCHit(ch, strip, timeLR, bunchX));
-            hits.find(bunchX)->second.second.back().setLR(true);
-*/
-            // ---
             //std::cout <<"strip=" << digi->strip() << " time=" <<  digi->time() << " position=" << digi->coordinateY() << " bx=" << digi->bx()  << " dt=" << timeHR - timeLR << std::endl;
     }
-    
 	IRPCClusterContainer cHR;
 	IRPCClusterContainer cLR;
 	IRPCClusterContainer cPair;
-	for(auto & it: hits){
-		cHR = oneSideCluster(it.second.first, 0.3);
-		cLR = oneSideCluster(it.second.second, 0.3);
-	
-		if(cHR.size()>0 && cLR.size()>0){
-			cPair = finalCluster(cLR, cHR);
-		}
 
+	for(auto & it: hits){
+//		std::thread tHR(&IRPCClusterizer::oneSideCluster, this, 0.3, std::ref(it.second.first), std::ref(cHR));
+//		std::thread tLR(&IRPCClusterizer::oneSideCluster, this, 0.3, std::ref(it.second.second), std::ref(cLR));
+		std::thread tHR(&IRPCClusterizer::oneSideCluster, this, info.thrTimeHR(), std::ref(it.second.first), std::ref(cHR));
+		std::thread tLR(&IRPCClusterizer::oneSideCluster, this, info.thrTimeLR(), std::ref(it.second.second), std::ref(cLR));
+		tHR.join(); tLR.join();
+	
+		std::cout << "cHR size: " << cHR.size() << " cLR size: " << cLR.size() << std::endl;
+
+		if(cHR.empty() && !cLR.empty()) return cLR;
+		if(!cHR.empty() && cLR.empty()) return cHR;
+//		// Compute clusters parameters HR
+//		for(auto cl=cHR.begin(); cl!=cHR.end(); ++cl){
+//			cl->compute(std::ref(info));
+//		}
+//		if (info.isOnlyHR()) return cHR;
+//		// Compute clusters parameters LR
+//		for(auto cl=cLR.begin(); cl!=cLR.end(); ++cl){
+//			cl->compute(std::ref(info));
+//		if (info.isOnlyLR()) return cLR;
+
+		//if(cHR.size()>0 && cLR.size()>0){
+		if(!cHR.empty() && !cLR.empty()){
+			std::cout << std::endl << " == Let's do final cluster == " << std:: endl;
+			cPair = finalCluster(cHR, cLR);
+		}
+	
+		std::cout << "cHR.size: " << cHR.size() << " cLR.size: " << cLR.size() << std::endl;
 		clusters.insert(clusters.end(), cPair.begin(), cPair.end());
 		cHR.clear(); cLR.clear(); cPair.clear();
 	}
+    // Compute clusters parameters.
+//    for(auto cl = clusters.begin(); cl != clusters.end(); ++cl)
+//        cl->compute(std::ref(info));
+//
+	hits.clear();
 	return clusters;
 }
 
-/*
-
-
-    IRPCClusterContainer chr, clr, associated;
-    for(auto& it: hits) { // per bunchx
-
-        // Clustering for HR and LR separate.
-		// *** std::thread var(class::threadFunction, classMaker, inputs...)
-        std::thread thr(&IRPCClusterizer::clustering, this, info.thrTimeHR(), std::ref(it.second.first), std::ref(chr));
-        std::thread tlr(&IRPCClusterizer::clustering, this, info.thrTimeLR(), std::ref(it.second.second), std::ref(clr));
-        thr.join(); tlr.join();
-
-        // Compute clusters parameters HR.
-        for(auto cl = chr.begin(); cl != chr.end(); ++cl)
-            cl->compute(std::ref(info));
-        if(info.isOnlyHR()) return chr;
-        // Compute clusters parameters LR.
-        for(auto cl = clr.begin(); cl != clr.end(); ++cl)
-            cl->compute(std::ref(info));
-        if(info.isOnlyLR()) return clr;
-
-        // Association between HR and LR.
-        associated = association(info, chr, clr);
-        clusters.insert(clusters.end(), associated.begin(), associated.end());
-        chr.clear(); clr.clear(); associated.clear();
-    }
-
-    // Compute clusters parameters.
-    for(auto cl = clusters.begin(); cl != clusters.end(); ++cl)
-        cl->compute(std::ref(info));
-
-    //////// Print data (test)
-    //if( clusters.size() > 1) {
-    //std::cout << "\nCouple: " << clusters.size();
-    //for(unsigned int i = 0; i < clusters.size(); i++) {
-    //    std::cout << "\n\nfirst: " << clusters.at(i).firstStrip() << " last: " << clusters.at(i).lastStrip() << " size: " << clusters.at(i).clusterSize() << " bx: " << clusters.at(i).bx()
-    //    <<  " time: " << clusters.at(i).deltaTime() << " position: " << clusters.at(i).y();
-    //    std::cout << "\nn: " <<  clusters.at(i).hits()->size() << "  ";
-    //    for(unsigned int j = 0; j < clusters.at(i).hits()->size(); j++)
-    //        std::cout << std::setprecision(4) << clusters.at(i).hits()->at(j).channel() << "|" 
-    //        << clusters.at(i).hits()->at(j).time() << " " << clusters.at(i).hits()->at(j).isHR() << "; ";
-    //}
-    //std::cout << "\n------------------------------------------------------\n";
-    //}
-    hits.clear();
-    return clusters;
-}
-*/
 // *** IRPCHitContainer def: std::vector<IRPCHit>
 // *** hitsOneSide: only HR or LR hits ex.hits.find(bunchX)->second.first;
-IRPCClusterContainer IRPCClusterizer::oneSideCluster(IRPCHitContainer &hitsOneSide, float limit){
+bool IRPCClusterizer::oneSideCluster(float limit, IRPCHitContainer &hitsOneSide, IRPCClusterContainer &clusters ){
 	
-	IRPCClusterContainer clusters;
-	if(hitsOneSide.size() == 0) return clusters;
+	if(hitsOneSide.size() == 0) return false;
 
-    //std::vector<IRPCHitContainer> clusters;
-
-	std::vector<int> indice;
-	indice.clear();
+	std::vector<int> indice(hitsOneSide.size());
+	std::iota(indice.begin(), indice.end(), 0);
 	
-	for(unsigned int j=0; j<hitsOneSide.size(); j++){
-		indice.push_back(j);
-	}
-
-	std::vector<int> NMat;
-	NMat.clear();
-
-	// *** find the smallest time and its idx
-	while(indice.size()>0){
-		float minTime = 9999999999999999999999.;
-		int minTimeIdx = -999;
-		std::cout << std::endl << " Find the smallest time and idx" << std::endl;
-		for(int j=0; j<(int)indice.size(); j++){
+	// find the earlies time and its idx
+	while (!indice.empty()){
+		float minTime = std::numeric_limits<float>::max();
+		int minTimeIdx = -1;
+		for (int j=0; j < (int)indice.size(); ++j){
 			float time = hitsOneSide.at(indice.at(j)).time();
-			std::cout << std::endl << j << ": " << time;
-			if(time < minTime) {minTime = time; minTimeIdx = j; std::cout << "<< min time!" <<  std::endl;}
+			if (time < minTime){
+				minTime = time;
+				minTimeIdx = j;
+			}
 		}
-		// *** temporary hits with  minimum time and its strip
-		int tempStrip = hitsOneSide.at(indice.at(minTimeIdx)).strip();
-		float tempTime = hitsOneSide.at(indice.at(minTimeIdx)).time();
+		int minTimeStrip = hitsOneSide.at(indice.at(minTimeIdx)).strip();
 
-		std::cout << std::endl << "** minTimeIdx: " << minTimeIdx << " tempStrip: " << tempStrip << " tempTime: " << tempTime << std::endl;
-		//IRPCHit tempHit = IRPCHit(tempStrip, tempTime);
-		//IRPCHitContainer tempHits = IRPCHitContainer(IRPCHit(tempStrip, tempTime);
-		//tempHits.push_back(tempHit);
-		//IRPCCluster tempHits = IRPCCluster().addHit(IRPCHit(tempStrip, tempTime));
-		IRPCCluster tempHits = IRPCCluster();
-		IRPCHit tempHit  = IRPCHit(tempStrip, tempTime); 
+		IRPCCluster tempHits;
+		IRPCHit tempHit(minTimeStrip, minTime);
 		tempHits.addHit(tempHit);
 
 		std::vector<int> eraseIdx;
-		eraseIdx.clear();
 		eraseIdx.push_back(minTimeIdx);
-		
-		int max_jumps = 1;
 
-		int i = -99;
-		int refTimeIdx = -99;
+		int maxStripJump = 1;
+		int refIdx = -1;
 
-		int NMatch = 0; // N matched hits
-
-		// look in the strips in the right side with max strip jump and delta time limit
-		//for(unsigned int j=minTimeIdx; j<indice.size(); j++){
-		std::cout << std::endl << " = looking right side =" << std::endl;
-		for(int j=minTimeIdx; j<(int)indice.size(); j++){
-			if(j==minTimeIdx) {i=minTimeIdx; refTimeIdx=minTimeIdx; continue;}
-
-			float refTime = hitsOneSide.at(indice.at(refTimeIdx)).time();
-			float time = hitsOneSide.at(indice.at(j)).time();
-
-			int refStrip = hitsOneSide.at(indice.at(i)).strip();
-			int strip = hitsOneSide.at(indice.at(j)).strip();
-
-			std::cout << "j: " << j << " time: " << time << " strip: " << strip <<" delT: " << refTime-time << std::endl;
-			if(abs(refTime-time)<limit){
-				std::cout << " !!!! in limit";
-				if(abs(refStrip-strip)<=1+max_jumps){
-					std::cout << " !!!!  in strip jump ------> save hit" << std::endl;
-					IRPCHit clusterHit = IRPCHit(strip, time);
-					tempHits.addHit(clusterHit);
-					eraseIdx.push_back(j);
-					i=j;
-					NMatch++;
-				} else break;
+		std::cout << std::endl << "minTimeIdx: " << minTimeIdx << " minTime: " << minTime << " minTimeStrip: " << minTimeStrip << std::endl;
+		// Right side
+		for (int j=minTimeIdx; j<(int)indice.size(); ++j){
+	
+			if (j==minTimeIdx){
+				refIdx=minTimeIdx; 
+				continue;
 			}
-		}
+			int refStrip = hitsOneSide.at(indice.at(refIdx)).strip();
 
-		i = -99;
-		refTimeIdx = -99;
-		// look in the strips in the left side with max strip jump and delta time limit
-		std::cout << std::endl << " = looking left side = " << std::endl;
-		for(int j=minTimeIdx; j>-1; j--){
-			if(j==minTimeIdx) {i=minTimeIdx; refTimeIdx=minTimeIdx; continue;}
-
-			float refTime = hitsOneSide.at(indice.at(refTimeIdx)).time();
 			float time = hitsOneSide.at(indice.at(j)).time();
-
-			int refStrip = hitsOneSide.at(indice.at(i)).strip();
 			int strip = hitsOneSide.at(indice.at(j)).strip();
 			
-			std::cout << "j: " << j << " time: " << time << " strip: " << strip <<" delT: " << refTime-time << std::endl;
-			if(abs(refTime-time)<limit){
-				std::cout << " !!!! in limit";
-				if(abs(refStrip-strip)<=1+max_jumps){
-					std::cout << " !!!! in strip jump ------> save hit" << std::endl;
-					IRPCHit clusterHit = IRPCHit(strip, time);
+			std::cout << "time: " << time << " strip: " << strip;
+			if (std::abs(minTime-time) < limit){
+				if (std::abs(refStrip - strip)<=1+maxStripJump){
+					IRPCHit clusterHit(strip, time);
 					tempHits.addHit(clusterHit);
 					eraseIdx.push_back(j);
-					i=j;
-					NMatch++;
+					refIdx = j;
+					std::cout << " <== matched, refIdx has been updated to " << refIdx << std::endl;
 				} else break;
 			}
 		}
-		NMat.push_back(NMatch);
 
-		std::sort(eraseIdx.begin(), eraseIdx.end());
+		// Left side
+		for (int j=minTimeIdx; j>=0; --j){
+	
+			if (j==minTimeIdx){
+				refIdx=minTimeIdx; 
+				continue;
+			}
+			int refStrip = hitsOneSide.at(indice.at(refIdx)).strip();
 
-		for(int j=eraseIdx.size()-1; j>-1; j--){
-			indice.erase(indice.begin()+eraseIdx.at(j));
+			float time = hitsOneSide.at(indice.at(j)).time();
+			int strip = hitsOneSide.at(indice.at(j)).strip();
+			
+			std::cout << "time: " << time << " strip: " << strip;
+			if (std::abs(minTime-time) < limit){
+				if (std::abs(refStrip - strip)<=1+maxStripJump){
+					IRPCHit clusterHit(strip, time);
+					tempHits.addHit(clusterHit);
+					eraseIdx.push_back(j);
+					refIdx = j;
+					std::cout << " <== matched, refIdx has been updated to " << refIdx << std::endl;
+				} else break;
+			}
 		}
 
+		std::sort(eraseIdx.begin(), eraseIdx.end(), std::greater<int>());
+		for (int j: eraseIdx){
+			indice.erase(indice.begin()+j);
+		}
 		clusters.push_back(tempHits);
 	}
-	std::cout << "num: ";
-	for(size_t i=0; i<NMat.size(); i++){ std::cout << NMat[i] << " " << std::endl;}
-	return clusters; 
+	return true;
 }
 
-
-IRPCClusterContainer IRPCClusterizer::finalCluster(IRPCClusterContainer LR, IRPCClusterContainer HR){
+IRPCClusterContainer IRPCClusterizer::finalCluster(IRPCClusterContainer HR, IRPCClusterContainer LR){
 
 	IRPCClusterContainer clusters;
 
 	int noMatch = 0;
-	while(LR.size()>0 && HR.size()>0 && noMatch==0){
-		float stripDiff = 999;
-		int idxLR = -1;
+	while (!LR.empty() && !HR.empty()){
+		float stripDiff = std::numeric_limits<float>::max();
 		int idxHR = -1;
-		for(int ij=0; ij<(int)HR.size(); ij++){
-			for(int ji=0; ji<(int)LR.size(); ji++){
-				std::cout << std::endl <<"HR dS: " << HR.at(ij).deltaStrip() << " LR dS: " << LR.at(ji).deltaStrip() << " diff: " <<abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip());
-				if(abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip()) < stripDiff){
+		int idxLR = -1;
+
+		// Find the pair of clusters with the smallest strip differnce
+		for (int ij=0; ij<(int)HR.size(); ++ij){
+			for (int ji=0; ji<(int)LR.size(); ++ji){
+				float diff = std::abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip());
+				std::cout << std::endl <<"HR dS: " << HR.at(ij).deltaStrip() << " LR dS: " << LR.at(ji).deltaStrip() << " diff: " <<diff ;
+				if (diff < stripDiff){
 					std::cout << " << min diff " << std::endl;
-					stripDiff = abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip());
-					idxLR = ji;
+					stripDiff = diff;
 					idxHR = ij;
+					idxLR = ji;
 				}
 			}
 		}
-		//if(abs(HR.at(HR_ind_smallest).strip() - LR.at(LR_ind_smallest).strip())<=1.){
-		if(abs(HR.at(idxHR).deltaStrip() - LR.at(idxLR).deltaStrip())<0.9){
+
+		// If the smallest strip differnce is within the threshold, make a final cluster
+		if (stripDiff < 0.9f){
 			std::cout << "HR " << idxHR << " LR " << idxLR << " are matched! " << std::endl;
-			IRPCCluster temp0;
-			temp0.initialize(HR.at(idxHR), LR.at(idxLR));
-			clusters.push_back(temp0);
-			LR.erase(LR.begin()+idxLR);
+			IRPCCluster temp;
+			temp.initialize(HR.at(idxHR), LR.at(idxLR));
+			clusters.push_back(temp);
+
 			HR.erase(HR.begin()+idxHR);
+			LR.erase(LR.begin()+idxLR);
 		} else {noMatch++;}
 	}
-
 	return clusters;
 }
 
-
-/*
-
-bool IRPCClusterizer::clustering(float thrTime, IRPCHitContainer &hits, IRPCClusterContainer &clusters)
-{
-    if(hits.size() == 0) return false;
-
-    // Sort hits by channel number from lowest to highest.
-	// *** just change channel to strip
-    std::sort(hits.begin(), hits.end(),
-        //[] (IRPCHit & h1, IRPCHit & h2) -> bool { return h1.channel() < h2.channel(); });
-        [] (IRPCHit & h1, IRPCHit & h2) -> bool { return h1.strip() < h2.strip(); });
-
-    //// Print data (test) RAW DATA
-    //for(auto hit = hits.begin(); hit != hits.end(); ++hit)
-    //    std::cout << hit->channel() << " ";
-
-    // Fill all hits to map for group all hits per channel. Key is channel.
-	// *** change channel to strip
-    // *** std::map<int, IRPCHitContainer> channels;
-
-// *** if i understand correctly, there's one hit per strip (one bx)
-// *** then, I think we don't need this...? bc we sorted hits by strip number from lowset to highest
-// *** or maybe we can use std::pair instead of std::map 
-    std::map<int, IRPCHitContainer> strips;
-    for(auto hit = hits.begin(); hit != hits.end(); ++hit) {
-        // *** auto channel = channels.find(hit->channel());
-        auto strip = strips.find(hit->strip());
-        // *** if(channel == channels.end()) channels.insert(std::pair<int, IRPCHitContainer>(hit->channel(), IRPCHitContainer()));
-        if(strip == strips.end()) strips.insert(std::pair<int, IRPCHitContainer>(hit->strip(), IRPCHitContainer()));
-        // *** channels.find(hit->channel())->second.push_back(*hit);
-        strips.find(hit->strip())->second.push_back(*hit);
-    }
-// *** to here
-
-// ***-------------------------------------------------------------------------------------------------------------------------------
-
-
-
-// *** From here: also I think we don't need it
-    // Sort hits by time from lowest to highest.
-    // *** for(auto channel = channels.begin(); channel != channels.end(); ++channel) {
-    for(auto strip = strips.begin(); strip != strips.end(); ++strip) {
-        // *** std::sort(channel->second.begin(), channel->second.end(),
-        std::sort(strip->second.begin(), strip->second.end(),
-            [] (IRPCHit & h1, IRPCHit & h2) -> bool { return h1.time() < h2.time(); });
-    }
-// *** To here
-
-    //// Print data (test) Groups of hits
-    //for(auto channel = channels.begin(); channel != channels.end(); ++channel) {
-    //    std::cout << '\n' << channel->first << ": ";
-    //    for(unsigned int i = 0; i < channel->second.size(); i++) {
-    //        std::cout << std::setprecision(4) << channel->second.at(i).time() << " ";
-    //    }
-    //}
-
-// *** Fill clusters
-	// ** I assumed strips is std::pair
-	vector<std::map<int, IRPCHitContainer>> cluster_one_side;
-	cluster_one_side.clear();
-
-	vector<int> indice;
-	indice.clear();
-	for(int i=0; i<strips.size(); i++){
-		indice.push_back(i);
-	}
-
-// ***
-    // Fill clusters
-    unsigned int used = 0; unsigned int nHits = hits.size();
-    auto front = channels.begin(); auto next = std::next(channels.begin());
-    float minDelta = std::numeric_limits<float>::max();
-    float delta = std::numeric_limits<float>::max();
-    unsigned int size = front->second.size();
-    unsigned int nextSize = next->second.size();
-    unsigned int i = 0, ni = 0;
-    unsigned int minI = 0, minNI = 0;
-
-    while(used != nHits) {
-        front = channels.begin(); next = std::next(channels.begin());
-        if((channels.size() >= 2) & (front->first + 1 == next->first)) {
-            // find min delta between couple of hits for cluster (only when init)
-            minDelta = std::numeric_limits<float>::max(); delta = std::numeric_limits<float>::max();
-            size = front->second.size(); nextSize = next->second.size();
-            i = 0; ni = 0; minI = 0; minNI = 0;
-            while (i < size && ni < nextSize) {
-                delta = abs(front->second.at(i).time() - next->second.at(ni).time());
-                if(minDelta > delta) { minDelta = delta; minI = i; minNI = ni; }
-                if(front->second.at(i).time() <= next->second.at(ni).time()) ++i; else ++ni;
-            }
-            // if minDelta below thresholt (param) fill two first hits in cluster
-            if(minDelta < thrTime) {
-                clusters.push_back(IRPCCluster()); clusters.back().addHit(front->second.at(minI));
-                clusters.back().addHit(next->second.at(minNI));
-
-				// erase min index
-                next->second.erase(next->second.begin() + minNI); used = used + 1;
-                if(next->second.size() == 0) channels.erase(next);
-                front->second.erase(front->second.begin() + minI); used = used + 1;
-                if(front->second.size() == 0) channels.erase(front);
-            }
-            else { // fill only first hit in cluster
-                clusters.push_back(IRPCCluster()); clusters.back().addHit(front->second.at(minI));
-                front->second.erase(front->second.begin() + minI); used = used + 1;
-                if(front->second.size() == 0) channels.erase(front);
-            }
-            // Сontinue Clustering
-            for(auto channel = channels.begin(); channel != channels.end(); ++channel) {
-                if(clusters.back().hits()->back().channel() + 1 == channel->first) {
-                    minDelta = std::numeric_limits<float>::max(); delta = std::numeric_limits<float>::max(); minI = 0;
-                    for(unsigned int i = 0; i < channel->second.size(); i++) {
-                        delta = abs(clusters.back().hits()->back().time() - channel->second.at(i).time());
-                        if(minDelta > delta) { minDelta = delta; minI = i; }
-                    }
-                    if(minDelta < thrTime) { // add hit to cluster
-                        clusters.back().addHit(channel->second.at(minI));
-                        channel->second.erase(channel->second.begin() + minI); used = used + 1;
-                        if(channel->second.size() == 0) channels.erase(channel);
-                    }
-                }
-            }
-        }
-        else { // if it last channel or it isn't first channel in cluster - make cluster with single hit
-            clusters.push_back(IRPCCluster()); clusters.back().addHit(channels.begin()->second.front());
-            channels.begin()->second.erase(channels.begin()->second.begin()); used = used + 1;
-            if(channels.begin()->second.size() == 0) channels.erase(channels.begin());
-        }
-    }
-
-    //// Print data (test) Cluster form single side
-    //std::cout << "\n----\n";
-    //std::cout << "\nN: " << clusters.size();
-    //for(int i = 0; i < clusters.size(); i++) {
-    //    std::cout << "\nn: " <<  clusters.at(i).hits()->size() << "  ";
-    //    for(int j = 0; j < clusters.at(i).hits()->size(); j++)
-    //        std::cout << std::setprecision(4) << clusters.at(i).hits()->at(j).channel() << "|" << clusters.at(i).hits()->at(j).time() << " ";
-    //}
-    //std::cout << "\n------------------------------------------------------\n";
-
-    return true;
-}
-
-IRPCClusterContainer IRPCClusterizer::association(IRPCInfo &info, IRPCClusterContainer hr, IRPCClusterContainer lr)
-{
-    // ---
-    bool isAND = info.isReturnOnlyAND();
-    float thrDeltaMin = info.thrDeltaTimeMin();
-    float thrDeltaMax = info.thrDeltaTimeMax();
-    float thrDeltaY = info.thrDeltaTimeY();
-    // ---
-    IRPCClusterContainer clusters;
-
-    // Sort clusters by number of hits from lowest to highest.
-    std::sort(hr.begin(), hr.end(),
-             [] (IRPCCluster & c1, IRPCCluster & c2) -> bool
-                    { return c1.hits()->size() < c2.hits()->size(); });
-    std::sort(lr.begin(), lr.end(),
-             [] (IRPCCluster & c1, IRPCCluster & c2) -> bool
-                    { return c1.hits()->size() < c2.hits()->size(); });
-
-    //// Print data (test)
-    //std::cout << "\nHR: " << hr.size();
-    //for(unsigned int i = 0; i < hr.size(); i++) {
-    //    std::cout << "\nn: " <<  hr.at(i).hits()->size() << "  ";
-    //    for(unsigned int j = 0; j < hr.at(i).hits()->size(); j++)
-    //        std::cout << std::setprecision(4) << hr.at(i).hits()->at(j).channel() << "|" << hr.at(i).hits()->at(j).time() << " ";
-    //}
-    //std::cout << "\n-----\n";
-    //std::cout << "\nLR: " << lr.size();
-    //for(unsigned int i = 0; i < lr.size(); i++) {
-    //    std::cout << "\nn: " <<  lr.at(i).hits()->size() << "  ";
-    //    for(unsigned int j = 0; j < lr.at(i).hits()->size(); j++)
-    //        std::cout << std::setprecision(4) << lr.at(i).hits()->at(j).channel() << "|" << lr.at(i).hits()->at(j).time() << " ";
-    //}
-    //std::cout << "\n-----\n";
-
-    // associate couples
-    float minDelta = std::numeric_limits<float>::max();
-    float delta = std::numeric_limits<float>::max();
-    unsigned int used = 0; unsigned int nClusters = hr.size() + lr.size();
-    unsigned int overlap = 0; std::map<unsigned int, std::vector<std::pair<unsigned int, unsigned int>>> overlaps; // map<overlap, vector<pair<h,l>>>
-    double deltaTime = 0; std::vector<std::pair<int, double>> deltaTimes; // vector<<strip, deltaTime>>
-    bool isSplitHR = false; bool isSplitLR = false;
-    unsigned int sizeHR = hr.size(); unsigned int sizeLR = lr.size();
-    //unsigned int h = 0, l = 0;
-    while(used != nClusters) {
-        overlap = 0; overlaps.clear(); deltaTimes.clear();
-        sizeHR = hr.size(); sizeLR = lr.size();
-        //h = 0; l = 0;
-        //while(h < sizeHR && l < sizeLR) {
-        for(unsigned int h = 0; h < sizeHR; h++) {
-            for(unsigned int l = 0; l < sizeLR; l++) {
-
-                overlap = 0; delta = hr.at(h).highTime() - lr.at(l).lowTime();
-                if(delta >= thrDeltaMin && delta <= thrDeltaMax) {
-                    for(unsigned int ih = 0; ih < hr.at(h).hits()->size(); ih++) {
-                        for(unsigned int il = 0; il < lr.at(l).hits()->size(); il++) {
-                            if(hr.at(h).hits()->at(ih).strip() == lr.at(l).hits()->at(il).strip()) { overlap = overlap + 1; break; }
-                        }
-                    }
-                }
-                // fill info about overlaps
-                if(overlap != 0) {
-                    auto o = overlaps.find(overlap);
-                    if(o == overlaps.end())
-                        overlaps.insert(std::pair<unsigned int, std::vector<std::pair<unsigned int, unsigned int>>>
-                            (overlap, std::vector<std::pair<unsigned int, unsigned int>>()));
-                    overlaps.find(overlap)->second.push_back(std::make_pair(h, l));
-                }
-                //if(hr.at(h).hits()->size() < lr.at(l).hits()->size()) ++h; else ++l;
-            }
-        }
-        // looking couple with lower time delta
-        if(!overlaps.empty()) {
-            minDelta = std::numeric_limits<float>::max(); delta = std::numeric_limits<float>::max();
-            auto min = std::prev(overlaps.end())->second.begin();
-            for(auto o = std::prev(overlaps.end())->second.begin(); o != std::prev(overlaps.end())->second.end(); ++o) {
-                delta = abs(hr.at(o->first).highTime() - lr.at(o->second).lowTime());
-                if(minDelta > delta) { minDelta = delta; min = o; }
-            }
-            // split cluster by Y resolution (if it need)
-            for(unsigned int ih = 0; ih < hr.at(min->first).hits()->size(); ih++)
-                for(unsigned int il = 0; il < lr.at(min->second).hits()->size(); il++) 
-                    if(hr.at(min->first).hits()->at(ih).strip() == lr.at(min->second).hits()->at(il).strip())  
-                        deltaTimes.push_back(std::make_pair(hr.at(min->first).hits()->at(ih).strip(), hr.at(min->first).hits()->at(ih).time() - lr.at(min->second).hits()->at(il).time()));
-            isSplitHR = false; isSplitLR = false;
-            if(deltaTimes.size() > 0) deltaTime = deltaTimes.at(0).second; 
-            for(unsigned int idT = 0; idT < deltaTimes.size(); idT++) {
-                if(std::abs(deltaTime - deltaTimes.at(idT).second) > thrDeltaY) {  
-                    IRPCCluster cHR; isSplitHR = hr.at(min->first).split(&cHR, deltaTimes.at(idT).first);
-                    if(isSplitHR) {
-                        hr.at(min->first).compute(info);
-                        hr.push_back(cHR); hr.back().compute(info); nClusters += 1;
-                        std::sort(hr.begin(), hr.end(),
-                                    [] (IRPCCluster & c1, IRPCCluster & c2) -> bool
-                                    { return c1.hits()->size() < c2.hits()->size(); });
-                    }
-                    IRPCCluster cLR; isSplitLR = lr.at(min->second).split(&cLR, deltaTimes.at(idT).first);
-                    if(isSplitLR) {
-                        lr.at(min->second).compute(info);
-                        lr.push_back(cLR); lr.back().compute(info); nClusters += 1;
-                        std::sort(lr.begin(), lr.end(),
-                                    [] (IRPCCluster & c1, IRPCCluster & c2) -> bool
-                                    { return c1.hits()->size() < c2.hits()->size(); });
-                    }
-                    break;
-                }        
-            }
-            if(!isSplitHR && !isSplitLR) {
-              clusters.push_back(IRPCCluster());
-              clusters.back().initialize(hr.at(min->first), lr.at(min->second));
-              hr.erase(hr.begin() + min->first); used = used + 1;
-              lr.erase(lr.begin() + min->second); used = used + 1;
-            }
-        }
-        else {
-            if(!(hr.empty())) {
-                if(!isAND) clusters.push_back(hr.front());
-                hr.erase(hr.begin()); used = used + 1;
-            }
-            if(!(lr.empty())) {
-                if(!isAND) clusters.push_back(lr.front());
-                lr.erase(lr.begin()); used = used + 1;
-            }
-        }
-    }
-    return clusters;
-}
-*/
+					

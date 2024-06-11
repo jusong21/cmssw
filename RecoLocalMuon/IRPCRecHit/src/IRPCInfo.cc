@@ -18,8 +18,10 @@ IRPCInfo::IRPCInfo()
     _isUse = true;
     _isHR = false; _isLR = false;
     _speed = 19.786302;
-    _thrTimeHR = std::numeric_limits<float>::max();
-    _thrTimeLR = std::numeric_limits<float>::max();
+//    _thrTimeHR = std::numeric_limits<float>::max();
+//    _thrTimeLR = std::numeric_limits<float>::max();
+    _thrTimeHR = 0.3;
+    _thrTimeLR = 0.3;
     _thrDeltaTimeMin = std::numeric_limits<float>::min();
     _thrDeltaTimeMax = std::numeric_limits<float>::max();
     _count = 0;

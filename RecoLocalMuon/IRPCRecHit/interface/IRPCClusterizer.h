@@ -56,7 +56,8 @@ class IRPCClusterizer
         */
         IRPCClusterContainer association(IRPCInfo &info, IRPCClusterContainer hr, IRPCClusterContainer lr);
 
-		IRPCClusterContainer oneSideCluster(IRPCHitContainer &hitsOneSide, float limit);
+		//IRPCClusterContainer oneSideCluster(IRPCHitContainer &hitsOneSide, float limit);
+		bool oneSideCluster(float limit, IRPCHitContainer &hitsOneSide, IRPCClusterContainer &clusters);
 		IRPCClusterContainer finalCluster(IRPCClusterContainer LR, IRPCClusterContainer HR);
 
 
