@@ -205,7 +205,7 @@ IRPCClusterContainer IRPCClusterizer::finalCluster(IRPCClusterContainer HR, IRPC
 	IRPCClusterContainer clusters;
 
 	int noMatch = 0;
-	while (!LR.empty() && !HR.empty()){
+	while (!LR.empty() && !HR.empty() && noMatch < (int)LR.size()+(int)HR.size()){
 		float stripDiff = std::numeric_limits<float>::max();
 		int idxHR = -1;
 		int idxLR = -1;
@@ -214,9 +214,9 @@ IRPCClusterContainer IRPCClusterizer::finalCluster(IRPCClusterContainer HR, IRPC
 		for (int ij=0; ij<(int)HR.size(); ++ij){
 			for (int ji=0; ji<(int)LR.size(); ++ji){
 				float diff = std::abs(HR.at(ij).deltaStrip() - LR.at(ji).deltaStrip());
-				std::cout << std::endl <<"HR dS: " << HR.at(ij).deltaStrip() << " LR dS: " << LR.at(ji).deltaStrip() << " diff: " <<diff ;
+				//std::cout << std::endl <<"HR dS: " << HR.at(ij).deltaStrip() << " LR dS: " << LR.at(ji).deltaStrip() << " diff: " <<diff ;
 				if (diff < stripDiff){
-					std::cout << " << min diff " << std::endl;
+					//std::cout << " << min diff " << std::endl;
 					stripDiff = diff;
 					idxHR = ij;
 					idxLR = ji;
@@ -225,8 +225,8 @@ IRPCClusterContainer IRPCClusterizer::finalCluster(IRPCClusterContainer HR, IRPC
 		}
 
 		// If the smallest strip differnce is within the threshold, make a final cluster
-		if (stripDiff < 0.9f){
-			std::cout << "HR " << idxHR << " LR " << idxLR << " are matched! " << std::endl;
+		if (stripDiff < 0.9){
+			//std::cout << "HR " << idxHR << " LR " << idxLR << " are matched! " << std::endl;
 			IRPCCluster temp;
 			temp.initialize(HR.at(idxHR), LR.at(idxLR));
 			clusters.push_back(temp);
