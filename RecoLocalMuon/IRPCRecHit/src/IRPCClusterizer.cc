@@ -59,11 +59,14 @@ IRPCClusterContainer IRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
         it = hits.find(bunchX); 
 		if(it == hits.end()) hits.insert(std::make_pair(bunchX, std::make_pair(IRPCHitContainer(), IRPCHitContainer())));
 
-        hits.find(bunchX)->second.first.push_back(IRPCHit(strip, timeHR, bunchX));
-        hits.find(bunchX)->second.first.back().setHR(true);
-
-        hits.find(bunchX)->second.second.push_back(IRPCHit(strip, timeLR, bunchX));
-        hits.find(bunchX)->second.second.back().setLR(true);
+		if(timeHR!=0){
+	        hits.find(bunchX)->second.first.push_back(IRPCHit(strip, timeHR, bunchX));
+	        hits.find(bunchX)->second.first.back().setHR(true);
+		}
+		if(timeLR!=0){
+	        hits.find(bunchX)->second.second.push_back(IRPCHit(strip, timeLR, bunchX));
+	        hits.find(bunchX)->second.second.back().setLR(true);
+		}
 
             //std::cout <<"strip=" << digi->strip() << " time=" <<  digi->time() << " position=" << digi->coordinateY() << " bx=" << digi->bx()  << " dt=" << timeHR - timeLR << std::endl;
     }
@@ -205,7 +208,7 @@ IRPCClusterContainer IRPCClusterizer::finalCluster(IRPCClusterContainer HR, IRPC
 	IRPCClusterContainer clusters;
 
 	int noMatch = 0;
-	while (!LR.empty() && !HR.empty() && noMatch < (int)LR.size()+(int)HR.size()){
+	while (!LR.empty() && !HR.empty() && noMatch==0){
 		float stripDiff = std::numeric_limits<float>::max();
 		int idxHR = -1;
 		int idxLR = -1;
