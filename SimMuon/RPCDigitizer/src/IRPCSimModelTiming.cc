@@ -96,15 +96,28 @@ void IRPCSimModelTiming::simulate(const RPCRoll* roll,
     const TrapezoidalStripTopology* top_ = dynamic_cast<const TrapezoidalStripTopology*>(&(roll->topology()));
     striplength = (top_->stripLength());
 
-    float proper_time = _rpcSync->getTiming(&(*_hit), engine,striplength);
-    float TDC2_time = _rpcSync->getSecondTDCTiming(proper_time, engine,striplength);
+    std::pair<float,float> TDCs = _rpcSync->getDoubleTiming(&(*_hit), engine,striplength);
 
-    //    std::pair<int,int> tdc1 = _rpcSync->getBX_SBX(proper_time); //calculates the BX and subBX for the first TDC 
-    //    std::pair<int,int> tdc2 = _rpcSync->getBX_SBX(TDC2_time); //calculates the BX and subBX for the second TDC  
+    //std::cout<<"Debug TDCs =\t"<<TDCs.first<<'\t'<<TDCs.second<<std::endl;
+    
+    std::tuple<int,int,int> tdc1 = _rpcSync->getBX_SBX_fine_time(TDCs.first); //calculates the BX,subBX and fine_time for the first TDC
+    std::tuple<int,int,int> tdc2 = _rpcSync->getBX_SBX_fine_time(TDCs.second); //calculates the BX,subBX and fine_time for the first TDC
 
-    std::tuple<int,int,int> tdc1 = _rpcSync->getBX_SBX_fine_time(proper_time); //calculates the BX,subBX and fine_time for the first TDC
-    std::tuple<int,int,int> tdc2 = _rpcSync->getBX_SBX_fine_time(TDC2_time); //calculates the BX,subBX and fine_time for the first TDC
 
+    //std::cout<<"Debug Timing:\t"
+    //	     <<"tdc1 BX SBF FT \t"<<std::get<0>(tdc1)<<'\t'<<std::get<1>(tdc1)<<'\t'<<std::get<2>(tdc1)<<std::endl;
+    //std::cout<<"Debug Timing:\t"
+    //	     <<"tdc2 BX SBX FT \t"<<std::get<0>(tdc2)<<'\t'<<std::get<1>(tdc2)<<'\t'<<std::get<2>(tdc2)<<std::endl;
+    //
+    //std::cout<<"Debug Timing:\t"
+    //	     <<"tdc1 time \t"<<25.*std::get<0>(tdc1)+2.5*std::get<1>(tdc1)+0.2*std::get<2>(tdc1)<<std::endl;
+    //std::cout<<"Debug Timing:\t"
+    //	     <<"tdc2 time \t"<<25.*std::get<0>(tdc2)+2.5*std::get<1>(tdc2)+0.2*std::get<2>(tdc2)<<std::endl;
+    //
+    //std::cout<<"Time 1 delta=\t"<<(TDCs.first-(25.*std::get<0>(tdc1)+2.5*std::get<1>(tdc1)+0.2*std::get<2>(tdc1)))<<std::endl;
+    //std::cout<<"Time 2 delta=\t"<<(TDCs.second-(25.*std::get<0>(tdc2)+2.5*std::get<1>(tdc2)+0.2*std::get<2>(tdc2)))<<std::endl;
+
+    
     float posX = roll->strip(_hit->localPosition()) - static_cast<int>(roll->strip(_hit->localPosition()));
 
     std::vector<float> veff = (getRPCSimSetUp())->getEff(rpcId.rawId());
