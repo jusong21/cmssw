@@ -74,6 +74,9 @@ IRPCClusterContainer IRPCClusterizer::doAction(const RPCRoll& roll, const IRPCDi
 	IRPCClusterContainer cLR;
 	IRPCClusterContainer cPair;
 
+	info.setThrTimeHR(3);
+	info.setThrTimeLR(3);
+
 	for(auto & it: hits){
 //		std::thread tHR(&IRPCClusterizer::oneSideCluster, this, 0.3, std::ref(it.second.first), std::ref(cHR));
 //		std::thread tLR(&IRPCClusterizer::oneSideCluster, this, 0.3, std::ref(it.second.second), std::ref(cLR));
