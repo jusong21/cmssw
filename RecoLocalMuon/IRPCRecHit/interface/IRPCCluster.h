@@ -150,6 +150,8 @@ class IRPCCluster
         */
         IRPCHitContainer* hits();
 
+		int nStrip();
+
 		float deltaStrip();
 
         /*!

@@ -72,6 +72,8 @@ float IRPCCluster::xD() { return hasX() ? std::pow((_lstrip-_fstrip),2)/12 : -1;
 
 IRPCHitContainer* IRPCCluster::hits() { return &_hits; }
 
+int IRPCCluster::nStrip() { return _hits.size(); }
+
 float IRPCCluster::deltaStrip(){
 	int strip = 0;
 	for(auto hit = _hits.begin(); hit != _hits.end(); ++hit){
