@@ -1,0 +1,12 @@
+<use name="root"/>
+<use name="boost"/>
+<use name="CLHEP"/>
+<use name="FWCore/Framework"/>
+<use name="DataFormats/IRPCRecHit"/>
+<use name="Geometry/MuonNumbering"/>
+<use name="Geometry/RPCGeometryBuilder"/>
+<use name="Geometry/RPCGeometry"/>
+<use name="Geometry/Records"/>
+<library file="IRPCRecHitProducer.cc" name="IRPCRecHitProducer">
+  <flags EDM_PLUGIN="1"/>
+</library>

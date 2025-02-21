@@ -6,6 +6,8 @@
 \copyright Copyright 2019 Shchablo Konstantin.
 \license This file is released under the GNU General Public License v3.0.
 \date May 2019
+
+\modified by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel), Feb. 2025
 */
 
 #ifndef RecoLocalMuon_IRPCClusterContainer_h

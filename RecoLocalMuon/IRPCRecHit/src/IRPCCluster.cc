@@ -6,6 +6,8 @@
 \copyright Copyright 2019 Shchablo Konstantin.
 \license This file is released under the GNU General Public License v3.0.
 \date May 2019
+
+\modified by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel), Feb. 2025
 */
 
 /* IRPC */
@@ -40,41 +42,52 @@ IRPCCluster::IRPCCluster(int bx) : _bunchx(bx)
     _sumY = 0; _sumY2 = 0; _nY = 0;
 
 }
+IRPCCluster::IRPCCluster(int fs, int ls, int bx) : _fstrip(fs), _lstrip(ls), _bunchx(bx)
+{
+    _isCorrect = false;
+
+    _nDeltaTime = 0; _sumDeltaTime = 0; _sumDeltaTime2 = 0;
+    _nHighTime = 0; _sumHighTime = 0; _sumHighTime2 = 0;
+    _nLowTime = 0; _sumLowTime = 0; _sumLowTime2 = 0;
+
+    _sumY = 0; _sumY2 = 0; _nY = 0;
+
+}
 IRPCCluster::~IRPCCluster() {}
 
-int IRPCCluster::bx() { return _bunchx; }
+int IRPCCluster::bx() const { return _bunchx; }
 void IRPCCluster::setBx(int bx) { _bunchx = bx; }
 
-int IRPCCluster::firstStrip() { return _fstrip; }
-int IRPCCluster::lastStrip() { return _lstrip; }
-int IRPCCluster::clusterSize() { return _lstrip-_fstrip+1; }
+int IRPCCluster::firstStrip() const { return _fstrip; }
+int IRPCCluster::lastStrip() const { return _lstrip; }
+int IRPCCluster::clusterSize() const { return _lstrip-_fstrip+1; }
 
-bool IRPCCluster::hasHighTime() { return _nHighTime > 0; }
-float IRPCCluster::highTime() { return hasHighTime() ? _sumHighTime/_nHighTime : -1; }
-float IRPCCluster::highTimeRMS() { return hasHighTime() ? std::sqrt(std::max(0.0f, _sumHighTime2*_nHighTime - _sumHighTime*_sumHighTime))/_nHighTime : -1; }
+bool IRPCCluster::hasHighTime() const { return _nHighTime > 0; }
+float IRPCCluster::highTime() const { return hasHighTime() ? _sumHighTime/_nHighTime : -1; }
+float IRPCCluster::highTimeRMS() const { return hasHighTime() ? std::sqrt(std::max(0.0f, _sumHighTime2*_nHighTime - _sumHighTime*_sumHighTime))/_nHighTime : -1; }
 
-bool IRPCCluster::hasLowTime() { return _nLowTime > 0; }
-float IRPCCluster::lowTime() { return hasLowTime() ? _sumLowTime/_nLowTime : -1; }
-float IRPCCluster::lowTimeRMS() { return hasLowTime() ? std::sqrt(std::max(0.0f, _sumLowTime2*_nLowTime - _sumLowTime*_sumLowTime))/_nLowTime : -1; }
+bool IRPCCluster::hasLowTime() const { return _nLowTime > 0; }
+float IRPCCluster::lowTime() const { return hasLowTime() ? _sumLowTime/_nLowTime : -1; }
+float IRPCCluster::lowTimeRMS() const { return hasLowTime() ? std::sqrt(std::max(0.0f, _sumLowTime2*_nLowTime - _sumLowTime*_sumLowTime))/_nLowTime : -1; }
 
-bool IRPCCluster::hasDeltaTime() { return _nDeltaTime > 0; }
-float IRPCCluster::deltaTime() { return hasDeltaTime() ? _sumDeltaTime/_nDeltaTime : -1; }
+bool IRPCCluster::hasDeltaTime() const { return _nDeltaTime > 0; }
+float IRPCCluster::deltaTime() const { return hasDeltaTime() ? _sumDeltaTime/_nDeltaTime : -1; }
 //float IRPCCluster::deltaTime() { return this->highTime() - this->lowTime(); }
-float IRPCCluster::deltaTimeRMS() { return hasDeltaTime() ? std::sqrt(std::max(0.0f, _sumDeltaTime2*_nDeltaTime - _sumDeltaTime*_sumDeltaTime))/_nDeltaTime : -1; }
+float IRPCCluster::deltaTimeRMS() const { return hasDeltaTime() ? std::sqrt(std::max(0.0f, _sumDeltaTime2*_nDeltaTime - _sumDeltaTime*_sumDeltaTime))/_nDeltaTime : -1; }
 
-bool IRPCCluster::hasY() { return _nY > 0; }
-float IRPCCluster::y() { return hasY() ? _sumY/_nY : 0; }
-float IRPCCluster::yRMS() { return hasY() ? std::sqrt(std::max(0.0f, _sumY2*_nY - _sumY*_sumY))/_nY : -1; }
+bool IRPCCluster::hasY() const { return _nY > 0; }
+float IRPCCluster::y() const { return hasY() ? _sumY/_nY : 0; }
+float IRPCCluster::yRMS() const { return hasY() ? std::sqrt(std::max(0.0f, _sumY2*_nY - _sumY*_sumY))/_nY : -1; }
 
-bool IRPCCluster::hasX() { if(_fstrip == -1 || _lstrip == -1) return false; else return true; }
-float IRPCCluster::x() { return hasX() ? (_lstrip + _fstrip)/2 : -1; }
-float IRPCCluster::xD() { return hasX() ? std::pow((_lstrip-_fstrip),2)/12 : -1; }
+bool IRPCCluster::hasX() const { if(_fstrip == -1 || _lstrip == -1) return false; else return true; }
+float IRPCCluster::x() const { return hasX() ? (_lstrip + _fstrip)/2 : -1; }
+float IRPCCluster::xD() const { return hasX() ? std::pow((_lstrip-_fstrip),2)/12 : -1; }
 
 IRPCHitContainer* IRPCCluster::hits() { return &_hits; }
 
-int IRPCCluster::nStrip() { return _hits.size(); }
+int IRPCCluster::nStrip() const { return _hits.size(); }
 
-float IRPCCluster::deltaStrip(){
+float IRPCCluster::stripNumAvg() const {
 	int strip = 0;
 	for(auto hit = _hits.begin(); hit != _hits.end(); ++hit){
 		strip = strip+hit->strip();
@@ -105,6 +118,7 @@ bool IRPCCluster::compute(IRPCInfo &info)
         if(hit->isLR()) { _nLowTime += 1; _sumLowTime += hit->time(); _sumLowTime2 += hit->time()*hit->time(); }
     }
 
+	// for final cluster cumpute
     float delta = 0;
     float y = 0; float speed = info.speed();
     for(auto h = _hits.begin(); h != _hits.end(); ++h) {

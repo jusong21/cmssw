@@ -1,10 +1,11 @@
 <use name="root"/>
 <use name="FWCore/Framework"/>
+<use name="FWCore/PluginManager"/>
+<use name="FWCore/ParameterSet"/>
 <use name="Geometry/Records"/>
 <use name="DataFormats/DTRecHit"/>
 <use name="DataFormats/CSCRecHit"/>
-<use name="DataFormats/RPCRecHit"/>
-<use name="DataFormats/RPCDigi"/>
+<use name="DataFormats/IRPCRecHit"/>
 <use name="DataFormats/IRPCDigi"/>
 <use name="DataFormats/Common"/>
 <use name="CondFormats/RPCObjects"/>
@@ -13,7 +14,6 @@
 <use name="Geometry/DTGeometry"/>
 <use name="Geometry/CSCGeometry"/>
 <use name="TrackingTools/TrackRefitter"/>
-<use name="DataFormats/IRPCDigi"/>
 <export>
   <lib name="1"/>
 </export>

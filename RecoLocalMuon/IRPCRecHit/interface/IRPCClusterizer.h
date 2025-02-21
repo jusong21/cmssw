@@ -6,6 +6,8 @@
 \copyright Copyright 2019 Shchablo Konstantin.
 \license This file is released under the GNU General Public License v3.0.
 \date May 2019
+
+\modified by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel), Feb. 2025
 */
 
 #ifndef RecoLocalMuon_IRPCClusterizer_h
@@ -57,8 +59,8 @@ class IRPCClusterizer
         IRPCClusterContainer association(IRPCInfo &info, IRPCClusterContainer hr, IRPCClusterContainer lr);
 
 		//IRPCClusterContainer oneSideCluster(IRPCHitContainer &hitsOneSide, float limit);
-		bool oneSideCluster(float limit, IRPCHitContainer &hitsOneSide, IRPCClusterContainer &clusters);
-		IRPCClusterContainer finalCluster(IRPCClusterContainer LR, IRPCClusterContainer HR);
+		bool oneSideClusterizer(float limit, IRPCHitContainer &hitsOneSide, IRPCClusterContainer &clusters);
+		IRPCClusterContainer finalClusterizer(IRPCClusterContainer LR, IRPCClusterContainer HR, float thrStripNum);
 
 
         /* CMSSW */
@@ -68,7 +70,8 @@ class IRPCClusterizer
             \return Container of clusters.
         */
         //IRPCClusterContainer doAction(const RPCDigiCollection::Range& digiRange, IRPCInfo& info);
-        IRPCClusterContainer doAction(const RPCRoll& roll, const IRPCDigiCollection::Range& digiRange, IRPCInfo& info);
+        //IRPCClusterContainer doAction(const RPCRoll& roll, const IRPCDigiCollection::Range& digiRange, IRPCInfo& info);
+        IRPCClusterContainer doAction(const IRPCDigiCollection::Range& digiRange, IRPCInfo& info);
 };
 
 #endif // RecoLocalMuon_IRPCClusterClusterizer_h

@@ -181,6 +181,9 @@ class IRPCInfo
         */
         int counter();
 
+		float thrStripNum();
+		void setThrStripNum(float thrStripNum);
+
     private:
 
         std::map<int, int> _HR; // !< map<channel, strip> for high radius.
@@ -201,5 +204,6 @@ class IRPCInfo
         bool _isUse; // !< Type of algo.
         
         bool _count; // !< just count..
+		float _thrStripNum;
 };
 #endif // RecoLocalMuon_IRPCInfo_h

@@ -6,6 +6,8 @@
 \copyright Copyright 2019 Shchablo Konstantin.
 \license This file is released under the GNU General Public License v3.0.
 \date May 2019
+
+\modified by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel), Feb. 2025
 */
 #include "RecoLocalMuon/IRPCRecHit/interface/IRPCInfo.h"
 
@@ -24,6 +26,7 @@ IRPCInfo::IRPCInfo()
     _thrTimeLR = 0.3;
     _thrDeltaTimeMin = std::numeric_limits<float>::min();
     _thrDeltaTimeMax = std::numeric_limits<float>::max();
+	_thrStripNum = 0.9;
     _count = 0;
 }
 
@@ -82,3 +85,7 @@ bool IRPCInfo::isOnlyLR() { return _isLR; }
 void IRPCInfo::isOnlyLR(bool is) { _isLR = is; };
 
 int IRPCInfo::counter() { _count = _count + 1; return _count; };
+
+float IRPCInfo::thrStripNum() {return _thrStripNum;}
+void IRPCInfo::setThrStripNum(float thrStripNum) { _thrStripNum = thrStripNum; }
+

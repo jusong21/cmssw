@@ -6,6 +6,8 @@
 \copyright Copyright 2019 Shchablo Konstantin.
 \license This file is released under the GNU General Public License v3.0.
 \date May 2019
+
+\modified by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel), Feb. 2025
 */
 
 #ifndef RecoLocalMuon_IRPCHit_h
@@ -49,7 +51,7 @@ class IRPCHit
             \brief Return the bunchx of hit.
             \return bunchX.
         */
-        int bx();
+        int bx() const;
         /*!
             \brief Return the channel number of hit.
             \return The channal number.
@@ -59,12 +61,12 @@ class IRPCHit
             \brief Return the strip number of hit.
             \return The strip number.
         */
-        int strip();
+        int strip() const;
         /*!
             \brief Return the time value of hit.
             \return the time.
         */
-        float time();
+        float time() const;
 //        float digiY();
 
         /*!
@@ -82,12 +84,19 @@ class IRPCHit
             \brief Return marker that the hit related to the high radius.
             \return _isHR.
         */
-        bool isHR();
+        bool isHR() const;
         /*!
             \brief Return marker that the hit related to the low radius.
             \return _isLR.
         */
-        bool isLR();
+        bool isLR() const;
+
+		bool isAdjacentStrip( IRPCHit& refHit, int maxStripJump );
+		bool isAdjacentTime( IRPCHit& refHit, float thrTime );
+
+		bool operator==(const IRPCHit& compHit) const {
+    		return (this->_bunchx == compHit._bunchx && this->_strip == compHit._strip && this->_time == compHit._time);
+		}
 
     private:
 

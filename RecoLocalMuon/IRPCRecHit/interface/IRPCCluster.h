@@ -2,10 +2,12 @@
 \file
 \brief Header file with definitions of IRPCCluster class.
 \authors Shchablo Konstantin (shchablo@gmail.com)
-\version 1.0
+\version 1.1
 \copyright Copyright 2019 Shchablo Konstantin.
 \license This file is released under the GNU General Public License v3.0.
-\date May 2019
+\date May 2019 (Original creation)
+
+\modified by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel), Feb. 2025
 */
 
 #ifndef RecoLocalMuon_IRPCCluster_h
@@ -33,6 +35,11 @@ class IRPCCluster
             \param[in] bx - bunchx.
         */
         IRPCCluster(int bx);
+        /*!
+            \brief Constructor.
+            \param[in] fs - firstStrip, ls - lastStrip, bx - bunchx.
+        */
+		IRPCCluster(int fs, int ls, int bx);
 
         /*! \brief Destructor. */
         ~IRPCCluster();
@@ -41,7 +48,7 @@ class IRPCCluster
             \brief Return bunchx.
             \return bunchx.
         */
-        int bx();
+        int bx() const;
         /*!
             \brief Set bunchx information.
             \param[in] bx - bunchx.
@@ -52,97 +59,97 @@ class IRPCCluster
             \brief Return the first (order to the map) strip of the cluster which was fired at least from one side.
             \return First strip of the cluster according to the mapping of strips.
         */
-        int firstStrip();
+        int firstStrip() const;
         /*!
             \brief The last (order to the map) strip of the cluster which was fired at least from one side.
             \return Last strip of the cluster according to the mapping of strips.
         */
-        int lastStrip();
+        int lastStrip() const;
         /*!
             \brief Calculate the cluster size of cluster.
             \return The number of strips which were fired at least from one side.
         */
-        int clusterSize();
+        int clusterSize() const;
 
         /*!
             \brief Check of the existing information of high time.
             \return \f$if(nHighTime<=0) \ than \ false\f$
         */
-        bool hasHighTime();
+        bool hasHighTime() const;
         /*!
             \brief Return the average time from high radius of the chamber.
             \return \f$HT=\frac{1}{n}\sum_{i=1}^nht_i=\frac{ht_1+ht_2+\cdots+ht_n}{n}\f$
         */
-        float highTime();
+        float highTime() const;
         /*!
             \brief Calculate the root means squere of time from high radius of the chamber.
             \return \f$HT_{RMS}=\sqrt{\frac{ht_1^2+ht_2^2+\ldots+ht_n^2}{n}}\f$
         */
-        float highTimeRMS();
+        float highTimeRMS() const;
 
         /*!
             \brief Check of the existing information of low time.
             \return \f$if(nLowTime<=0) \ than \ false\f$
         */
-        bool hasLowTime();
+        bool hasLowTime() const;
         /*!
             \brief Return the average time from low radius of the chamber.
             \return \f$LT=\frac{1}{n}\sum_{i=1}^nlt_i=\frac{lt_1+lt_2+\cdots+lt_n}{n}\f$
         */
-        float lowTime();
+        float lowTime() const;
         /*!
             \brief Calculate the root means squere of time from low radius of the chamber.
             \return \f$LT_{RMS}=\sqrt{\frac{lt_1^2+lt_2^2+\ldots+lt_n^2}{n}}\f$
         */
-        float lowTimeRMS();
+        float lowTimeRMS() const;
 
         /*!
             \brief Check of the existing information of delta time.
             \return \f$if(nDeltaTime<=0) \ than \ false\f$
         */
-        bool hasDeltaTime();
+        bool hasDeltaTime() const;
         /*!
             \brief Return the different averege times between two ends of the chamber.
             \return \f$DT=HT-LT=\frac{1}{n}\sum_{i=1}^nht_i-\frac{1}{n}\sum_{i=1}^nlt_i\f$
         */
-        float deltaTime();
+        float deltaTime() const;
         /*!
             \brief Calculate the root means square (RMS) of differences times between two ends of the chamber.
             \return \f$DT_{RMS}=\sqrt{\frac{dt_1^2+dt_2^2+\ldots+dt_n^2}{n}}\f$
         */
-        float deltaTimeRMS();
+        float deltaTimeRMS() const;
 
         /*!
             \brief Check of the existing information of position along-strip.
             \return \f$if(nY<=0) \ than \ false\f$
         */
-        bool hasY();
+        bool hasY() const;
         /*!
             \brief Calculate the y position.
             \return Position along-strip (mm).
         */
-        float y();
+        float y() const;
         /*!
             \brief Calculate the root means square (RMS) of y position.
             \return \f$Y_{RMS}=\sqrt{\frac{y_1^2+ y_2^2+\ldots+y_n^2}{n}}\f$
         */
-        float yRMS();
+        float yRMS() const;
 
         /*!
             \brief Check of the existing information of strip position.
             \return \f$if(fstrip==-1 \ || \ lstrip==-1) \ than \ false\f$
         */
-        bool hasX();
+        bool hasX() const;
         /*!
             \brief Calculate the strip position (x).
             \return \f$(lstrip+fstrip)/2\f$
         */
-        float x();
+        float x() const;
         /*!
             \brief Calculate the dispersion of x position.
             \return \f${xD}\left[X\right]=\frac{(lstrip-fstrip)^2}{12}\f$
         */
-        float xD();
+        float xD() const;
 
         /*!
             \brief Returns a pointer to the hit container.
@@ -150,9 +157,9 @@ class IRPCCluster
         */
         IRPCHitContainer* hits();
 
-		int nStrip();
+		int nStrip() const;
 
-		float deltaStrip();
+		float stripNumAvg() const;
 
         /*!
             \brief Compute all parametors of cluster.
@@ -181,13 +188,17 @@ class IRPCCluster
         */
         bool split(IRPCCluster *cluster, int strip);
 
+		bool operator==(const IRPCCluster& compCl) const {
+			return (this->_fstrip == compCl._fstrip && this->_lstrip == compCl._lstrip && this->_bunchx == compCl._bunchx);
+		}
+
     private:
 
         bool _isCorrect; // !< true - true - if cluster computed correctly.
-        int _bunchx; // !< digi bunch information.
 
         int _fstrip; // !< The first (order to the map) strip of the cluster which was fired at least from one side.
         int _lstrip; // !< The last (order to the map) strip of the cluster which was fired at least from one side.
+        int _bunchx; // !< digi bunch information.
 
         unsigned int _nDeltaTime; // !< The number of strips which have time information from both ends.
         float _sumDeltaTime; // !< The sum of all delta times of cluster.
