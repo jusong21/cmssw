@@ -8,14 +8,17 @@ process = cms.Process("RECLUSTERIZATION")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, "131X_mcRun4_realistic_v6", '')
+#process.GlobalTag = GlobalTag(process.GlobalTag, "131X_mcRun4_realistic_v6", '')
+process.GlobalTag = GlobalTag(process.GlobalTag, "auto:phase2_realistic_T21", "")
 
 process.load("Geometry.MuonCommonData.muonIdealGeometryXML_cfi")
 #process.load("Geometry.RPCGeometry.rpcGeometry_cfi")
 process.load("Geometry.RPCGeometryBuilder.rpcGeometry_cfi")
 process.load("Geometry.MuonNumbering.muonNumberingInitialization_cfi")
 
-process.load("Configuration.Geometry.GeometryIdeal_cff")  # Geometry configuration
+#process.load("Configuration.Geometry.GeometryIdeal_cff")  # Geometry configuration
+# for RPC Geometry
+process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
 
 
 process.load("RecoLocalMuon.IRPCRecHit.irpcRecHits_cfi")
@@ -44,4 +47,17 @@ process.out = cms.OutputModule("PoolOutputModule",
 process.p = cms.Path(process.irpcRecHits)
 process.ep = cms.EndPath(process.out)
 
+
+
+process.load("FWCore.MessageLogger.MessageLogger_cfi")
+process.MessageLogger.debugModules = cms.untracked.vstring("*")
+process.MessageLogger.cerr.enable = False
+process.MessageLogger.files.junk = dict()
+process.MessageLogger.cout = cms.untracked.PSet(
+    enable = cms.untracked.bool(True),
+    threshold = cms.untracked.string("DEBUG"),
+    default = cms.untracked.PSet( limit = cms.untracked.int32(0) ),
+    # Add your RPCDump category here
+    RPCDump = cms.untracked.PSet( limit = cms.untracked.int32(10000000) )
+)
 
