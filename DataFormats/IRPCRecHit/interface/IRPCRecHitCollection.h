@@ -4,7 +4,8 @@
 /** \class IRPCRecHitCollection
  *  Collection of IRPCRecHit for storage in the event
  *
- *  \author M. Maggi - INFN Bari
+ *  \author original version: M. Maggi - INFN Bari
+ *  \adated by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel)
  */
 
 #include "DataFormats/MuonDetId/interface/RPCDetId.h"

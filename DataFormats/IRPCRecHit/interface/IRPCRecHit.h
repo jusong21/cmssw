@@ -5,7 +5,8 @@
  *
  *  RecHit for RPC 
  *
- *  \author M. Maggi -- INFN Bari 
+ *  \author original version: M. Maggi -- INFN Bari 
+ *  \adated by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel)
  */
 
 #include "DataFormats/TrackingRecHit/interface/RecHit2DLocalPos.h"

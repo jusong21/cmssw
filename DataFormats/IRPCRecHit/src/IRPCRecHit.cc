@@ -1,7 +1,8 @@
 /*
  *  See header file for a description of this class.
  *
- *  \author M. Maggi -- INFN Bari
+ *  \author origianl version: M. Maggi -- INFN Bari
+ *  \adated by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel)
  */
 
 #include "DataFormats/IRPCRecHit/interface/IRPCRecHit.h"
