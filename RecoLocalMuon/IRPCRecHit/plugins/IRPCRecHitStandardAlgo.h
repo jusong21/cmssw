@@ -4,7 +4,8 @@
 /** \class RPCRecHitStandardAlgo
  *  Concrete implementation of RPCRecHitBaseAlgo.
  *
- *  \author M. Maggi -- INFN Bari
+ *  \author original version: M. Maggi -- INFN Bari
+ *  \adated by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel)
  */
 
 #include "RecoLocalMuon/IRPCRecHit/interface/IRPCRecHitBaseAlgo.h"

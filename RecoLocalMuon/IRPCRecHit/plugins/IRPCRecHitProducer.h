@@ -4,7 +4,8 @@
 /** \class RPCRecHitProducer
  *  Module for RPCRecHit production. 
  *  
- *  \author M. Maggim -- INFN Bari
+ *  \author original version: M. Maggim -- INFN Bari
+ *  \adated by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel)
  */
 
 #include "FWCore/Framework/interface/stream/EDProducer.h"
@@ -19,7 +20,7 @@
 class IRPCRecHitProducer : public edm::stream::EDProducer<> {
 public:
   /// Constructor
-  IRPCRecHitProducer(const edm::ParameterSet& config);
+  IRPCRecHitProducer(const edm::ParameterSet& iConfig);
 
   /// Destructor
   ~IRPCRecHitProducer() override;
@@ -28,21 +29,22 @@ public:
   //void beginRun(const edm::Run&, const edm::EventSetup&) override;
 
   /// The method which produces the rechits
-  void produce(edm::Event& event, const edm::EventSetup& setup) override;
+  void produce(edm::Event& iEvent, const edm::EventSetup& iSetup) override;
 
 private:
   // The label to be used to retrieve IRPC digis from the event
-  const edm::EDGetTokenT<IRPCDigiCollection> theIRPCDigiLabel;
+  const edm::ESGetToken<RPCGeometry, MuonGeometryRecord> rpcGeomToken;
+  const edm::EDGetTokenT<IRPCDigiCollection> irpcDigiToken;
   //  edm::InputTag theIRPCDigiLabel;
   //edm::ESGetToken<RPCMaskedStrips, RPCMaskedStripsRcd> theReadoutMaskedStripsToken;
   //edm::ESGetToken<RPCDeadStrips, RPCDeadStripsRcd> theReadoutDeadStripsToken;
-  const edm::ESGetToken<RPCGeometry, MuonGeometryRecord> theRPCGeomToken;
 
   // The reconstruction algorithm
   std::unique_ptr<IRPCRecHitBaseAlgo> theAlgo;
 
   double thrTime;
   double thrStripNum;
+  //TH1D *h1_NClusters_event
 
 //  std::unique_ptr<RPCMaskedStrips> theRPCMaskedStripsObj;
 //  // Object with mask-strips-vector for all the RPC Detectors

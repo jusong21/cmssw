@@ -45,6 +45,11 @@ IRPCClusterContainer IRPCClusterizer::doAction( const IRPCDigiCollection::Range&
 		int strip = digi->strip();
 		float timeHR = IRPCDigiTime( *digi ).timeHR();
 		float timeLR = IRPCDigiTime( *digi ).timeLR();
+		
+		std::cout << "  ========------ digi info ---------======" << std::endl;
+		std::cout << " - bx: " << digi->bx() << " sbx: " << digi->sbx() << std::endl;
+		std::cout << " - HR bx: " << digi->bxHR() << " sbx: " << digi->sbxHR() << " ft: " << digi->tHR() << " time: " << timeHR << std::endl;
+		std::cout << " - LR bx: " << digi->bxLR() << " sbx: " << digi->sbxLR() << " ft: " << digi->tLR() << " time: " << timeLR << std::endl;
 
         it = hits.find(bunchX); 
 		if (it==hits.end()){
@@ -63,22 +68,25 @@ IRPCClusterContainer IRPCClusterizer::doAction( const IRPCDigiCollection::Range&
     }
 
 	// test hits
+	std::cout << " Checking stored hits... " << std:: endl;
 	for (auto & [bx, hitCont] : hits){
 
 		IRPCHitContainer hr = hitCont.first;
 		IRPCHitContainer lr = hitCont.second;
 
-		std::cout << std::endl << " bx " << bx;
+		std::cout << std::endl << " - bx: " << bx;
 		// each hit cont
-		std::cout << std::endl << " check hr hist " << std::endl;
+		std::cout << std::endl << "  Check HR hits..." << std::endl;
 		for (auto & h: hr){
-			std::cout << "bx=" << h.bx() << " strip=" << h.strip() << " time=" << h.time() << std::endl;
+			std::cout << "  - bx: " << h.bx() << " strip: " << h.strip() << " time: " << h.time() << std::endl;
 		}
-		std::cout << std::endl << " check lr hist " << std::endl;
+
+		std::cout << std::endl << "  Check LR hits..." << std::endl;
 		for (auto & h: lr){
-			std::cout << "bx=" << h.bx() << " strip=" << h.strip() << " time=" << h.time() << std::endl;
+			std::cout << "  - bx: " << h.bx() << " strip: " << h.strip() << " time: " << h.time() << std::endl;
 		}
 	}
+	std::cout << std::endl;
 
 	IRPCClusterContainer clustersHR, clustersLR;
 	IRPCClusterContainer finalClusters;
@@ -94,17 +102,36 @@ IRPCClusterContainer IRPCClusterizer::doAction( const IRPCDigiCollection::Range&
 		std::thread threadLR( &IRPCClusterizer::oneSideClusterizer, this, info.thrTimeLR(), std::ref(hitCont.second), std::ref(clustersLR) );
 		threadHR.join(); threadLR.join();
 
+		std::cout << std::endl;
+		std::cout << " OneSide HR clusters..." << std::endl;
+		int nCluHR = 0;
 		for (auto cl: clustersHR){
 			cl.compute( std::ref(info) );
+			nCluHR++;
+
+			std::cout << " - n" << nCluHR << "  bx: " << cl.bx() << " fst: " << cl.firstStrip() << " lst: " << cl.lastStrip() << " cluSize: " << cl.clusterSize() << " nSt: " << cl.nStrip() << " StNumAvg: " << cl.stripNumAvg() << std::endl;
+			std::cout << "       highT: " << cl.highTime() << " highTErr: " << cl.highTimeRMS() << " lowT: " << cl.lowTime() << " lowTErr: " << cl.lowTimeRMS() << std::endl;
+			std::cout << "       y: " << cl.y() << " yErr: " << cl.yRMS() << " x: " << cl.x() << " xD: " << cl.xD() << std::endl;
+			std::cout << std::endl;
 		}
 		if (info.isOnlyHR()) return clustersHR;
 		
+		std::cout << std::endl;
+		std::cout << " OneSide LR clusters..." << std::endl;
+		int nCluLR = 0;
 		for (auto cl: clustersLR){
 			cl.compute( std::ref(info) );
+			nCluLR++;
+
+			std::cout << " - n" << nCluLR << "  bx: " << cl.bx() << " fst: " << cl.firstStrip() << " lst: " << cl.lastStrip() << " cluSize: " << cl.clusterSize() << " nSt: " << cl.nStrip() << " StNumAvg: " << cl.stripNumAvg() << std::endl;
+			std::cout << "       highT: " << cl.highTime() << " highTErr: " << cl.highTimeRMS() << " lowT: " << cl.lowTime() << " lowTErr: " << cl.lowTimeRMS() << std::endl;
+			std::cout << "       y: " << cl.y() << " yErr: " << cl.yRMS() << " x: " << cl.x() << " xD: " << cl.xD() << std::endl;
+			std::cout << std::endl;
 		}
 		if (info.isOnlyLR()) return clustersLR;
 		
 		// final clustering
+		std::cout << " Final clustering..." << std::endl;
 		if (!clustersHR.empty() && !clustersLR.empty()){
 			finalClusters = IRPCClusterizer::finalClusterizer(clustersHR, clustersLR, info.thrStripNum());
 		}
@@ -132,21 +159,21 @@ bool IRPCClusterizer::oneSideClusterizer(float thrTime, IRPCHitContainer &oneSid
 	int nhits = 0;
 	while (!hitCont.empty()){
 		nhits++;
-		std::cout << "nloops: " << nhits << std::endl;
+		//std::cout << "nloops: " << nhits << std::endl;
 		float minTime = std::numeric_limits<float>::max();
 		auto minTimeHit = hitCont.end();
 	
-		std::cout << "finding the earliest time and strip... " << std::endl;
+		//std::cout << "finding the earliest time and strip... " << std::endl;
 		// find the earliest time and its strip, idx
 		for (auto hit=hitCont.begin(); hit!=hitCont.end(); ++hit){
-			std::cout << "temp T: " << hit->time()  << "   min T: " << minTime << std::endl;
+			//std::cout << "temp T: " << hit->time()  << "   min T: " << minTime << std::endl;
 			if ( hit->time() < minTime ){
 				minTime = hit->time();
 				minTimeHit = hit;
-				std::cout << "min T is updated to " << hit->time() << std::endl;
+				//std::cout << "min T is updated to " << hit->time() << std::endl;
 			}
 		}
-		std::cout << "* min time: " << minTime << std::endl;
+		//std::cout << "* min time: " << minTime << std::endl;
 
 		tempCluster.addHit(*minTimeHit);
 
@@ -154,47 +181,47 @@ bool IRPCClusterizer::oneSideClusterizer(float thrTime, IRPCHitContainer &oneSid
 		auto rightHit = minTimeHit, stripRefRightHit = minTimeHit;
 		int maxStripJump = 1;
 
-		std::cout << std::endl;
-		std::cout << "checking leftside..." << std::endl;
+		//std::cout << std::endl;
+		//std::cout << "checking leftside..." << std::endl;
 		int matched = 1;
 		// check left
         while (leftHit != hitCont.begin()) {
             --leftHit; 
-			std::cout << "ref hit strip: " << stripRefLeftHit->strip() << "   left hit strip: " << leftHit->strip() << std::endl;
-			std::cout << "min hit time: " << minTimeHit->time() << "   left hit time: " << leftHit->time() << std::endl;
+//			std::cout << "ref hit strip: " << stripRefLeftHit->strip() << "   left hit strip: " << leftHit->strip() << std::endl;
+//			std::cout << "min hit time: " << minTimeHit->time() << "   left hit time: " << leftHit->time() << std::endl;
 			if ( leftHit->isAdjacentStrip( *stripRefLeftHit, maxStripJump ) ) {
 				if ( leftHit->isAdjacentTime( *minTimeHit, thrTime ) ) {
 					tempCluster.addHit( *leftHit );
 					--stripRefLeftHit;
-					std::cout << " === Matched! === " << std::endl; 
+//					std::cout << " === Matched! === " << std::endl; 
 					matched++;
 				}
 			} else break;
 		}
 		
-		std::cout << std::endl;
-		std::cout << "checking rightside..." << std::endl;
+//		std::cout << std::endl;
+//		std::cout << "checking rightside..." << std::endl;
 		// check right
         while (rightHit != hitCont.end()-1) {
             ++rightHit; 
-			std::cout << "ref hit strip: " << stripRefRightHit->strip() << "   right hit strip: " << rightHit->strip() << std::endl;
-			std::cout << "min hit time: " << minTimeHit->time() << "   right hit time: " << rightHit->time() << std::endl;
+//			std::cout << "ref hit strip: " << stripRefRightHit->strip() << "   right hit strip: " << rightHit->strip() << std::endl;
+//			std::cout << "min hit time: " << minTimeHit->time() << "   right hit time: " << rightHit->time() << std::endl;
 			if ( rightHit->isAdjacentStrip( *stripRefRightHit, maxStripJump ) ) {
 				if ( rightHit->isAdjacentTime( *minTimeHit, thrTime ) ) {
 					tempCluster.addHit( *rightHit );
 					++stripRefRightHit;
-					std::cout << " === Matched! === " << std::endl; 
+//					std::cout << " === Matched! === " << std::endl; 
 					matched++;
 				}
 			} else break;
 		}
 
-		std::cout << std::endl;
-		std::cout << "checking cluster... nMatched: " << matched << std::endl;
-		for (auto h: *tempCluster.hits()){
-			std::cout << "bx " << h.bx() << " time " << h.time() << " st " << h.strip() << std::endl;
-		}
-		std::cout << std::endl;
+//		std::cout << std::endl;
+//		std::cout << "checking cluster... nMatched: " << matched << std::endl;
+//		for (auto h: *tempCluster.hits()){
+//			std::cout << "bx " << h.bx() << " time " << h.time() << " st " << h.strip() << std::endl;
+//		}
+//		std::cout << std::endl;
 
 
 		clusters.push_back(tempCluster);
@@ -214,51 +241,76 @@ IRPCClusterContainer IRPCClusterizer::finalClusterizer(IRPCClusterContainer HR, 
 	IRPCCluster tempCluster;
 
 	int noMatch = 0;
+	int matched = 0;
 	
 	// checking
-	std::cout << "nHRc: " << HR.size() << " nLRc: " << LR.size() << std::endl;
+	std::cout << " - nHRc: " << HR.size() << " nLRc: " << LR.size() << std::endl;
 
-	while( !HR.empty() && !LR.empty() && noMatch==0 ){
+	for (auto clHR=HR.begin(); clHR!=HR.end(); ++clHR) {
+		for (auto clLR=LR.begin(); clLR!=LR.end(); ++clLR) {
+			float stripHR = clHR->stripNumAvg();
+			float stripLR = clLR->stripNumAvg();
+			float deltaStrip = std::abs( stripHR-stripLR );
 
-		float minDeltaStrip = std::numeric_limits<float>::max();
-		IRPCCluster minHR, minLR;
-	
-		for (auto clHR=HR.begin(); clHR!=HR.end(); ++clHR){
-			int matched = 0;
-			for (auto clLR=LR.begin(); clLR!=LR.end(); ++clLR){
-				float stripHR = clHR->stripNumAvg();
-				float stripLR = clLR->stripNumAvg();
-				float deltaStrip = std::abs( stripHR-stripLR );
+			std::cout << "  - stripHR: " << stripHR << " stripLR: " << stripLR << " dS: " << deltaStrip << std::endl;
 
-				std::cout << "stripHR: " << stripHR << " stripLR: " << stripLR << " dS: " << deltaStrip << std::endl;
-	
-				if (deltaStrip < minDeltaStrip){
-					minDeltaStrip = deltaStrip;
-					minHR = *clHR;
-					minLR = *clLR;
-					matched++;
-				}
-				// std::cout << "min dS: " << minDeltaStrip << std::endl;
+			if (deltaStrip < thrStripNum) {
+				tempCluster.initialize(*clHR, *clLR);
+				clusters.push_back(tempCluster);
+				matched++;
 			}
-			// std::cout << "mat " << matched << std::endl;
 		}
-
-		std::cout << std::endl << "HR dS: " << minHR.stripNumAvg() << " LR dS: " << minLR.stripNumAvg() << " dS: " << minDeltaStrip;
-		if (minDeltaStrip < thrStripNum) std::cout << " < ====  Matched ";
-		std::cout << std::endl;
-
-		if (minDeltaStrip < thrStripNum){
-			tempCluster.initialize(minHR, minLR);
-			clusters.push_back(tempCluster);
-			//HR.erase( std::remove(HR.begin(), HR.end(), minHR), HR.end() );
-			//LR.erase( std::remove(LR.begin(), LR.end(), minLR), LR.end() );
-			HR.erase(std::find(HR.begin(), HR.end(), minHR));
-			LR.erase(std::find(LR.begin(), LR.end(), minLR));
-			tempCluster.hits()->clear();
-		} else {noMatch++;} 
-		std::cout << "noMat: " << noMatch << " HR empty? " << HR.empty() << " LR empty? " << LR.empty() << std::endl;
-		std::cout << std::endl << std::endl;
-
 	}
+
+//				
+//	while( !HR.empty() && !LR.empty() && noMatch==0 ){
+//
+//		float minDeltaStrip = std::numeric_limits<float>::max();
+//		IRPCCluster minHR, minLR;
+//	
+//		for (auto clHR=HR.begin(); clHR!=HR.end(); ++clHR){
+//			//int matched = 0;
+//			for (auto clLR=LR.begin(); clLR!=LR.end(); ++clLR){
+//				float stripHR = clHR->stripNumAvg();
+//				float stripLR = clLR->stripNumAvg();
+//				float deltaStrip = std::abs( stripHR-stripLR );
+//
+//				std::cout << "  - stripHR: " << stripHR << " stripLR: " << stripLR << " dS: " << deltaStrip << std::endl;
+//				
+//				if (deltaStrip < thrStripNum) {
+//					minHR = *clHR;
+//					minLR = *clLR;
+//
+//				if (deltaStrip > thrStripNum) continue;
+//
+//				if (deltaStrip < minDeltaStrip){
+//					minDeltaStrip = deltaStrip;
+//					minHR = *clHR;
+//					minLR = *clLR;
+//					//matched++;
+//				}
+//				// std::cout << "min dS: " << minDeltaStrip << std::endl;
+//			}
+//			// std::cout << "mat " << matched << std::endl;
+//		}
+//
+//		std::cout << std::endl << " - HR dS: " << minHR.stripNumAvg() << " LR dS: " << minLR.stripNumAvg() << " dS: " << minDeltaStrip;
+//		if (minDeltaStrip < thrStripNum) std::cout << " < ====  Matched ";
+//		std::cout << std::endl;
+//
+//		if (minDeltaStrip < thrStripNum){
+//			tempCluster.initialize(minHR, minLR);
+//			clusters.push_back(tempCluster);
+//			//HR.erase( std::remove(HR.begin(), HR.end(), minHR), HR.end() );
+//			//LR.erase( std::remove(LR.begin(), LR.end(), minLR), LR.end() );
+//			HR.erase(std::find(HR.begin(), HR.end(), minHR));
+//			LR.erase(std::find(LR.begin(), LR.end(), minLR));
+//			tempCluster.hits()->clear();
+//			matched++;
+//		} else {noMatch++;} 
+	std::cout << " - noMat: " << noMatch << " mat: " << matched << " HR empty? " << HR.empty() << " LR empty? " << LR.empty() << std::endl;
+	std::cout << std::endl << std::endl;
+
+	//}
 	return clusters;
 }
