@@ -7,7 +7,7 @@ irpcRecHits = cms.EDProducer("IRPCRecHitProducer",
     ),
     recAlgo = cms.string('IRPCRecHitStandardAlgo'),
     irpcDigiTag = cms.InputTag('simMuonIRPCDigis'),
-    thrTime = cms.double(3),
+    thrTime = cms.double(0.00001),
     thrStripNum = cms.double(0.9)
 )
 #FIXME I don't understand below

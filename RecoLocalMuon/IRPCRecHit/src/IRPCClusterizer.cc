@@ -22,6 +22,7 @@
 #include <map>
 #include <thread>
 #include <numeric>
+#include <mutex>
 
 #include <iostream> 
 #include <iomanip> 
@@ -153,85 +154,274 @@ bool IRPCClusterizer::oneSideClusterizer(float thrTime, IRPCHitContainer &oneSid
 
 	if (oneSideHitCont.size()==0) return false;
 
-	auto hitCont = oneSideHitCont;
+	//IRPCHitContainer& hitContRef = hitCont;
+	auto &hitCont = oneSideHitCont;
 	IRPCCluster tempCluster;
 
 	int nhits = 0;
-	while (!hitCont.empty()){
-		nhits++;
-		//std::cout << "nloops: " << nhits << std::endl;
-		float minTime = std::numeric_limits<float>::max();
-		auto minTimeHit = hitCont.end();
-	
-		//std::cout << "finding the earliest time and strip... " << std::endl;
-		// find the earliest time and its strip, idx
-		for (auto hit=hitCont.begin(); hit!=hitCont.end(); ++hit){
-			//std::cout << "temp T: " << hit->time()  << "   min T: " << minTime << std::endl;
-			if ( hit->time() < minTime ){
-				minTime = hit->time();
-				minTimeHit = hit;
-				//std::cout << "min T is updated to " << hit->time() << std::endl;
+
+	std::vector<std::pair<size_t, int>> hitsFlags; // <index, flag>
+	hitsFlags.reserve(hitCont.size());
+
+    for (size_t i = 0; i < hitCont.size(); ++i) {
+        hitsFlags.emplace_back(i, 0); 
+    }
+
+	while (std::any_of(hitsFlags.begin(), hitsFlags.end(), 
+	                  [](const auto& hitFlag) { return hitFlag.second == 0; })) {
+		// Find the earliest signal
+	    float minTime = INFINITY;
+	    size_t minTimeIdx = hitsFlags.size(); 
+	    for (size_t i = 0; i < hitsFlags.size(); ++i) {
+			if (hitsFlags[i].second == 0){
+				const auto& hit = hitCont[hitsFlags[i].first];
+				if (hit.time() < minTime) {
+					minTime = hit.time();
+					minTimeIdx = i;
+				}
 			}
 		}
-		//std::cout << "* min time: " << minTime << std::endl;
 
-		tempCluster.addHit(*minTimeHit);
+		if (minTimeIdx == hitsFlags.size()) break;
+		++nhits;
+	
+		auto minTimeHit = hitCont[hitsFlags[minTimeIdx].first];
+		tempCluster.addHit(minTimeHit);
+		hitsFlags[minTimeIdx].second = -1;
 
-		auto leftHit = minTimeHit, stripRefLeftHit = minTimeHit;
-		auto rightHit = minTimeHit, stripRefRightHit = minTimeHit;
 		int maxStripJump = 1;
+	    size_t currentIdx = hitsFlags[minTimeIdx].first;
+		int matched = 1; bool nomatch = false;
+	    while (!nomatch) {
+	        size_t leftIdx = currentIdx - 1;
+			IRPCHit leftHit = hitCont[leftIdx];
+			IRPCHit refHit = hitCont[currentIdx];
+			
+			float prevTime = refHit.time();
+			float nowTime = leftHit.time();
 
-		//std::cout << std::endl;
-		//std::cout << "checking leftside..." << std::endl;
-		int matched = 1;
-		// check left
-        while (leftHit != hitCont.begin()) {
-            --leftHit; 
-//			std::cout << "ref hit strip: " << stripRefLeftHit->strip() << "   left hit strip: " << leftHit->strip() << std::endl;
-//			std::cout << "min hit time: " << minTimeHit->time() << "   left hit time: " << leftHit->time() << std::endl;
-			if ( leftHit->isAdjacentStrip( *stripRefLeftHit, maxStripJump ) ) {
-				if ( leftHit->isAdjacentTime( *minTimeHit, thrTime ) ) {
-					tempCluster.addHit( *leftHit );
-					--stripRefLeftHit;
-//					std::cout << " === Matched! === " << std::endl; 
-					matched++;
-				}
-			} else break;
-		}
-		
-//		std::cout << std::endl;
-//		std::cout << "checking rightside..." << std::endl;
-		// check right
-        while (rightHit != hitCont.end()-1) {
-            ++rightHit; 
-//			std::cout << "ref hit strip: " << stripRefRightHit->strip() << "   right hit strip: " << rightHit->strip() << std::endl;
-//			std::cout << "min hit time: " << minTimeHit->time() << "   right hit time: " << rightHit->time() << std::endl;
-			if ( rightHit->isAdjacentStrip( *stripRefRightHit, maxStripJump ) ) {
-				if ( rightHit->isAdjacentTime( *minTimeHit, thrTime ) ) {
-					tempCluster.addHit( *rightHit );
-					++stripRefRightHit;
-//					std::cout << " === Matched! === " << std::endl; 
-					matched++;
-				}
-			} else break;
+			if(leftHit.isAdjacentStrip( refHit, maxStripJump)
+			   && leftHit.isAdjacentTime( hitCont[hitsFlags[minTimeIdx].first], thrTime)
+			   && prevTime <= nowTime){
+				tempCluster.addHit( leftHit );
+				hitsFlags[leftIdx].second = -1;
+				--currentIdx;
+				++matched;
+			} else { nomatch = true; std::cout << "nomatch Break!" << std::endl; break; }
 		}
 
-//		std::cout << std::endl;
-//		std::cout << "checking cluster... nMatched: " << matched << std::endl;
-//		for (auto h: *tempCluster.hits()){
-//			std::cout << "bx " << h.bx() << " time " << h.time() << " st " << h.strip() << std::endl;
-//		}
-//		std::cout << std::endl;
+	    currentIdx = hitsFlags[minTimeIdx].first;
+		nomatch = false;
+	    while (!nomatch) {
+	        size_t rightIdx = currentIdx + 1;
+			IRPCHit rightHit = hitCont[rightIdx];
+			IRPCHit refHit = hitCont[currentIdx];
+			
+			float prevTime = refHit.time();
+			float nowTime = rightHit.time();
 
+			if(rightHit.isAdjacentStrip( refHit, maxStripJump)
+			   && rightHit.isAdjacentTime( hitCont[hitsFlags[minTimeIdx].first], thrTime)
+			   && prevTime <= nowTime){
+				tempCluster.addHit( rightHit );
+				hitsFlags[rightIdx].second = -1;
+				++currentIdx;
+				++matched;
+			} else { nomatch = true; std::cout << "nomatch Break!" << std::endl; break; }
+		}
 
 		clusters.push_back(tempCluster);
-		for (auto eraseHit: *tempCluster.hits()) {
-			hitCont.erase(std::remove(hitCont.begin(), hitCont.end(), eraseHit), hitCont.end());
-		}
 		tempCluster.hits()->clear();
 	}
 	return true;
 }
+
+
+//	auto &hitCont = oneSideHitCont;
+//	IRPCCluster tempCluster;
+//
+//	int nhits = 0;
+//
+//	// flags 
+//	std::vector<std::pair<IRPCHit*, int>> hitsFlags;
+//	hitsFlags.reserve(hitCont.size()); // memory
+//	for (auto &hit: hitCont){
+//		std::lock_guard<std::mutex> lock(clusterMutex);
+//		hitsFlags.emplace_back(&hit, 0);
+//	}
+//
+//	while (std::any_of(hitsFlags.begin(), hitsFlags.end(), 
+//	                  [](const auto& hitFlag) { return hitFlag.second == 0; })) {
+//		// Find the earliest signal
+//	    float minTime = INFINITY;
+//	    size_t minTimeIdx = hitsFlags.size(); 
+//	    for (size_t i = 0; i < hitsFlags.size(); ++i) {
+//	        if (hitsFlags[i].second == 0 && hitsFlags[i].first->time() < minTime) {
+//	            minTime = hitsFlags[i].first->time();
+//	            minTimeIdx = i;
+//        	}
+//    	}
+//
+//	    if (minTimeIdx == hitsFlags.size()) break; // No more hits
+//	    nhits++;
+//
+//		auto minTimeHit = hitsFlags[minTimeIdx].first;
+//    	//tempCluster.addHit(*minTimeHit);
+//		//tempCluster.addHit(const_cast<IRPCHit&>(*hitsFlags[minTimeIdx].first));
+//		tempCluster.addHit(const_cast<IRPCHit&>(*minTimeHit));
+//    	hitsFlags[minTimeIdx].second = -1; 
+//	
+//		int maxStripJump = 1;
+//	    size_t currentIdx = minTimeIdx;
+//		int matched = 1; bool nomatch = false;
+//	    while (!nomatch) {
+//	        size_t leftIdx = currentIdx - 1;
+//			float prevTime = hitsFlags[currentIdx].first->time();
+//			float nowTime = hitsFlags[leftIdx].first->time();
+//
+//	        IRPCHit* leftHit = hitsFlags[leftIdx].first;
+//			if(leftHit->isAdjacentStrip( *hitsFlags[currentIdx].first, maxStripJump)
+//			   && leftHit->isAdjacentTime( *hitsFlags[minTimeIdx].first, thrTime)
+//			   && prevTime <= nowTime){
+//				tempCluster.addHit( *leftHit );
+//				hitsFlags[leftIdx].second = -1;
+//				--currentIdx;
+//				++matched;
+//			} else { nomatch = true; std::cout << "nomatch Break!" << std::endl; break; }
+//		}
+//
+//	    currentIdx = minTimeIdx;
+//		nomatch = false;
+//	    while (!nomatch) {
+//	        size_t rightIdx = currentIdx + 1;
+//			float prevTime = hitsFlags[currentIdx].first->time();
+//			float nowTime = hitsFlags[rightIdx].first->time();
+//
+//	        IRPCHit* rightHit = hitsFlags[rightIdx].first;
+//			if(rightHit->isAdjacentStrip( *hitsFlags[currentIdx].first, maxStripJump)
+//			   && rightHit->isAdjacentTime( *hitsFlags[minTimeIdx].first, thrTime)
+//			   && prevTime <= nowTime){
+//				tempCluster.addHit( *rightHit );
+//				hitsFlags[rightIdx].second = -1;
+//				++currentIdx;
+//				matched++;
+//			} else { nomatch = true; std::cout << "nomatch Break!" << std::endl; break; }
+//		}
+//
+//		clusters.push_back(tempCluster);
+//		tempCluster.hits()->clear();
+//	}
+//	return true;
+//}
+
+//
+//
+//
+//        while (leftHit != hitCont.begin()) {
+//			float prevTime = leftHit->time();
+//            --leftHit;
+//			float nowTime = leftHit->time();
+//			std::cout << "ref hit strip: " << stripRefLeftHit->strip() << "   left hit strip: " << leftHit->strip() << std::endl;
+//			std::cout << "min hit time: " << minTimeHit->time() << "   left hit time: " << leftHit->time() << std::endl;
+//			std::cout << "prevTime: " << prevTime << " nowTime: " << nowTime << std::endl;
+//			if ( leftHit->isAdjacentStrip( *stripRefLeftHit, maxStripJump ) ) {
+//				if ( leftHit->isAdjacentTime( *minTimeHit, thrTime ) && (nowTime >= prevTime) ) {
+//					tempCluster.addHit( *leftHit );
+//					--stripRefLeftHit;
+//					std::cout << " <=== Matched! === \n" << std::endl; 
+//					matched++;
+//				}
+//			} else {std::cout << "Break!\n" << std::endl; } break;
+//		}
+//		
+//
+//
+//
+//
+//
+//
+//
+//	while (!hitCont.empty()){
+//		nhits++;
+//		//std::cout << "nloops: " << nhits << std::endl;
+//		float minTime = std::numeric_limits<float>::max();
+//		auto minTimeHit = hitCont.end();
+//	
+//		//std::cout << "finding the earliest time and strip... " << std::endl;
+//		// find the earliest time and its strip, idx
+//		for (auto hit=hitCont.begin(); hit!=hitCont.end(); ++hit){
+//			//std::cout << "temp T: " << hit->time()  << "   min T: " << minTime << std::endl;
+//			if ( hit->time() < minTime ){
+//				minTime = hit->time();
+//				minTimeHit = hit;
+//				//std::cout << "min T is updated to " << hit->time() << std::endl;
+//			}
+//		}
+//		//std::cout << "* min time: " << minTime << std::endl;
+//
+//		tempCluster.addHit(*minTimeHit);
+//
+//		auto leftHit = minTimeHit, stripRefLeftHit = minTimeHit;
+//		auto rightHit = minTimeHit, stripRefRightHit = minTimeHit;
+//		int maxStripJump = 1;
+//
+//		std::cout << std::endl;
+//		std::cout << "  !  new loop  !" << std::endl;
+//		std::cout << "checking leftside..." << std::endl;
+//		int matched = 1;
+//		// check left
+//        while (leftHit != hitCont.begin()) {
+//			float prevTime = leftHit->time();
+//            --leftHit;
+//			float nowTime = leftHit->time();
+//			std::cout << "ref hit strip: " << stripRefLeftHit->strip() << "   left hit strip: " << leftHit->strip() << std::endl;
+//			std::cout << "min hit time: " << minTimeHit->time() << "   left hit time: " << leftHit->time() << std::endl;
+//			std::cout << "prevTime: " << prevTime << " nowTime: " << nowTime << std::endl;
+//			if ( leftHit->isAdjacentStrip( *stripRefLeftHit, maxStripJump ) ) {
+//				if ( leftHit->isAdjacentTime( *minTimeHit, thrTime ) && (nowTime >= prevTime) ) {
+//					tempCluster.addHit( *leftHit );
+//					--stripRefLeftHit;
+//					std::cout << " <=== Matched! === \n" << std::endl; 
+//					matched++;
+//				}
+//			} else {std::cout << "Break!\n" << std::endl; } break;
+//		}
+//		
+////		std::cout << std::endl;
+//		std::cout << "checking rightside..." << std::endl;
+//		// check right
+//        while (rightHit != hitCont.end()-1) {
+//			float prevTime = rightHit->time();
+//            ++rightHit; 
+//			float nowTime = rightHit->time();
+//			std::cout << "ref hit strip: " << stripRefRightHit->strip() << "   right hit strip: " << rightHit->strip() << std::endl;
+//			std::cout << "min hit time: " << minTimeHit->time() << "   right hit time: " << rightHit->time() << std::endl;
+//			std::cout << "prevTime: " << prevTime << " nowTime: " << nowTime << std::endl;
+//			if ( rightHit->isAdjacentStrip( *stripRefRightHit, maxStripJump ) ) {
+//				if ( rightHit->isAdjacentTime( *minTimeHit, thrTime ) && (nowTime >= prevTime) ) {
+//					tempCluster.addHit( *rightHit );
+//					++stripRefRightHit;
+//					std::cout << " <=== Matched! === \n" << std::endl; 
+//					matched++;
+//				}
+//			//} else break;
+//			} else {std::cout << "Break!\n" << std::endl; } break;
+//		}
+//
+////		std::cout << std::endl;
+////		std::cout << "checking cluster... nMatched: " << matched << std::endl;
+////		for (auto h: *tempCluster.hits()){
+////			std::cout << "bx " << h.bx() << " time " << h.time() << " st " << h.strip() << std::endl;
+////		}
+////		std::cout << std::endl;
+//
+//
+//		clusters.push_back(tempCluster);
+//		for (auto eraseHit: *tempCluster.hits()) {
+//			hitCont.erase(std::remove(hitCont.begin(), hitCont.end(), eraseHit), hitCont.end());
+//		}
+//		tempCluster.hits()->clear();
+//	}
 
 
 IRPCClusterContainer IRPCClusterizer::finalClusterizer(IRPCClusterContainer HR, IRPCClusterContainer LR, float thrStripNum){

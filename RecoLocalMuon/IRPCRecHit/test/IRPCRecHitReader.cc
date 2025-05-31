@@ -44,7 +44,7 @@ IRPCRecHitReader::IRPCRecHitReader(const edm::ParameterSet& iConfig) {
 	//usesResource("TFileService");
 	edm::Service<TFileService> fs;
 
-	h_test = fs->make<TH1D>("h_test", "h_test", 20, 0, 20);
+	h_test = fs->make<TH1D>("h_test", "h_test", 30, 0, 30);
 }
 
 void IRPCRecHitReader::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) {

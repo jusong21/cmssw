@@ -31,11 +31,12 @@
 /* std */
 #include <vector>
 #include <utility>
+#include <mutex>
 
 class IRPCClusterizer 
 {
     public:
-
+		std::mutex clusterMutex;
         /* \brief Constructor.*/
         IRPCClusterizer();
         /*! \brief Destructor. */
