@@ -1,0 +1,61 @@
+#ifndef RecoLocalMuon_IRPCRecHitProducer_h
+#define RecoLocalMuon_IRPCRecHitProducer_h
+
+/** \class RPCRecHitProducer
+ *  Module for RPCRecHit production. 
+ *  
+ *  \author original version: M. Maggim -- INFN Bari
+ *  \adated by Juhee Song (Hanyang Univ, Vrije Universiteit Brussel)
+ */
+
+#include "FWCore/Framework/interface/stream/EDProducer.h"
+#include "FWCore/Framework/interface/Event.h"
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "FWCore/Utilities/interface/InputTag.h"
+#include "DataFormats/RPCDigi/interface/IRPCDigiCollection.h"
+#include "Geometry/RPCGeometry/interface/RPCGeometry.h"
+#include "Geometry/Records/interface/MuonGeometryRecord.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCRecHitBaseAlgo.h"
+
+class IRPCRecHitProducer : public edm::stream::EDProducer<> {
+public:
+  /// Constructor
+  IRPCRecHitProducer(const edm::ParameterSet& iConfig);
+
+  /// Destructor
+  ~IRPCRecHitProducer() override;
+
+  // Method that access the EventSetup for each run
+  //void beginRun(const edm::Run&, const edm::EventSetup&) override;
+
+  /// The method which produces the rechits
+  void produce(edm::Event& iEvent, const edm::EventSetup& iSetup) override;
+
+private:
+  // The label to be used to retrieve IRPC digis from the event
+  const edm::ESGetToken<RPCGeometry, MuonGeometryRecord> rpcGeomToken;
+  const edm::EDGetTokenT<IRPCDigiCollection> irpcDigiToken;
+  //  edm::InputTag theIRPCDigiLabel;
+  //edm::ESGetToken<RPCMaskedStrips, RPCMaskedStripsRcd> theReadoutMaskedStripsToken;
+  //edm::ESGetToken<RPCDeadStrips, RPCDeadStripsRcd> theReadoutDeadStripsToken;
+
+  // The reconstruction algorithm
+  std::unique_ptr<IRPCRecHitBaseAlgo> theAlgo;
+
+  double thrTime;
+  double thrStripNum;
+  //TH1D *h1_NClusters_event
+
+//  std::unique_ptr<RPCMaskedStrips> theRPCMaskedStripsObj;
+//  // Object with mask-strips-vector for all the RPC Detectors
+//
+//  std::unique_ptr<RPCDeadStrips> theRPCDeadStripsObj;
+//  // Object with dead-strips-vector for all the RPC Detectors
+//
+//  enum class MaskSource { File, EventSetup } maskSource_, deadSource_;
+//
+//  std::vector<RPCMaskedStrips::MaskItem> MaskVec;
+//  std::vector<RPCDeadStrips::DeadItem> DeadVec;
+};
+
+#endif

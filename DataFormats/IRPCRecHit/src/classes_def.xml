@@ -1,0 +1,22 @@
+<lcgdict>
+<selection>
+  <class name="IRPCRecHit" splitLevel="0" ClassVersion="14">
+   <version ClassVersion="14" checksum="14965726"/>
+   <version ClassVersion="13" checksum="927130330"/>
+   <version ClassVersion="12" checksum="1466455177"/>
+   <version ClassVersion="11" checksum="2419885627"/>
+   <version ClassVersion="10" checksum="247761974"/>
+  </class>
+  <class name="std::vector<IRPCRecHit>" splitLevel="0"/>
+  <class name="std::vector<IRPCRecHit*>" splitLevel="0"/>
+  <class name="edm::OwnVector<IRPCRecHit, edm::ClonePolicy<IRPCRecHit> >" splitLevel="0"/>
+  <class name="edm::ClonePolicy<IRPCRecHit>" /> <!-- Root6 -->
+  <class name="edm::RangeMap<RPCDetId, edm::OwnVector<IRPCRecHit, edm::ClonePolicy<IRPCRecHit> >, edm::ClonePolicy<IRPCRecHit> >" splitLevel="0"/>
+  <class name="edm::Wrapper<edm::RangeMap<RPCDetId, edm::OwnVector<IRPCRecHit, edm::ClonePolicy<IRPCRecHit> >, edm::ClonePolicy<IRPCRecHit> > >" splitLevel="0"/>
+</selection>
+<exclusion>
+  <class name="edm::OwnVector<IRPCRecHit, edm::ClonePolicy<IRPCRecHit> >">
+    <method name="sort" splitLevel="0"/>
+  </class>
+</exclusion>
+</lcgdict>
