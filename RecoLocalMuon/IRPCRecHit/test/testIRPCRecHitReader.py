@@ -19,7 +19,7 @@ process.source = cms.Source("PoolSource",
     )
 )
 process.TFileService = cms.Service("TFileService",
-    fileName = cms.string("output.root"),
+    fileName = cms.string("rechit_hist.root"),
     closeFileFast = cms.untracked.bool(True)
 )
 
@@ -31,16 +31,6 @@ process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(-1))
 process.irpcRecHitReader = cms.EDAnalyzer("IRPCRecHitReader",
     #HistOutFile = cms.untracked.string("irpcRecHitHist.root"),
     irpcRecHitTag = cms.InputTag("irpcRecHits"),
-#    recHitLabel1 = cms.untracked.string("irpcRecHits"), 
-#    #recHitLabel1 = process.irpcRecHitsLabel,
-#    recHitLabel2 = cms.untracked.string(""), 
-#
-#    trigIRPC1 = cms.untracked.bool(True),
-#    trigIRPC2 = cms.untracked.bool(True),
-#    trigIRPC3 = cms.untracked.bool(True),
-#    trigIRPC4 = cms.untracked.bool(True),
-#    trigIRPC5 = cms.untracked.bool(True),
-#    trigIRPC6 = cms.untracked.bool(True),
 )
 
 process.p = cms.Path(process.irpcRecHitReader)

@@ -15,4 +15,9 @@
 <use name="Geometry/CSCGeometry"/>
 <use name="TrackingTools/TrackRefitter"/>
 <use name="RecoLocalMuon/IRPCRecHit"/>
+<use name="DataFormats/TrackReco"/>
+<use name="DataFormats/MuonDetId"/>
+<use name="DataFormats/GeometrySurface"/>
+<use name="PhysicsTools/UtilAlgos"/>
+<use name="FWCore/ServiceRegistry"/>
 <flags EDM_PLUGIN="1"/>

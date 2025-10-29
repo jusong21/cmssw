@@ -11,5 +11,5 @@ DEFINE_FWK_MODULE(IRPCRecHitProducer);
 //#include "RPCPointProducer.h"
 //DEFINE_FWK_MODULE(RPCPointProducer);
 
-#include "RecoLocalMuon/IRPCRecHit/plugins/IRPCRecHitStandardAlgo.h"
+#include "RecoLocalMuon/IRPCRecHit/interface/IRPCRecHitStandardAlgo.h"
 DEFINE_EDM_PLUGIN(IRPCRecHitAlgoFactory, IRPCRecHitStandardAlgo, "IRPCRecHitStandardAlgo");
