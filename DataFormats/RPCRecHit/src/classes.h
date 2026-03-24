@@ -1,3 +1,5 @@
 #include "DataFormats/RPCRecHit/interface/RPCRecHit.h"
 #include "DataFormats/RPCRecHit/interface/RPCRecHitCollection.h"
+#include "DataFormats/RPCRecHit/interface/IRPCRecHit.h"
+#include "DataFormats/RPCRecHit/interface/IRPCRecHitCollection.h"
 #include "DataFormats/Common/interface/Wrapper.h"
