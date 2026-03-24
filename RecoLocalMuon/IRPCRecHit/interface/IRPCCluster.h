@@ -104,6 +104,13 @@ class IRPCCluster
         float lowTimeRMS() const;
 
         /*!
+            \brief Return the final (combined) cluster time.
+            If both HR and LR times exist, it is defined as the average:
+            `time = 0.5 * (highTime + lowTime)`.
+        */
+        float time() const;
+
+        /*!
             \brief Check of the existing information of delta time.
             \return \f$if(nDeltaTime<=0) \ than \ false\f$
         */

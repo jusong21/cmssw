@@ -33,7 +33,7 @@ process.source = cms.Source("PoolSource",
                             #    debugVebosity = cms.untracked.uint32(10),
 #                            fileNames = cms.untracked.vstring(
 #        "file:/eos/home-j/jusong/work/iRPC/CMSSW_15_1_0_pre3/src/IRPC/step2.root"
-        fileNames = cms.untracked.vstring('file:/eos/home-j/jusong/work/iRPC/CMSSW_15_1_0_pre3/src/IRPC/step2_5000.root')
+        fileNames = cms.untracked.vstring('file:/eos/home-j/jusong/work/iRPC/CMSSW_15_1_0_pre3/src/IRPC/step2.root')
 )
 
 process.out = cms.OutputModule("PoolOutputModule",

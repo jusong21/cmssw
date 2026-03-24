@@ -15,7 +15,7 @@ process.load("RecoLocalMuon.IRPCRecHit.irpcRecHits_cfi")
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        "file:/eos/home-j/jusong/work/iRPC/CMSSW_13_3_0_pre2/src/RecoLocalMuon/IRPCRecHit/rechit01.root"
+        "file:/eos/home-j/jusong/work/iRPC/CMSSW_15_1_0_pre3/src/step2.root"
     )
 )
 process.TFileService = cms.Service("TFileService",
@@ -31,9 +31,13 @@ process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(-1))
 process.irpcRecHitReader = cms.EDAnalyzer("IRPCRecHitReader",
     #HistOutFile = cms.untracked.string("irpcRecHitHist.root"),
     irpcRecHitTag = cms.InputTag("irpcRecHits"),
+    validateClustering = cms.bool(True),
+    irpcDigiTag = cms.InputTag("simMuonIRPCDigis"),
+    thrTime = cms.double(0.00001),
+    thrStripNum = cms.double(0.9),
 )
 
-process.p = cms.Path(process.irpcRecHitReader)
+process.p = cms.Path(process.irpcRecHits * process.irpcRecHitReader)
 
 #process.schedule = cms.Schedule(process.p)
 

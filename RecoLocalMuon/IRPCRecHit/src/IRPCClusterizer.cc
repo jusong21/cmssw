@@ -72,67 +72,23 @@ IRPCClusterContainer IRPCClusterizer::doAction( const IRPCDigiCollection::Range&
         // std::cout <<"strip=" << digi->strip() << " time=" <<  digi->time() << " position=" << digi->coordinateY() << " bx=" << digi->bx()  << " dt=" << timeHR - timeLR << std::endl << std::endl;
     }
 
-	// test hits
-	std::cout << " Checking stored hits... " << std:: endl;
-	for (auto & [bx, hitCont] : hits){
-
-		IRPCHitContainer hr = hitCont.first;
-		IRPCHitContainer lr = hitCont.second;
-
-		std::cout << std::endl << " - bx: " << bx;
-		// each hit cont
-		std::cout << std::endl << "  Check HR hits..." << std::endl;
-		for (auto & h: hr){
-			std::cout << "  - bx: " << h.bx() << " strip: " << h.strip() << " time: " << h.time() << std::endl;
-		}
-
-		std::cout << std::endl << "  Check LR hits..." << std::endl;
-		for (auto & h: lr){
-			std::cout << "  - bx: " << h.bx() << " strip: " << h.strip() << " time: " << h.time() << std::endl;
-		}
-	}
-	std::cout << std::endl;
-
 	IRPCClusterContainer clustersHR, clustersLR;
 	IRPCClusterContainer finalClusters;
 
 	for (auto & [bx, hitCont]: hits){
 
 		// one-side clustering
-		std::thread threadHR( &IRPCClusterizer::oneSideClusterizer, this, info.thrTimeHR(), std::ref(hitCont.first),  std::ref(clustersHR) );
-		std::thread threadLR( &IRPCClusterizer::oneSideClusterizer, this, info.thrTimeLR(), std::ref(hitCont.second), std::ref(clustersLR) );
-		threadHR.join(); threadLR.join();
-
-		std::cout << std::endl;
-		std::cout << " OneSide HR clusters..." << std::endl;
-		int nCluHR = 0;
-		for (auto cl: clustersHR){
-			cl.compute( std::ref(info) );
-			nCluHR++;
-
-//			std::cout << " - n" << nCluHR << "  bx: " << cl.bx() << " fst: " << cl.firstStrip() << " lst: " << cl.lastStrip() << " cluSize: " << cl.clusterSize() << " nSt: " << cl.nStrip() << " StNumAvg: " << cl.stripNumAvg() << std::endl;
-//			std::cout << "       highT: " << cl.highTime() << " highTErr: " << cl.highTimeRMS() << " lowT: " << cl.lowTime() << " lowTErr: " << cl.lowTimeRMS() << std::endl;
-//			std::cout << "       y: " << cl.y() << " yErr: " << cl.yRMS() << " x: " << cl.x() << " xD: " << cl.xD() << std::endl;
-//			std::cout << std::endl;
-		}
+		// NOTE:
+		// The previous implementation spawned threads that push into shared
+		// vectors (clustersHR/clustersLR). That is not thread-safe and can
+		// lead to non-deterministic behavior. We do it sequentially here.
+		(void)oneSideClusterizer(info.thrTimeHR(), hitCont.first, clustersHR);
+		(void)oneSideClusterizer(info.thrTimeLR(), hitCont.second, clustersLR);
 		if (info.isOnlyHR()) return clustersHR;
 		
-//		std::cout << std::endl;
-//		std::cout << " OneSide LR clusters..." << std::endl;
-		int nCluLR = 0;
-		for (auto cl: clustersLR){
-			cl.compute( std::ref(info) );
-			nCluLR++;
-
-//			std::cout << " - n" << nCluLR << "  bx: " << cl.bx() << " fst: " << cl.firstStrip() << " lst: " << cl.lastStrip() << " cluSize: " << cl.clusterSize() << " nSt: " << cl.nStrip() << " StNumAvg: " << cl.stripNumAvg() << std::endl;
-//			std::cout << "       highT: " << cl.highTime() << " highTErr: " << cl.highTimeRMS() << " lowT: " << cl.lowTime() << " lowTErr: " << cl.lowTimeRMS() << std::endl;
-//			std::cout << "       y: " << cl.y() << " yErr: " << cl.yRMS() << " x: " << cl.x() << " xD: " << cl.xD() << std::endl;
-//			std::cout << std::endl;
-		}
 		if (info.isOnlyLR()) return clustersLR;
 		
 		// final clustering
-//		std::cout << " Final clustering..." << std::endl;
 		if (!clustersHR.empty() && !clustersLR.empty()){
 			finalClusters = IRPCClusterizer::finalClusterizer(clustersHR, clustersLR, info.thrStripNum());
 		}
@@ -193,6 +149,7 @@ bool IRPCClusterizer::oneSideClusterizer(float thrTime, IRPCHitContainer &oneSid
 	    size_t currentIdx = hitsFlags[minTimeIdx].first;
 		int matched = 1; bool nomatch = false;
 	    while (!nomatch) {
+			if (currentIdx == 0) break; // prevent size_t underflow
 	        size_t leftIdx = currentIdx - 1;
 			IRPCHit leftHit = hitCont[leftIdx];
 			IRPCHit refHit = hitCont[currentIdx];
@@ -213,6 +170,7 @@ bool IRPCClusterizer::oneSideClusterizer(float thrTime, IRPCHitContainer &oneSid
 	    currentIdx = hitsFlags[minTimeIdx].first;
 		nomatch = false;
 	    while (!nomatch) {
+			if (currentIdx + 1 >= hitCont.size()) break; // prevent out-of-range
 	        size_t rightIdx = currentIdx + 1;
 			IRPCHit rightHit = hitCont[rightIdx];
 			IRPCHit refHit = hitCont[currentIdx];
@@ -239,33 +197,51 @@ bool IRPCClusterizer::oneSideClusterizer(float thrTime, IRPCHitContainer &oneSid
 IRPCClusterContainer IRPCClusterizer::finalClusterizer(IRPCClusterContainer HR, IRPCClusterContainer LR, float thrStripNum){
 
 	IRPCClusterContainer clusters;
-	
-	IRPCCluster tempCluster;
 
-	int noMatch = 0;
-	int matched = 0;
-	
-	// checking
-//	std::cout << " - nHRc: " << HR.size() << " nLRc: " << LR.size() << std::endl;
+	// Greedy 1:1 matching:
+	// - consider all (HR_i, LR_j) with deltaStrip < thrStripNum
+	// - sort by deltaStrip ascending
+	// - pick pairs in that order, each HR and LR cluster can be used at most once
+	struct Candidate {
+		size_t iHR;
+		size_t iLR;
+		float deltaStrip;
+	};
 
-	for (auto clHR=HR.begin(); clHR!=HR.end(); ++clHR) {
-		for (auto clLR=LR.begin(); clLR!=LR.end(); ++clLR) {
-			float stripHR = clHR->stripNumAvg();
-			float stripLR = clLR->stripNumAvg();
-			float deltaStrip = std::abs( stripHR-stripLR );
+	std::vector<Candidate> candidates;
+	candidates.reserve(HR.size() * LR.size());
 
-//			std::cout << "  - stripHR: " << stripHR << " stripLR: " << stripLR << " dS: " << deltaStrip << std::endl;
-
+	for (size_t iHR = 0; iHR < HR.size(); ++iHR) {
+		for (size_t iLR = 0; iLR < LR.size(); ++iLR) {
+			const float stripHR = HR[iHR].stripNumAvg();
+			const float stripLR = LR[iLR].stripNumAvg();
+			const float deltaStrip = std::abs(stripHR - stripLR);
 			if (deltaStrip < thrStripNum) {
-				tempCluster.initialize(*clHR, *clLR);
-				clusters.push_back(tempCluster);
-				matched++;
+				candidates.push_back(Candidate{iHR, iLR, deltaStrip});
 			}
 		}
 	}
 
-//	std::cout << " - noMat: " << noMatch << " mat: " << matched << " HR empty? " << HR.empty() << " LR empty? " << LR.empty() << std::endl;
-//	std::cout << std::endl << std::endl;
+	std::sort(candidates.begin(), candidates.end(),
+	          [](const Candidate& a, const Candidate& b) {
+		          if (a.deltaStrip != b.deltaStrip) return a.deltaStrip < b.deltaStrip;
+		          if (a.iHR != b.iHR) return a.iHR < b.iHR;
+		          return a.iLR < b.iLR;
+	          });
+
+	std::vector<char> usedHR(HR.size(), 0);
+	std::vector<char> usedLR(LR.size(), 0);
+
+	for (const auto& cand : candidates) {
+		if (usedHR[cand.iHR] || usedLR[cand.iLR]) continue;
+
+		IRPCCluster tempCluster;
+		tempCluster.initialize(HR[cand.iHR], LR[cand.iLR]);
+		clusters.push_back(tempCluster);
+
+		usedHR[cand.iHR] = 1;
+		usedLR[cand.iLR] = 1;
+	}
 
 	return clusters;
 }

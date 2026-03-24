@@ -396,4 +396,9 @@ void IRPCDigiAnalyzer::fillDescriptions(edm::ConfigurationDescriptions& descript
 }
 
 //define this as a plug-in
-DEFINE_FWK_MODULE(IRPCDigiAnalyzer);
+// NOTE:
+// This file previously registered the same EDM plugin (`IRPCDigiAnalyzer`)
+// as the implementation under `IRPC/IRPCDigiAnalyzer/plugins`.
+// CMSSW disallows the same plugin name being registered from multiple
+// auto-generated plugin libraries (see "MultiplePlugins" fatal exception).
+// Keep the registration in the `IRPC/IRPCDigiAnalyzer` package only.

@@ -90,6 +90,11 @@ public:
 
   float timeLRError() const { return theTimeLRError; }
 
+  // Convenience average time from HR/LR sides.
+  float time() const { return 0.5f * (theTimeHR + theTimeLR); }
+
+  float timeError() const { return 0.5f * (theTimeHRError + theTimeLRError); }
+
   /// Comparison operator, based on the rpcId and the digi time
   bool operator==(const IRPCRecHit& hit) const;
 

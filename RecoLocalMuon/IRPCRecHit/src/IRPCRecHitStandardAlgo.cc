@@ -25,13 +25,6 @@ bool IRPCRecHitStandardAlgo::compute(const RPCRoll& roll,
 									 float& timeLR,
 									 float& timeLRErr) const {
 
-	std::cout << std::endl;
-	std::cout << " ******************** HitStandardAlgo ******************** " << std::endl;
-	std::cout << " - cluster.firstStrip(): " << cluster.firstStrip() << std::endl;
-	std::cout << " - roll.centreOfStrip(cluster.firstStrip()): " << roll.centreOfStrip(cluster.firstStrip()) << std::endl;
-	std::cout << " - cluster.lastStrip(): " << cluster.lastStrip() << std::endl;
-	std::cout << " - roll.centreOfStrip(cluster.lastStrip()): " << roll.centreOfStrip(cluster.lastStrip()) << std::endl;
-
     // Get Average Strip position
     const float fstrip = (roll.centreOfStrip(cluster.firstStrip())).x();
     const float lstrip = (roll.centreOfStrip(cluster.lastStrip())).x();
@@ -39,12 +32,8 @@ bool IRPCRecHitStandardAlgo::compute(const RPCRoll& roll,
     const double y = cluster.hasY() ? cluster.y() : 0;
     Point = LocalPoint(centreOfCluster, y, 0);
 
-	std::cout << " - Strip position" << std::endl;
-	std::cout << "   fs: " << fstrip << " ls: " << lstrip << " cen: " << centreOfCluster << " y: " << y << std::endl;
-
     if (!cluster.hasY()) {
         error = LocalError(roll.localError((cluster.firstStrip() + cluster.lastStrip()) / 2.));
-		std::cout << " - (!hasY) error: " << error << std::endl;
     } else {
         // Use the default one for local x error
         float ex2 = roll.localError((cluster.firstStrip() + cluster.lastStrip()) / 2.).xx();
@@ -66,7 +55,6 @@ bool IRPCRecHitStandardAlgo::compute(const RPCRoll& roll,
         }
 
         error = LocalError(ex2, 0, maxDy * maxDy / 3.);
-		std::cout << " - ex2: " << ex2 << " error: " << error << std::endl;
     }
 
 //  if (cluster.hasTime()) {
@@ -77,7 +65,7 @@ bool IRPCRecHitStandardAlgo::compute(const RPCRoll& roll,
 //    timeErr = -1;
 //  }
 
-    // FIXME iRPC has two times...
+    // Keep HR/LR times separately in the rechit.
     if (cluster.hasHighTime() && cluster.hasLowTime()) {
         timeHR = cluster.highTime();
         timeHRErr = cluster.highTimeRMS();
@@ -89,9 +77,6 @@ bool IRPCRecHitStandardAlgo::compute(const RPCRoll& roll,
         timeLR = 0;
         timeLRErr = -1;
     }
-
-	std::cout << " - timeHR: " << timeHR << " timeHRErr: " << timeHRErr << std::endl;
-	std::cout << " - timeLR: " << timeLR << " timeLRErr: " << timeLRErr << std::endl;
 
     return true;
 }

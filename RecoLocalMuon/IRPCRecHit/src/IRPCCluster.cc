@@ -70,6 +70,11 @@ bool IRPCCluster::hasLowTime() const { return _nLowTime > 0; }
 float IRPCCluster::lowTime() const { return hasLowTime() ? _sumLowTime/_nLowTime : -1; }
 float IRPCCluster::lowTimeRMS() const { return hasLowTime() ? std::sqrt(std::max(0.0f, _sumLowTime2*_nLowTime - _sumLowTime*_sumLowTime))/_nLowTime : -1; }
 
+float IRPCCluster::time() const {
+	if (!(hasHighTime() && hasLowTime())) return -1;
+	return 0.5f * (highTime() + lowTime());
+}
+
 bool IRPCCluster::hasDeltaTime() const { return _nDeltaTime > 0; }
 float IRPCCluster::deltaTime() const { return hasDeltaTime() ? _sumDeltaTime/_nDeltaTime : -1; }
 //float IRPCCluster::deltaTime() { return this->highTime() - this->lowTime(); }
