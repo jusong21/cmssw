@@ -47,6 +47,9 @@ private:
   edm::ESGetToken<RPCGeometry, MuonGeometryRecord> rpcGeomToken_;
 
   bool useIRPC_;
+  float irpcThrTime_;
+  float irpcThrStripNum_;
+  float irpcSpeed_;
 
   RPCClusterizerPhase2 rpcClusterizer_;
   IRPCClusterizer irpcClusterizer_;

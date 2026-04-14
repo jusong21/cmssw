@@ -2,7 +2,7 @@
 #define RecoLocalMuon_RPCRecHit_IRPCClusterizer_h
 
 /*
- * Clusterizer for IRPCDigi.
+ * IRPCDigi: HR/LR one-side clustering, association -> IRPCCluster (see IRPCCluster::compute).
  *
  * \author J. Shin -- Kyung Hee University
  */
@@ -17,10 +17,10 @@ public:
   IRPCClusterizer() = default;
   ~IRPCClusterizer() = default;
 
-  IRPCClusterContainer doAction(const IRPCDigiCollection::Range& digiRange) const;
-
-private:
-  IRPCClusterContainer makeInitialClusters(const IRPCDigiCollection::Range& digiRange) const;
+  IRPCClusterContainer doAction(const IRPCDigiCollection::Range& digiRange,
+                                  float thrTime,
+                                  float thrStripNum,
+                                  float speed) const;
 };
 
 #endif

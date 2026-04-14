@@ -14,7 +14,10 @@ RPCRecHitPhase2Producer::RPCRecHitPhase2Producer(const edm::ParameterSet& config
     : rpcDigiPhase2Token_(consumes<RPCDigiPhase2Collection>(config.getParameter<edm::InputTag>("rpcDigiPhase2Label"))),
       irpcDigiToken_(consumes<IRPCDigiCollection>(config.getParameter<edm::InputTag>("irpcDigiLabel"))),
       rpcGeomToken_(esConsumes<RPCGeometry, MuonGeometryRecord>()),
-      useIRPC_(config.getParameter<bool>("useIRPC")) {
+      useIRPC_(config.getParameter<bool>("useIRPC")),
+      irpcThrTime_(static_cast<float>(config.getParameter<double>("irpcThrTime"))),
+      irpcThrStripNum_(static_cast<float>(config.getParameter<double>("irpcThrStripNum"))),
+      irpcSpeed_(static_cast<float>(config.getParameter<double>("irpcSpeed"))) {
   produces<RPCRecHitCollection>();
 }
 
@@ -38,7 +41,8 @@ void RPCRecHitPhase2Producer::buildFromRPCPhase2(
 
 void RPCRecHitPhase2Producer::buildFromIRPC(
     const RPCRoll& roll, const RPCDetId& rpcId, const IRPCDigiCollection::Range& range, RPCRecHitCollection& output) const {
-  const IRPCClusterContainer clusters = irpcClusterizer_.doAction(range);
+  const IRPCClusterContainer clusters =
+      irpcClusterizer_.doAction(range, irpcThrTime_, irpcThrStripNum_, irpcSpeed_);
 
   edm::OwnVector<RPCRecHit> hits;
   for (const auto& cluster : clusters) {
@@ -115,6 +119,9 @@ void RPCRecHitPhase2Producer::fillDescriptions(edm::ConfigurationDescriptions& d
   desc.add<edm::InputTag>("rpcDigiPhase2Label", edm::InputTag("simMuonRPCDigisPhase2"));
   desc.add<edm::InputTag>("irpcDigiLabel", edm::InputTag("simMuonIRPCDigis"));
   desc.add<bool>("useIRPC", true);
+  desc.add<double>("irpcThrTime", 1.e-5);
+  desc.add<double>("irpcThrStripNum", 0.9);
+  desc.add<double>("irpcSpeed", 19.786302);
   descriptions.addWithDefaultLabel(desc);
 }
 

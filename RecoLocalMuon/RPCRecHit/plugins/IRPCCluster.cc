@@ -9,19 +9,28 @@
 #include <algorithm>
 #include <cmath>
 
-IRPCCluster::IRPCCluster()
-    : fstrip_(0), lstrip_(0), bx_(0), sumTime_(0.f), sumTime2_(0.f), nTime_(0), sumY_(0.f), sumY2_(0.f), nY_(0) {}
+namespace {
+inline float rmsFromSums(float sum, float sum2, uint16_t n) {
+  if (n == 0) {
+    return -1.f;
+  }
+  return std::sqrt(std::max(0.f, sum2 * static_cast<float>(n) - sum * sum)) / static_cast<float>(n);
+}
+}  // namespace
 
-IRPCCluster::IRPCCluster(int firstStrip, int lastStrip, int bx)
-    : fstrip_(firstStrip),
-      lstrip_(lastStrip),
-      bx_(bx),
-      sumTime_(0.f),
-      sumTime2_(0.f),
-      nTime_(0),
+IRPCCluster::IRPCCluster()
+    : fstrip_(0),
+      lstrip_(0),
+      bx_(0),
+      nHR_(0),
+      sumHR_(0.f),
+      sumHR2_(0.f),
+      nLR_(0),
+      sumLR_(0.f),
+      sumLR2_(0.f),
+      nY_(0),
       sumY_(0.f),
-      sumY2_(0.f),
-      nY_(0) {}
+      sumY2_(0.f) {}
 
 IRPCCluster::~IRPCCluster() = default;
 
@@ -33,58 +42,53 @@ int IRPCCluster::clusterSize() const { return lstrip_ - fstrip_ + 1; }
 
 int IRPCCluster::bx() const { return bx_; }
 
-bool IRPCCluster::hasTime() const { return nTime_ > 0; }
+bool IRPCCluster::hasHighTime() const { return nHR_ > 0; }
 
-float IRPCCluster::time() const { return hasTime() ? sumTime_ / nTime_ : 0.f; }
+float IRPCCluster::highTime() const { return hasHighTime() ? sumHR_ / static_cast<float>(nHR_) : 0.f; }
 
-float IRPCCluster::timeRMS() const {
-  if (!hasTime()) {
-    return -1.f;
-  }
-  return std::sqrt(std::max(0.f, sumTime2_ * nTime_ - sumTime_ * sumTime_)) / nTime_;
-}
+float IRPCCluster::highTimeRMS() const { return rmsFromSums(sumHR_, sumHR2_, nHR_); }
+
+bool IRPCCluster::hasLowTime() const { return nLR_ > 0; }
+
+float IRPCCluster::lowTime() const { return hasLowTime() ? sumLR_ / static_cast<float>(nLR_) : 0.f; }
+
+float IRPCCluster::lowTimeRMS() const { return rmsFromSums(sumLR_, sumLR2_, nLR_); }
 
 bool IRPCCluster::hasY() const { return nY_ > 0; }
 
-float IRPCCluster::y() const { return hasY() ? sumY_ / nY_ : 0.f; }
+float IRPCCluster::y() const { return hasY() ? sumY_ / static_cast<float>(nY_) : 0.f; }
 
 float IRPCCluster::yRMS() const {
   if (!hasY()) {
     return -1.f;
   }
-  return std::sqrt(std::max(0.f, sumY2_ * nY_ - sumY_ * sumY_)) / nY_;
+  return std::sqrt(std::max(0.f, sumY2_ * static_cast<float>(nY_) - sumY_ * sumY_)) / static_cast<float>(nY_);
 }
 
-bool IRPCCluster::isAdjacent(const IRPCCluster& other) const {
-  return (other.firstStrip() == this->firstStrip() - 1) && (other.bx() == this->bx());
-}
-
-void IRPCCluster::addTime(float time) {
-  ++nTime_;
-  sumTime_ += time;
-  sumTime2_ += time * time;
-}
-
-void IRPCCluster::addY(float y) {
-  ++nY_;
-  sumY_ += y;
-  sumY2_ += y * y;
-}
-
-void IRPCCluster::merge(const IRPCCluster& other) {
-  if (!this->isAdjacent(other)) {
-    return;
-  }
-
-  fstrip_ = other.firstStrip();
-
-  nTime_ += other.nTime_;
-  sumTime_ += other.sumTime_;
-  sumTime2_ += other.sumTime2_;
-
-  nY_ += other.nY_;
-  sumY_ += other.sumY_;
-  sumY2_ += other.sumY2_;
+void IRPCCluster::compute(uint16_t fstrip,
+                          uint16_t lstrip,
+                          int16_t bx,
+                          uint16_t nHigh,
+                          float sumHigh,
+                          float sumHigh2,
+                          uint16_t nLow,
+                          float sumLow,
+                          float sumLow2,
+                          uint16_t nY,
+                          float sumY,
+                          float sumY2) {
+  fstrip_ = fstrip;
+  lstrip_ = lstrip;
+  bx_ = bx;
+  nHR_ = nHigh;
+  sumHR_ = sumHigh;
+  sumHR2_ = sumHigh2;
+  nLR_ = nLow;
+  sumLR_ = sumLow;
+  sumLR2_ = sumLow2;
+  nY_ = nY;
+  sumY_ = sumY;
+  sumY2_ = sumY2;
 }
 
 bool IRPCCluster::operator<(const IRPCCluster& other) const {

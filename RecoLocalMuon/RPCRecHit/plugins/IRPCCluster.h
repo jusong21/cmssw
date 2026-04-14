@@ -2,7 +2,7 @@
 #define RecoLocalMuon_RPCRecHit_IRPCCluster_h
 
 /*
- * IRPC cluster object.
+ * IRPC cluster after HR/LR association: HR and LR times (RMS) and y stored separately.
  *
  * \author J. Shin -- Kyung Hee University
  */
@@ -12,7 +12,6 @@
 class IRPCCluster {
 public:
   IRPCCluster();
-  IRPCCluster(int firstStrip, int lastStrip, int bx);
   ~IRPCCluster();
 
   int firstStrip() const;
@@ -20,34 +19,50 @@ public:
   int clusterSize() const;
   int bx() const;
 
-  bool hasTime() const;
-  float time() const;
-  float timeRMS() const;
+  bool hasHighTime() const;
+  float highTime() const;
+  float highTimeRMS() const;
+
+  bool hasLowTime() const;
+  float lowTime() const;
+  float lowTimeRMS() const;
 
   bool hasY() const;
   float y() const;
   float yRMS() const;
 
-  void addTime(float time);
-  void addY(float y);
-  void merge(const IRPCCluster& other);
+  void compute(uint16_t fstrip,
+               uint16_t lstrip,
+               int16_t bx,
+               uint16_t nHigh,
+               float sumHigh,
+               float sumHigh2,
+               uint16_t nLow,
+               float sumLow,
+               float sumLow2,
+               uint16_t nY,
+               float sumY,
+               float sumY2);
 
   bool operator<(const IRPCCluster& other) const;
   bool operator==(const IRPCCluster& other) const;
-  bool isAdjacent(const IRPCCluster& other) const;
 
 private:
   uint16_t fstrip_;
   uint16_t lstrip_;
   int16_t bx_;
 
-  float sumTime_;
-  float sumTime2_;
-  uint16_t nTime_;
+  uint16_t nHR_;
+  float sumHR_;
+  float sumHR2_;
 
+  uint16_t nLR_;
+  float sumLR_;
+  float sumLR2_;
+
+  uint16_t nY_;
   float sumY_;
   float sumY2_;
-  uint16_t nY_;
 };
 
 #endif
