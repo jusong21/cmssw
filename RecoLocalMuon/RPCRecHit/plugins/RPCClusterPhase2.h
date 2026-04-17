@@ -2,9 +2,9 @@
 #define RecoLocalMuon_RPCRecHit_RPCClusterPhase2_h
 
 /*
- * Phase-2 RPC cluster object
+ *  Phase-2 RPC cluster object
  *
- * \author J. Shin -- Kyung Hee University
+ *  \author J. Shin -- Kyung Hee University
  */
 
 #include <cstdint>

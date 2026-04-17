@@ -2,15 +2,16 @@
 #define RecoLocalMuon_RPCRecHit_RPCClusterizerPhase2_h
 
 /*
- * Clusterizer for RPCDigiPhase2.
+ *  Clusterizer for RPCDigiPhase2.
  *
- * \author J. Shin -- Kyung Hee University
+ *  \author J. Shin -- Kyung Hee University
  */
 
 #include "DataFormats/RPCDigi/interface/RPCDigiPhase2Collection.h"
 
 #include "RPCClusterPhase2.h"
 #include "RPCClusterPhase2Container.h"
+
 
 class RPCClusterizerPhase2 {
 public:

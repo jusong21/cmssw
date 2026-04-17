@@ -2,9 +2,9 @@
 #define RecoLocalMuon_RPCRecHit_IRPCClusterContainer_h
 
 /*
- * Container for IRPCCluster.
+ *  Container for IRPCCluster.
  *
- * \author J. Shin -- Kyung Hee University
+ *  \author J. Shin -- Kyung Hee University
  */
 
 #include <set>

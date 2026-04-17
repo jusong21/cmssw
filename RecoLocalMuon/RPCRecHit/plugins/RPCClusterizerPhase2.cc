@@ -1,8 +1,9 @@
 /*
- * See header file for a description of this class.
+ *  See header file for a description of this class.
  *
- * \author J. Shin -- Kyung Hee University
+ *  \author J. Shin -- Kyung Hee University
  */
+
 
 #include "DataFormats/RPCDigi/interface/RPCDigiPhase2Time.h"
 
@@ -45,7 +46,7 @@ RPCClusterPhase2Container RPCClusterizerPhase2::makeInitialClusters(
       prev = *cl;
     }
   }
-  finalClusters.insert(prev);
 
+  finalClusters.insert(prev);
   return finalClusters;
 }

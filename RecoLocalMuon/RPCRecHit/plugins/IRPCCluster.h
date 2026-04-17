@@ -2,7 +2,8 @@
 #define RecoLocalMuon_RPCRecHit_IRPCCluster_h
 
 /*
- * IRPC cluster after HR/LR association: HR and LR times (RMS) and y stored separately.
+ * IRPC cluster after one-side HR/LR clustering and final association: per-side time sums/RMS,
+ * and a single local y from 0.5 * (mean LR - mean HR) * speed (same scale as IRPCDigiTime::coordinateY).
  *
  * \author J. Shin -- Kyung Hee University
  */
@@ -31,18 +32,18 @@ public:
   float y() const;
   float yRMS() const;
 
-  void compute(uint16_t fstrip,
-               uint16_t lstrip,
-               int16_t bx,
-               uint16_t nHigh,
-               float sumHigh,
-               float sumHigh2,
-               uint16_t nLow,
-               float sumLow,
-               float sumLow2,
-               uint16_t nY,
-               float sumY,
-               float sumY2);
+  void setClusterSummary(uint16_t fstrip,
+                         uint16_t lstrip,
+                         int16_t bx,
+                         uint16_t nHigh,
+                         float sumHigh,
+                         float sumHigh2,
+                         uint16_t nLow,
+                         float sumLow,
+                         float sumLow2,
+                         uint16_t nY,
+                         float sumY,
+                         float sumY2);
 
   bool operator<(const IRPCCluster& other) const;
   bool operator==(const IRPCCluster& other) const;

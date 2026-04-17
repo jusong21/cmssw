@@ -1,7 +1,7 @@
 /*
- * See header file for a description of this class.
+ *  See header file for a description of this class.
  *
- * \author J. Shin -- Kyung Hee University
+ *  \author J. Shin -- Kyung Hee University
  */
 
 #include "RPCClusterPhase2.h"
@@ -26,15 +26,11 @@ RPCClusterPhase2::RPCClusterPhase2(int firstStrip, int lastStrip, int bx)
 RPCClusterPhase2::~RPCClusterPhase2() = default;
 
 int RPCClusterPhase2::firstStrip() const { return fstrip_; }
-
 int RPCClusterPhase2::lastStrip() const { return lstrip_; }
-
 int RPCClusterPhase2::clusterSize() const { return lstrip_ - fstrip_ + 1; }
-
 int RPCClusterPhase2::bx() const { return bx_; }
 
 bool RPCClusterPhase2::hasTime() const { return nTime_ > 0; }
-
 float RPCClusterPhase2::time() const { return hasTime() ? sumTime_ / nTime_ : 0.f; }
 
 float RPCClusterPhase2::timeRMS() const {
@@ -45,7 +41,6 @@ float RPCClusterPhase2::timeRMS() const {
 }
 
 bool RPCClusterPhase2::hasY() const { return nY_ > 0; }
-
 float RPCClusterPhase2::y() const { return hasY() ? sumY_ / nY_ : 0.f; }
 
 float RPCClusterPhase2::yRMS() const {
@@ -56,7 +51,7 @@ float RPCClusterPhase2::yRMS() const {
 }
 
 bool RPCClusterPhase2::isAdjacent(const RPCClusterPhase2& other) const {
-  return (other.firstStrip() == this->firstStrip() - 1) && (other.bx() == this->bx());
+  return ((other.firstStrip() == this->firstStrip() - 1) && (other.bx() == this->bx()));
 }
 
 void RPCClusterPhase2::addTime(float time) {
@@ -95,6 +90,6 @@ bool RPCClusterPhase2::operator<(const RPCClusterPhase2& other) const {
 }
 
 bool RPCClusterPhase2::operator==(const RPCClusterPhase2& other) const {
-  return (this->clusterSize() == other.clusterSize()) && (this->bx() == other.bx()) &&
-         (this->firstStrip() == other.firstStrip());
+  return ((this->clusterSize() == other.clusterSize()) && (this->bx() == other.bx()) &&
+          (this->firstStrip() == other.firstStrip()));
 }

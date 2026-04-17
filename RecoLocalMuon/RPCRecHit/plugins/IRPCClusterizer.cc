@@ -6,6 +6,7 @@
 
 #include "DataFormats/RPCDigi/interface/IRPCDigiTime.h"
 
+#include "IRPCCluster.h"
 #include "IRPCClusterizer.h"
 
 #include <cstdint>
@@ -193,12 +194,12 @@ IRPCClusterContainer IRPCClusteringDoAction(const IRPCDigiCollection::Range& dig
     (void)IRPCOneSideClusterizer(thrTime, signalContHR, clustersHR);
     (void)IRPCOneSideClusterizer(thrTime, signalContLR, clustersLR);
 
-    std::vector<IRPCOneSideCluster> merged;
+    std::vector<IRPCOneSideCluster> finalClusters;
     if (!clustersHR.empty() && !clustersLR.empty()) {
-      merged = IRPCFinalClusterizer(clustersHR, clustersLR, thrStripNum);
+      finalClusters = IRPCFinalClusterizer(clustersHR, clustersLR, thrStripNum);
     }
 
-    for (const auto& mergedCluster : merged) {
+    for (const auto& finalCluster : finalClusters) {
       int fstrip = std::numeric_limits<int>::max();
       int lstrip = std::numeric_limits<int>::min();
       int bx = 0;
@@ -210,8 +211,8 @@ IRPCClusterContainer IRPCClusteringDoAction(const IRPCDigiCollection::Range& dig
       float sumLow = 0.f;
       float sumLow2 = 0.f;
 
-      for (std::size_t i = 0; i < mergedCluster.signals.size(); ++i) {
-        const IRPCSignal& s = mergedCluster.signals[i];
+      for (std::size_t i = 0; i < finalCluster.signals.size(); ++i) {
+        const IRPCSignal& s = finalCluster.signals[i];
         fstrip = std::min(fstrip, s.strip);
         lstrip = std::max(lstrip, s.strip);
         if (i == 0) {
@@ -229,35 +230,32 @@ IRPCClusterContainer IRPCClusteringDoAction(const IRPCDigiCollection::Range& dig
         }
       }
 
+      // Local y: 0.5 * (mean LR - mean HR) * speed — same convention as IRPCDigiTime::coordinateY ( (LR-HR)/2 ).
       uint16_t nY = 0;
       float sumY = 0.f;
       float sumY2 = 0.f;
-      for (const IRPCSignal& sigHR : mergedCluster.signals) {
-        for (const IRPCSignal& sigLR : mergedCluster.signals) {
-          if (sigHR.strip == sigLR.strip && sigHR.hr && sigLR.lr) {
-            const float delta = sigHR.time - sigLR.time;
-            const float y = delta / speed;
-            ++nY;
-            sumY += y;
-            sumY2 += y * y;
-            break;
-          }
-        }
+      if (nHigh > 0 && nLow > 0) {
+        const float meanHR = sumHigh / static_cast<float>(nHigh);
+        const float meanLR = sumLow / static_cast<float>(nLow);
+        const float y = 0.5f * (meanLR - meanHR) * speed;
+        nY = 1;
+        sumY = y;
+        sumY2 = y * y;
       }
 
       IRPCCluster cl;
-      cl.compute(static_cast<uint16_t>(fstrip),
-                 static_cast<uint16_t>(lstrip),
-                 static_cast<int16_t>(bx),
-                 nHigh,
-                 sumHigh,
-                 sumHigh2,
-                 nLow,
-                 sumLow,
-                 sumLow2,
-                 nY,
-                 sumY,
-                 sumY2);
+      cl.setClusterSummary(static_cast<uint16_t>(fstrip),
+                           static_cast<uint16_t>(lstrip),
+                           static_cast<int16_t>(bx),
+                           nHigh,
+                           sumHigh,
+                           sumHigh2,
+                           nLow,
+                           sumLow,
+                           sumLow2,
+                           nY,
+                           sumY,
+                           sumY2);
       out.insert(cl);
     }
   }
@@ -268,8 +266,8 @@ IRPCClusterContainer IRPCClusteringDoAction(const IRPCDigiCollection::Range& dig
 }  // namespace
 
 IRPCClusterContainer IRPCClusterizer::doAction(const IRPCDigiCollection::Range& digiRange,
-                                                float thrTime,
-                                                float thrStripNum,
-                                                float speed) const {
+                                               float thrTime,
+                                               float thrStripNum,
+                                               float speed) const {
   return IRPCClusteringDoAction(digiRange, thrTime, thrStripNum, speed);
 }

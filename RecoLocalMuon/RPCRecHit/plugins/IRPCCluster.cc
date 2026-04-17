@@ -65,18 +65,18 @@ float IRPCCluster::yRMS() const {
   return std::sqrt(std::max(0.f, sumY2_ * static_cast<float>(nY_) - sumY_ * sumY_)) / static_cast<float>(nY_);
 }
 
-void IRPCCluster::compute(uint16_t fstrip,
-                          uint16_t lstrip,
-                          int16_t bx,
-                          uint16_t nHigh,
-                          float sumHigh,
-                          float sumHigh2,
-                          uint16_t nLow,
-                          float sumLow,
-                          float sumLow2,
-                          uint16_t nY,
-                          float sumY,
-                          float sumY2) {
+void IRPCCluster::setClusterSummary(uint16_t fstrip,
+                                    uint16_t lstrip,
+                                    int16_t bx,
+                                    uint16_t nHigh,
+                                    float sumHigh,
+                                    float sumHigh2,
+                                    uint16_t nLow,
+                                    float sumLow,
+                                    float sumLow2,
+                                    uint16_t nY,
+                                    float sumY,
+                                    float sumY2) {
   fstrip_ = fstrip;
   lstrip_ = lstrip;
   bx_ = bx;

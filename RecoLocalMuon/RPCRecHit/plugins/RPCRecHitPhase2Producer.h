@@ -10,34 +10,42 @@
  * \author J. Shin -- Kyung Hee University
  */
 
-#include "DataFormats/RPCDigi/interface/IRPCDigiCollection.h"
-#include "DataFormats/RPCDigi/interface/RPCDigiPhase2Collection.h"
-#include "DataFormats/RPCRecHit/interface/RPCRecHitCollection.h"
-#include "FWCore/Framework/interface/stream/EDProducer.h"
+#include "FWCore/Framework/interface/one/EDProducer.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "Geometry/Records/interface/MuonGeometryRecord.h"
-#include "Geometry/RPCGeometry/interface/RPCGeometry.h"
 
-#include "IRPCClusterizer.h"
+#include "DataFormats/RPCDigi/interface/RPCDigiPhase2Collection.h"
+#include "DataFormats/RPCDigi/interface/IRPCDigiCollection.h"
+#include "DataFormats/RPCRecHit/interface/RPCRecHitCollection.h"
+#include "DataFormats/MuonDetId/interface/RPCDetId.h"
+
+#include "Geometry/RPCGeometry/interface/RPCGeometry.h"
+#include "Geometry/Records/interface/MuonGeometryRecord.h"
+
 #include "RPCClusterizerPhase2.h"
+#include "IRPCClusterizer.h"
 #include "RPCRecHitPhase2Algo.h"
 
 class RPCRoll;
 
-class RPCRecHitPhase2Producer : public edm::stream::EDProducer<> {
+class RPCRecHitPhase2Producer : public edm::one::EDProducer<> {
 public:
   explicit RPCRecHitPhase2Producer(const edm::ParameterSet& config);
   ~RPCRecHitPhase2Producer() override = default;
 
   void produce(edm::Event& event, const edm::EventSetup& setup) override;
+
   static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
 private:
-  void buildFromRPCPhase2(
-      const RPCRoll& roll, const RPCDetId& rpcId, const RPCDigiPhase2Collection::Range& range, RPCRecHitCollection& output) const;
+  void buildFromRPCPhase2(const RPCRoll& roll,
+                          const RPCDetId& rpcId,
+                          const RPCDigiPhase2Collection::Range& range,
+                          RPCRecHitCollection& output) const;
 
-  void buildFromIRPC(
-      const RPCRoll& roll, const RPCDetId& rpcId, const IRPCDigiCollection::Range& range, RPCRecHitCollection& output) const;
+  void buildFromIRPC(const RPCRoll& roll,
+                     const RPCDetId& rpcId,
+                     const IRPCDigiCollection::Range& range,
+                     RPCRecHitCollection& output) const;
 
   static bool isIRPCDetId(const RPCDetId& rpcId);
 
@@ -45,7 +53,6 @@ private:
   edm::EDGetTokenT<RPCDigiPhase2Collection> rpcDigiPhase2Token_;
   edm::EDGetTokenT<IRPCDigiCollection> irpcDigiToken_;
   edm::ESGetToken<RPCGeometry, MuonGeometryRecord> rpcGeomToken_;
-
   bool useIRPC_;
   float irpcThrTime_;
   float irpcThrStripNum_;
