@@ -60,9 +60,11 @@ bool IRPCOneSideClusterizer(float thrTime,
     signalFlags.emplace_back(i, 0);
   }
 
+  // Find the first signal with the minimum time
   while (std::any_of(signalFlags.begin(), signalFlags.end(), [](const auto& sf) { return sf.second == 0; })) {
     float minTime = std::numeric_limits<float>::infinity();
     std::size_t minTimeIdx = signalFlags.size();
+    // Iterate over all signals and find the one with the minimum time
     for (std::size_t i = 0; i < signalFlags.size(); ++i) {
       if (signalFlags[i].second == 0) {
         const auto& s = signalCont[signalFlags[i].first];
@@ -77,11 +79,11 @@ bool IRPCOneSideClusterizer(float thrTime,
     }
 
     IRPCOneSideCluster tempCluster;
-    tempCluster.signals.push_back(signalCont[signalFlags[minTimeIdx].first]);
-    signalFlags[minTimeIdx].second = -1;
+    tempCluster.signals.push_back(signalCont[signalFlags[minTimeIdx].first]); // Add the signal with the minimum time to the cluster
+    signalFlags[minTimeIdx].second = -1; // Mark the signal as used
 
     const int maxStripJump = 1;
-    std::size_t currentIdx = signalFlags[minTimeIdx].first;
+    std::size_t currentIdx = signalFlags[minTimeIdx].first; // Start from the signal with the minimum time
     bool nomatch = false;
     while (!nomatch) {
       if (currentIdx == 0) {
@@ -90,6 +92,7 @@ bool IRPCOneSideClusterizer(float thrTime,
       const std::size_t leftIdx = currentIdx - 1;
       IRPCSignal& leftSig = signalCont[leftIdx];
       IRPCSignal& refSig = signalCont[currentIdx];
+      // Check if the left signal is adjacent to the reference signal and if the time difference is less than the threshold
       if (IRPCAdjacentStrip(leftSig.strip, refSig.strip, maxStripJump) &&
           IRPCAdjacentTime(leftSig.time, signalCont[signalFlags[minTimeIdx].first].time, thrTime)) {
         tempCluster.signals.push_back(leftSig);
@@ -110,6 +113,7 @@ bool IRPCOneSideClusterizer(float thrTime,
       const std::size_t rightIdx = currentIdx + 1;
       IRPCSignal& rightSig = signalCont[rightIdx];
       IRPCSignal& refSig = signalCont[currentIdx];
+      // Check if the right signal is adjacent to the reference signal and if the time difference is less than the threshold
       if (IRPCAdjacentStrip(rightSig.strip, refSig.strip, maxStripJump) &&
           IRPCAdjacentTime(rightSig.time, signalCont[signalFlags[minTimeIdx].first].time, thrTime)) {
         tempCluster.signals.push_back(rightSig);
@@ -143,13 +147,13 @@ std::vector<IRPCOneSideCluster> IRPCFinalClusterizer(const std::vector<IRPCOneSi
       }
       const float stripLR = IRPCStripNumAvg(LR[iLR].signals);
       const float deltaStrip = std::abs(stripHR - stripLR);
-      if (minDeltaStrILR == LR.size() || deltaStrip < minDeltaStr ||
-          (deltaStrip == minDeltaStr && iLR < minDeltaStrILR)) {
+      if (deltaStrip < minDeltaStr) {
         minDeltaStr = deltaStrip;
         minDeltaStrILR = iLR;
       }
     }
 
+    // Strictly below threshold; each LR cluster used at most once (usedLR).
     if (minDeltaStrILR < LR.size() && minDeltaStr < thrStripNum) {
       IRPCOneSideCluster merged;
       merged.signals = HR[iHR].signals;
