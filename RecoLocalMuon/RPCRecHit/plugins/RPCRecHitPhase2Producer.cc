@@ -14,7 +14,12 @@ RPCRecHitPhase2Producer::RPCRecHitPhase2Producer(const edm::ParameterSet& config
     : rpcDigiPhase2Token_(consumes<RPCDigiPhase2Collection>(config.getParameter<edm::InputTag>("rpcDigiPhase2Label"))),
       irpcDigiToken_(consumes<IRPCDigiCollection>(config.getParameter<edm::InputTag>("irpcDigiLabel"))),
       rpcGeomToken_(esConsumes<RPCGeometry, MuonGeometryRecord>()),
-      useIRPC_(config.getParameter<bool>("useIRPC")) {
+      useIRPC_(config.getParameter<bool>("useIRPC")),
+      rpcClusterizer_(),
+      irpcClusterizer_(static_cast<float>(config.getParameter<double>("irpcThrTime")),
+                       static_cast<float>(config.getParameter<double>("irpcThrStripNum")),
+                       static_cast<float>(config.getParameter<double>("irpcSpeed"))),
+      algo_() {
   produces<RPCRecHitCollection>();
 }
 
@@ -115,6 +120,9 @@ void RPCRecHitPhase2Producer::fillDescriptions(edm::ConfigurationDescriptions& d
   desc.add<edm::InputTag>("rpcDigiPhase2Label", edm::InputTag("simMuonRPCDigisPhase2"));
   desc.add<edm::InputTag>("irpcDigiLabel", edm::InputTag("simMuonIRPCDigis"));
   desc.add<bool>("useIRPC", true);
+  desc.add<double>("irpcThrTime", 1.0e-5);
+  desc.add<double>("irpcThrStripNum", 0.9);
+  desc.add<double>("irpcSpeed", 19.786302);
   descriptions.addWithDefaultLabel(desc);
 }
 

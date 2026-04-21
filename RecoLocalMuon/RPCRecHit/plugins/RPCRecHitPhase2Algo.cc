@@ -49,8 +49,9 @@ bool RPCRecHitPhase2Algo::compute(const RPCRoll& roll,
                                   float& time,
                                   float& timeErr) const {
   const float x = clusterCenterX(roll, cluster.firstStrip(), cluster.lastStrip());
+  const float y = cluster.hasY() ? cluster.y() : 0.f;
 
-  point = LocalPoint(x, 0.f, 0.f);
+  point = LocalPoint(x, y, 0.f);
   error = roll.localError(clusterMiddleStrip(cluster.firstStrip(), cluster.lastStrip()));
 
   if (cluster.hasTime()) {
