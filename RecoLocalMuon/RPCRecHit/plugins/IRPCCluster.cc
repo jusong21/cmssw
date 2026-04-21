@@ -43,18 +43,6 @@ int IRPCCluster::clusterSize() const { return lstrip_ - fstrip_ + 1; }
 
 int IRPCCluster::bx() const { return bx_; }
 
-bool IRPCCluster::hasHRTime() const { return nHR_ > 0; }
-
-float IRPCCluster::hrTime() const { return hasHRTime() ? sumHR_ / nHR_ : 0.f; }
-
-float IRPCCluster::hrTimeRMS() const { return rmsFromSums(sumHR_, sumHR2_, nHR_); }
-
-bool IRPCCluster::hasLRTime() const { return nLR_ > 0; }
-
-float IRPCCluster::lrTime() const { return hasLRTime() ? sumLR_ / nLR_ : 0.f; }
-
-float IRPCCluster::lrTimeRMS() const { return rmsFromSums(sumLR_, sumLR2_, nLR_); }
-
 bool IRPCCluster::hasTime() const { return nHR_ > 0 && nLR_ > 0; }
 
 float IRPCCluster::time() const {
@@ -111,12 +99,12 @@ IRPCCluster IRPCCluster::compute(const std::vector<IRPCSignal>& signals, float s
     if (i == 0) {
       bx = s.bx;
     }
-    if (s.hr) {
+    if (s.isHR) {
       ++nHr;
       sumHr += s.time;
       sumHr2 += s.time * s.time;
     }
-    if (s.lr) {
+    if (s.isLR) {
       ++nLr;
       sumLr += s.time;
       sumLr2 += s.time * s.time;

@@ -2,7 +2,8 @@
 #define RecoLocalMuon_RPCRecHit_IRPCClusterizer_h
 
 /*
- * Clusterizer for IRPCDigi.
+ * IRPCDigi -> IRPCClusterContainer. Pipeline: digis by BX -> one-side clusters (HR/LR) ->
+ * HR–LR match -> IRPCCluster::compute (see IRPCCluster.h).
  *
  * \author J. Shin -- Kyung Hee University
  */

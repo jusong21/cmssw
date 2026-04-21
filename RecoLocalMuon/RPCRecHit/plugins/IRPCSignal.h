@@ -2,8 +2,11 @@
 #define RecoLocalMuon_RPCRecHit_IRPCSignal_h
 
 /*
- * Intermediate representation for IRPC clustering (HR/LR digi signals).
- * Used only inside RPCRecHit plugins, not persisted as an EDM product.
+ * One HR or LR endpoint measurement along a strip (not an EDM product).
+ *
+ * Built from IRPCDigi: strip, bx, time from IRPCDigiTime::timeHR()/timeLR(), and isHR/isLR
+ * mark which endpoint the sample belongs to. A merged HR+LR hit candidate holds both kinds
+ * of entries in one vector (see IRPCCluster.h: IRPCFinalCluster).
  *
  * \author J. Song -- Hanyang University, Vrije Universiteit Brussel
  */
@@ -14,13 +17,8 @@ struct IRPCSignal {
   int strip = 0;
   float time = 0.f;
   int bx = 0;
-  bool hr = false;
-  bool lr = false;
-};
-
-/// One-side (HR-only or LR-only) cluster built from ordered IRPCSignal entries.
-struct IRPCOneSideCluster {
-  std::vector<IRPCSignal> signals;
+  bool isHR = false;
+  bool isLR = false;
 };
 
 bool isAdjacentStrip(int stripA, int stripB, int maxStripJump);

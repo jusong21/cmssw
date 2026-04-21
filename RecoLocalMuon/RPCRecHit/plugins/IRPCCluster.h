@@ -2,7 +2,16 @@
 #define RecoLocalMuon_RPCRecHit_IRPCCluster_h
 
 /*
- * IRPC cluster: one merged HR+LR cluster from IRPCClusterizer (see compute).
+ * IRPCCluster — one local hit candidate after HR/LR clustering and matching.
+ *
+ * Built by IRPCCluster::compute() from a list of matched IRPCSignal entries.
+ * Stores strip span, BX, HR/LR time sums, and optional local y.
+ *
+ * time()    : 0.5*(meanHR + meanLR)
+ * timeRMS() : 0.5*sqrt(rmsHR^2 + rmsLR^2)
+ * y()       : 0.5*(meanLR - meanHR)*speed  [set only when both HR and LR samples exist]
+ *
+ * operator< and operator== are required for std::set<IRPCCluster> (IRPCClusterContainer).
  *
  * \author J. Shin -- Kyung Hee University
  */
@@ -22,17 +31,9 @@ public:
   int clusterSize() const;
   int bx() const;
 
-  /// Strip range, bx, HR/LR time sums, local y from matched IRPCSignal list (after clusterizer).
+  /// Builds cluster from matched HR+LR signals (output of IRPCFinalClusterizer).
   static IRPCCluster compute(const std::vector<IRPCSignal>& signals, float speed);
 
-  bool hasHRTime() const;
-  float hrTime() const;
-  float hrTimeRMS() const;
-  bool hasLRTime() const;
-  float lrTime() const;
-  float lrTimeRMS() const;
-
-  /// RecHit time: 0.5*(meanHR + meanLR). RMS: error propagation from HR/LR RMS (see .cc).
   bool hasTime() const;
   float time() const;
   float timeRMS() const;
