@@ -14,13 +14,15 @@
 
 class IRPCClusterizer {
 public:
-  IRPCClusterizer() = default;
+  IRPCClusterizer(float thrTime, float thrStripNum, float speed);
   ~IRPCClusterizer() = default;
 
   IRPCClusterContainer doAction(const IRPCDigiCollection::Range& digiRange) const;
 
 private:
-  IRPCClusterContainer makeInitialClusters(const IRPCDigiCollection::Range& digiRange) const;
+  float thrTime_;
+  float thrStripNum_;
+  float speed_;
 };
 
 #endif
