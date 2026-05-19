@@ -23,12 +23,9 @@ IRPCCluster::IRPCCluster()
     : fstrip_(0),
       lstrip_(0),
       bx_(0),
-      nHR_(0),
-      sumHR_(0.f),
-      sumHR2_(0.f),
-      nLR_(0),
-      sumLR_(0.f),
-      sumLR2_(0.f),
+      sumTime_(0.f),
+      sumTime2_(0.f),
+      nTime_(0),
       sumY_(0.f),
       sumY2_(0.f),
       nY_(0) {}
@@ -43,26 +40,11 @@ int IRPCCluster::clusterSize() const { return lstrip_ - fstrip_ + 1; }
 
 int IRPCCluster::bx() const { return bx_; }
 
-bool IRPCCluster::hasTime() const { return nHR_ > 0 && nLR_ > 0; }
+bool IRPCCluster::hasTime() const { return nTime_ > 0; }
 
-float IRPCCluster::time() const {
-  if (nHR_ > 0 && nLR_ > 0) {
-    return 0.5f * (sumHR_ / nHR_ + sumLR_ / nLR_);
-  }
-  return 0.f;
-}
+float IRPCCluster::time() const { return hasTime() ? sumTime_ / nTime_ : 0.f; }
 
-float IRPCCluster::timeRMS() const {
-  if (nHR_ > 0 && nLR_ > 0) {
-    const float sHR = rmsFromSums(sumHR_, sumHR2_, nHR_);
-    const float sLR = rmsFromSums(sumLR_, sumLR2_, nLR_);
-    if (sHR < 0.f || sLR < 0.f) {
-      return -1.f;
-    }
-    return 0.5f * std::sqrt(sHR * sHR + sLR * sLR);
-  }
-  return -1.f;
-}
+float IRPCCluster::timeRMS() const { return hasTime() ? rmsFromSums(sumTime_, sumTime2_, nTime_) : -1.f; }
 
 bool IRPCCluster::hasY() const { return nY_ > 0; }
 
@@ -75,7 +57,7 @@ float IRPCCluster::yRMS() const {
   return std::sqrt(std::max(0.f, sumY2_ * nY_ - sumY_ * sumY_)) / nY_;
 }
 
-IRPCCluster IRPCCluster::compute(const std::vector<IRPCSignal>& signals, float speed) {
+IRPCCluster IRPCCluster::compute(const std::vector<IRPCSignal>& signals) {
   IRPCCluster cl;
   if (signals.empty()) {
     return cl;
@@ -85,12 +67,13 @@ IRPCCluster IRPCCluster::compute(const std::vector<IRPCSignal>& signals, float s
   int lstrip = std::numeric_limits<int>::min();
   int bx = 0;
 
-  uint16_t nHr = 0;
-  float sumHr = 0.f;
-  float sumHr2 = 0.f;
-  uint16_t nLr = 0;
-  float sumLr = 0.f;
-  float sumLr2 = 0.f;
+  // Use the HR signal from each digi (one per digi) to average digiTime and digiY.
+  // digiTime = 0.5*(t_HR + t_LR) and digiY = 0.5*(t_LR - t_HR)*speed were computed
+  // per digi and stored in every IRPCSignal. Using HR signals avoids double-counting
+  // since each digi contributes exactly one HR and one LR signal to the merged cluster.
+  uint16_t nTime = 0, nY = 0;
+  float sumTime = 0.f, sumTime2 = 0.f;
+  float sumY = 0.f, sumY2 = 0.f;
 
   for (std::size_t i = 0; i < signals.size(); ++i) {
     const IRPCSignal& s = signals[i];
@@ -100,38 +83,17 @@ IRPCCluster IRPCCluster::compute(const std::vector<IRPCSignal>& signals, float s
       bx = s.bx;
     }
     if (s.isHR) {
-      ++nHr;
-      sumHr += s.time;
-      sumHr2 += s.time * s.time;
+      ++nTime; sumTime += s.time; sumTime2 += s.time * s.time;
+      ++nY;    sumY   += s.y;    sumY2   += s.y   * s.y;
     }
-    if (s.isLR) {
-      ++nLr;
-      sumLr += s.time;
-      sumLr2 += s.time * s.time;
-    }
-  }
-
-  uint16_t nY = 0;
-  float sumY = 0.f;
-  float sumY2 = 0.f;
-  if (nHr > 0 && nLr > 0) {
-    const float meanHR = sumHr / nHr;
-    const float meanLR = sumLr / nLr;
-    const float y = 0.5f * (meanLR - meanHR) * speed;
-    nY = 1;
-    sumY = y;
-    sumY2 = y * y;
   }
 
   cl.fstrip_ = static_cast<uint16_t>(fstrip);
   cl.lstrip_ = static_cast<uint16_t>(lstrip);
   cl.bx_ = static_cast<int16_t>(bx);
-  cl.nHR_ = nHr;
-  cl.sumHR_ = sumHr;
-  cl.sumHR2_ = sumHr2;
-  cl.nLR_ = nLr;
-  cl.sumLR_ = sumLr;
-  cl.sumLR2_ = sumLr2;
+  cl.nTime_ = nTime;
+  cl.sumTime_ = sumTime;
+  cl.sumTime2_ = sumTime2;
   cl.nY_ = nY;
   cl.sumY_ = sumY;
   cl.sumY2_ = sumY2;

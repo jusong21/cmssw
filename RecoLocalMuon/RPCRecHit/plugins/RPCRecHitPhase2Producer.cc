@@ -17,8 +17,7 @@ RPCRecHitPhase2Producer::RPCRecHitPhase2Producer(const edm::ParameterSet& config
       useIRPC_(config.getParameter<bool>("useIRPC")),
       rpcClusterizer_(),
       irpcClusterizer_(static_cast<float>(config.getParameter<double>("irpcThrTime")),
-                       static_cast<float>(config.getParameter<double>("irpcThrStripNum")),
-                       static_cast<float>(config.getParameter<double>("irpcSpeed"))),
+                       static_cast<float>(config.getParameter<double>("irpcThrStripNum"))),
       algo_() {
   produces<RPCRecHitCollection>();
 }

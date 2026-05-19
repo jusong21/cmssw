@@ -15,10 +15,12 @@
 
 struct IRPCSignal {
   int strip = 0;
-  float time = 0.f;
+  float oneSideTime = 0.f;  // endpoint time for clustering: t_HR if isHR, t_LR if isLR
   int bx = 0;
   bool isHR = false;
   bool isLR = false;
+  float time = 0.f;  // 0.5*(t_HR + t_LR) — hit time from this digi
+  float y = 0.f;     // 0.5*(t_LR - t_HR)*speed — hit y from this digi
 };
 
 bool isAdjacentStrip(int stripA, int stripB, int maxStripJump);

@@ -40,8 +40,8 @@ std::vector<std::vector<IRPCSignal>> oneSideClusterizer(float thrTime,
     float minTime = std::numeric_limits<float>::infinity();
     std::size_t seedIdx = signalCont.size();
     for (std::size_t i = 0; i < signalCont.size(); ++i) {
-      if (!used[i] && signalCont[i].time < minTime) {
-        minTime = signalCont[i].time;
+      if (!used[i] && signalCont[i].oneSideTime < minTime) {
+        minTime = signalCont[i].oneSideTime;
         seedIdx = i;
       }
     }
@@ -54,14 +54,14 @@ std::vector<std::vector<IRPCSignal>> oneSideClusterizer(float thrTime,
     used[seedIdx] = true;
 
     const int maxStripJump = 1;
-    const float seedTime = signalCont[seedIdx].time;
+    const float seedTime = signalCont[seedIdx].oneSideTime;
 
     // Expand left.
     std::size_t cur = seedIdx;
     while (cur > 0) {
       const std::size_t left = cur - 1;
       if (isAdjacentStrip(signalCont[left].strip, signalCont[cur].strip, maxStripJump) &&
-          isAdjacentTime(signalCont[left].time, seedTime, thrTime)) {
+          isAdjacentTime(signalCont[left].oneSideTime, seedTime, thrTime)) {
         cluster.push_back(signalCont[left]);
         used[left] = true;
         cur = left;
@@ -75,7 +75,7 @@ std::vector<std::vector<IRPCSignal>> oneSideClusterizer(float thrTime,
     while (cur + 1 < signalCont.size()) {
       const std::size_t right = cur + 1;
       if (isAdjacentStrip(signalCont[right].strip, signalCont[cur].strip, maxStripJump) &&
-          isAdjacentTime(signalCont[right].time, seedTime, thrTime)) {
+          isAdjacentTime(signalCont[right].oneSideTime, seedTime, thrTime)) {
         cluster.push_back(signalCont[right]);
         used[right] = true;
         cur = right;
@@ -126,8 +126,7 @@ std::vector<std::vector<IRPCSignal>> finalClusterizer(
 
 IRPCClusterContainer clusteringDoAction(const IRPCDigiCollection::Range& digiRange,
                                             float thrTime,
-                                            float thrStripNum,
-                                            float speed) {
+                                            float thrStripNum) {
   IRPCClusterContainer out;
 
   if (std::distance(digiRange.first, digiRange.second) == 0) {
@@ -139,12 +138,15 @@ IRPCClusterContainer clusteringDoAction(const IRPCDigiCollection::Range& digiRan
   for (auto digi = digiRange.first; digi != digiRange.second; ++digi) {
     const int bunchX = digi->bx();
     const int strip = digi->strip();
-    const float timeHR = IRPCDigiTime(*digi).timeHR();
-    const float timeLR = IRPCDigiTime(*digi).timeLR();
+    IRPCDigiTime dt(*digi);
+    const float timeHR  = dt.timeHR();
+    const float timeLR  = dt.timeLR();
+    const float hitTime = dt.time();          // 0.5*(t_HR + t_LR)
+    const float hitY    = dt.coordinateY();   // 0.5*(t_LR - t_HR)*speed
 
     auto& pair = signalsByBx[bunchX];
-    pair.first.push_back(IRPCSignal{strip, timeHR, bunchX, true, false});   // HR side
-    pair.second.push_back(IRPCSignal{strip, timeLR, bunchX, false, true});  // LR side
+    pair.first.push_back(IRPCSignal{strip, timeHR, bunchX, true, false, hitTime, hitY});   // HR side
+    pair.second.push_back(IRPCSignal{strip, timeLR, bunchX, false, true, hitTime, hitY});  // LR side
   }
 
   for (auto& entry : signalsByBx) {
@@ -160,7 +162,7 @@ IRPCClusterContainer clusteringDoAction(const IRPCDigiCollection::Range& digiRan
 
     const auto finalClusters = finalClusterizer(clustersHR, clustersLR, thrStripNum);
     for (const auto& finalCluster : finalClusters) {
-      out.insert(IRPCCluster::compute(finalCluster, speed));
+      out.insert(IRPCCluster::compute(finalCluster));
     }
   }
 
@@ -169,9 +171,9 @@ IRPCClusterContainer clusteringDoAction(const IRPCDigiCollection::Range& digiRan
 
 }  // namespace
 
-IRPCClusterizer::IRPCClusterizer(float thrTime, float thrStripNum, float speed)
-    : thrTime_(thrTime), thrStripNum_(thrStripNum), speed_(speed) {}
+IRPCClusterizer::IRPCClusterizer(float thrTime, float thrStripNum)
+    : thrTime_(thrTime), thrStripNum_(thrStripNum) {}
 
 IRPCClusterContainer IRPCClusterizer::doAction(const IRPCDigiCollection::Range& digiRange) const {
-  return clusteringDoAction(digiRange, thrTime_, thrStripNum_, speed_);
+  return clusteringDoAction(digiRange, thrTime_, thrStripNum_);
 }

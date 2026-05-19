@@ -7,9 +7,10 @@
  * Built by IRPCCluster::compute() from a list of matched IRPCSignal entries.
  * Stores strip span, BX, HR/LR time sums, and optional local y.
  *
- * time()    : 0.5*(meanHR + meanLR)
- * timeRMS() : 0.5*sqrt(rmsHR^2 + rmsLR^2)
- * y()       : 0.5*(meanLR - meanHR)*speed  [set only when both HR and LR samples exist]
+ * time()    : mean( 0.5*(t_HR_i + t_LR_i) ) over HR signals in the merged cluster
+ * timeRMS() : std_dev of per-digi time — accounts for HR/LR correlation
+ * y()       : mean( 0.5*(t_LR_i - t_HR_i)*speed ) over HR signals in the merged cluster
+ * yRMS()    : std_dev of per-digi y — non-zero, physically meaningful timing spread
  *
  * operator< and operator== are required for std::set<IRPCCluster> (IRPCClusterContainer).
  *
@@ -32,7 +33,7 @@ public:
   int bx() const;
 
   /// Builds cluster from matched HR+LR signals (output of IRPCFinalClusterizer).
-  static IRPCCluster compute(const std::vector<IRPCSignal>& signals, float speed);
+  static IRPCCluster compute(const std::vector<IRPCSignal>& signals);
 
   bool hasTime() const;
   float time() const;
@@ -50,12 +51,9 @@ private:
   uint16_t lstrip_;
   int16_t bx_;
 
-  uint16_t nHR_;
-  float sumHR_;
-  float sumHR2_;
-  uint16_t nLR_;
-  float sumLR_;
-  float sumLR2_;
+  float sumTime_;
+  float sumTime2_;
+  uint16_t nTime_;
 
   float sumY_;
   float sumY2_;

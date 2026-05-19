@@ -15,7 +15,7 @@
 
 class IRPCClusterizer {
 public:
-  IRPCClusterizer(float thrTime, float thrStripNum, float speed);
+  IRPCClusterizer(float thrTime, float thrStripNum);
   ~IRPCClusterizer() = default;
 
   IRPCClusterContainer doAction(const IRPCDigiCollection::Range& digiRange) const;
@@ -23,7 +23,6 @@ public:
 private:
   float thrTime_;
   float thrStripNum_;
-  float speed_;
 };
 
 #endif

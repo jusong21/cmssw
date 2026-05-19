@@ -7,5 +7,4 @@ rpcRecHitsPhase2 = cms.EDProducer(
     useIRPC=cms.bool(True),
     irpcThrTime=cms.double(1.0e-5),
     irpcThrStripNum=cms.double(0.9),
-    irpcSpeed=cms.double(19.786302),
 )
