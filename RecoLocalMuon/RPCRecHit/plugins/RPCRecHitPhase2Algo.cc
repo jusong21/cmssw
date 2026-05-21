@@ -9,6 +9,8 @@
 
 #include "RPCRecHitPhase2Algo.h"
 
+#include <cmath>
+
 namespace {
   inline float clusterCenterX(const RPCRoll& roll, int firstStrip, int lastStrip) {
     const float x1 = roll.centreOfStrip(firstStrip).x();
@@ -50,26 +52,31 @@ bool RPCRecHitPhase2Algo::compute(const RPCRoll& roll,
                                   float& time,
                                   float& timeErr) const {
   const float midStrip = clusterMiddleStrip(cluster.firstStrip(), cluster.lastStrip());
-  float x = clusterCenterX(roll, cluster.firstStrip(), cluster.lastStrip());
-  const float y = cluster.hasY() ? cluster.y() : 0.f;
+  const float x0 = clusterCenterX(roll, cluster.firstStrip(), cluster.lastStrip());
+  const float y0 = cluster.hasY() ? cluster.y() : 0.f;
 
+  float x = x0;
+  float y = y0;
   float ex2 = roll.localError(midStrip).xx();
 
-  // Endcap strips are trapezoidal (fan-shaped): x at the hit position depends on y.
-  // Correct x and rescale the x-error by the local pitch change at the hit y.
+  // Endcap: y0 is along-strip distance from timing; y = y0 * cos(theta) is roll local y.
+  // x = x0 - y * tan(theta) = x0 - y0 * sin(theta).
   if (roll.id().region() != 0) {
     const auto& topo = dynamic_cast<const TrapezoidalStripTopology&>(roll.topology());
     const double angle = topo.stripAngle(midStrip);
-    x = x - static_cast<float>(y * std::tan(angle));
+    const float cosAngle = static_cast<float>(std::cos(angle));
+    y = y0 * cosAngle;
+    x = x0 - y * static_cast<float>(std::tan(angle));
+
     const double scale = topo.localPitch(LocalPoint(x, y, 0.f)) / topo.pitch();
     ex2 *= static_cast<float>(scale * scale);
   }
 
   point = LocalPoint(x, y, 0.f);
 
-  // y-error: maximum distance to the strip boundary, divided by sqrt(3).
+  // y-error: distance to strip end along strip axis (use y0, not projected y).
   const float stripLen = roll.specificTopology().stripLength();
-  const float maxDy = stripLen / 2.f - std::abs(y);
+  const float maxDy = stripLen / 2.f - std::abs(y0);
   const float ey2 = maxDy * maxDy / 3.f;
 
   error = LocalError(ex2, 0.f, ey2);
